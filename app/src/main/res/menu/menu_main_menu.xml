@@ -1,0 +1,24 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.futin.tabletest.userInterface.mainPage.MainPage">
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
+    <item android:id="@+id/dataEntry"
+        android:title="@string/data_entry"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.Spinner"
+        android:icon="@drawable/abc_ab_share_pack_holo_dark"
+        />
+    <item android:id="@+id/dataDisplay"
+        android:title="@string/data_display"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"
+        app:actionViewClass="android.widget.Spinner"
+        />
+
+</menu>

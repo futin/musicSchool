@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+        android:id="@+id/studentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="55dp"
+    android:visibility="visible">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txtStudentId"
+        android:id="@+id/textView2"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="43dp"
+        android:layout_alignEnd="@+id/textView3"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txtStudentFirstName"
+        android:id="@+id/textView3"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txtStudentLastName"
+        android:id="@+id/textView4"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/textView3"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView3"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/txtSelectCity"
+        android:id="@+id/textView5"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/textView4"
+        android:layout_alignParentStart="true"
+        android:layout_alignEnd="@+id/textView4"
+        android:textSize="20dp" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtStudentId"
+        android:hint="enter 13 digits"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_alignStart="@+id/txtFirstName"
+        android:layout_toRightOf="@+id/textView3"
+        android:layout_alignParentEnd="true" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtFirstName"
+        android:text="@string/editTextStudentFirstName"
+        android:hint="first name here"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/textView3"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/textView3" />
+
+    <EditText
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtLastName"
+        android:text="@string/editTextStudentLastName"
+        android:hint="last name here"
+        android:textSize="15dp"
+        android:layout_alignTop="@+id/textView4"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/textView3" />
+
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:id="@+id/citySpinner"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/txtLastName"
+        android:layout_toRightOf="@+id/textView3"
+        android:layout_below="@+id/txtLastName"
+        android:layout_marginTop="13dp"
+        />
+
+    <Button
+        android:id="@+id/btnCancel"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:background="@drawable/button_shape_inside_layout"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:text="@string/txtBtn_cancel"
+        android:layout_marginTop="56dp"
+        android:textColor="#D9D9D7"
+        android:textSize="12sp"
+        android:nestedScrollingEnabled="false"
+        android:layout_below="@+id/citySpinner"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="250dp" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
+        android:text="@string/txtBtnSave"
+        android:background="@drawable/button_shape_inside_layout"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textColor="#D9D9D7"
+        android:textSize="12sp"
+        android:nestedScrollingEnabled="false"
+        android:layout_alignTop="@+id/btnCancel"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
