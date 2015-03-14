@@ -3,12 +3,11 @@ package com.example.futin.tabletest.RESTService.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
+import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.response.RSSignInResponse;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,9 +29,9 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
     final String TAG="signInTask";
     RestTemplate restTemplate=null;
     RSSignInRequest request;
-    AsyncTaskReturnData returnData;
+    SignInReturnData returnData;
 
-    public RSSignInTask(RSSignInRequest request, AsyncTaskReturnData returnData) {
+    public RSSignInTask(RSSignInRequest request, SignInReturnData returnData) {
         this.request = request;
         this.returnData=returnData;
         restTemplate=new RestTemplate();
@@ -75,9 +74,13 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
                 String fn=obj.getString("firstName");
                 String ln=obj.getString("lastName");
 
-                Employee e=new Employee(user,pass,fn,ln);
+                Employee employee=new Employee(user,pass,fn,ln);
+
+
+               RSDataSingleton.getInstance().insertDataInMap("employee", employee);
+                Log.i(TAG, "after map: "+employee.getFirstName());
                 return new RSSignInResponse(HttpStatus.OK,
-                        HttpStatus.OK.name(),e);
+                        HttpStatus.OK.name(),employee);
             }
 
 
@@ -100,7 +103,7 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
     @Override
     protected void onPostExecute(RSSignInResponse rsSignInResponse) {
         super.onPostExecute(rsSignInResponse);
-        returnData.returnDoneTask(rsSignInResponse);
+        returnData.returnEmployeeInterface(rsSignInResponse);
     }
 
     @Override

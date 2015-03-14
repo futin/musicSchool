@@ -1,5 +1,4 @@
 package com.example.futin.tabletest.userInterface.fragments;
-import android.support.v4.app.FragmentActivity;
 
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -15,7 +14,7 @@ import android.widget.Spinner;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 

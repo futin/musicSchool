@@ -39,7 +39,7 @@
         </activity>
         <activity
             android:name="com.example.futin.tabletest.userInterface.mainPage.MainPage"
-            android:label="@string/title_activity_main_page" >
+             >
             <intent-filter>
 
                <action android:name="android.intent.action.MAIN" />

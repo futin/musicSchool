@@ -3,13 +3,10 @@ package com.example.futin.tabletest.RESTService.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
 import com.example.futin.tabletest.RESTService.models.City;
-import com.example.futin.tabletest.RESTService.models.Student;
-import com.example.futin.tabletest.RESTService.request.RSGetCitiesRequest;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
-import com.example.futin.tabletest.RESTService.response.RSGetStudentWIthIdResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

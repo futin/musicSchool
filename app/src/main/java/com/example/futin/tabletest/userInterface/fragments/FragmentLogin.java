@@ -1,35 +1,69 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
+import com.example.futin.tabletest.RESTService.models.Employee;
+import com.example.futin.tabletest.RESTService.response.RSGetEmployeesResponse;
 import com.example.futin.tabletest.RESTService.response.RSSignInResponse;
 import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
-public class FragmentLogin extends Fragment implements AsyncTaskReturnData{
+import java.util.ArrayList;
 
+public class FragmentLogin extends Fragment implements AsyncTaskReturnData, SignInReturnData {
+
+    //from acctivity_fragment_login
     EditText txtUsername;
     EditText txtPassword;
     Button btnLogin;
+    //RestService references
     RestService rs;
-    RSSignInResponse response=null;
+    RSGetEmployeesResponse responseGetEmployees =null;
+    RSSignInResponse responseSignIn=null;
+    boolean logedIn=false;
+    //set these attributes from editText fields
+    String username;
+    String password;
+
+    ArrayList<Employee> listOfEmployees;
+    String status;
+    boolean found=false;
+
+    //from signInTask
+    String firstName;
+    String lastName;
 
     @Override
     public void returnDoneTask(Object obj) {
-    response=(RSSignInResponse) obj;
-        String ime=response.getEmployee().getFirstName();
-        Intent i=new Intent(getActivity().getApplicationContext(), MainPage.class);
-        startActivity(i);
+    responseGetEmployees =(RSGetEmployeesResponse) obj;
+        listOfEmployees= responseGetEmployees.getListOfEmployees();
+        status= responseGetEmployees.getStatusName();
+        checkEmployee();
+
+    }
+
+    @Override
+    public void returnEmployeeInterface(Object obj) {
+        responseSignIn= (RSSignInResponse) obj;
+        firstName=responseSignIn.getEmployee().getFirstName();
+        lastName=responseSignIn.getEmployee().getLastName();
+        Log.i("asdfw", firstName+" "+lastName);
+        goToMainPage();
     }
 
     @Override
@@ -40,17 +74,47 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData{
         txtPassword= (EditText) view.findViewById(R.id.txtPassword);
         btnLogin=(Button) view.findViewById(R.id.btnLogin);
         rs=new RestService(this);
-
+        rs.setReturnDataSignIn(this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username=txtUsername.getText().toString();
-                String password=txtPassword.getText().toString();
-                //TODO Enter those parameters into RSEmployeeLogin(String username, String password)
-                rs.signIn(username,password);
+                 username=txtUsername.getText().toString();
+                 password=txtPassword.getText().toString();
+                rs.getEmployees();
             }
         });
         return view;
+    }
+
+    void checkEmployee(){
+        for (int i=0;i<listOfEmployees.size();i++){
+            if(username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
+                    password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())){
+                found=true;
+                break;
+            }
+        }
+        if(status.equalsIgnoreCase("OK") && found==true) {
+            rs.signIn(username,password);
+            found=false;
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
+    void goToMainPage(){
+        //store his info in sharedPreferences
+        logedIn=true;
+         SharedPreferences sharedPreferences= getActivity().getSharedPreferences("employee", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putString("firstName", firstName);
+        editor.putString("lastName", lastName);
+        editor.putBoolean("isLoggedIn", true);
+        Log.i("asdf", firstName+" "+lastName);
+        editor.apply();
+        Intent i = new Intent(getActivity().getApplicationContext(), MainPage.class);
+        startActivity(i);
     }
 
 

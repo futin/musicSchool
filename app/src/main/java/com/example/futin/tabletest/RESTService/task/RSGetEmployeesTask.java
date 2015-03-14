@@ -3,11 +3,9 @@ package com.example.futin.tabletest.RESTService.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Employee;
-import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetEmployeesResponse;
 
 import org.json.JSONArray;
@@ -23,8 +21,6 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Futin on 3/14/2015.

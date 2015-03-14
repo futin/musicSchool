@@ -1,10 +1,8 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,46 +12,44 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.response.RSGetEmployeesResponse;
-import com.example.futin.tabletest.RESTService.response.RSInsertEmployeeResponse;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Futin on 3/3/2015.
  */
 public class FragmentRegistration extends Fragment implements AsyncTaskReturnData {
 
+    //from studentLayout
     EditText txtUsername;
     EditText txtPassword;
     EditText txtFirstName;
     EditText txtLastName;
     Button btnRegistration;
-
+//Rest Service references
     RSGetEmployeesResponse responseGet=null;
-    ArrayList<Employee>listOfEmployees;
-
     RestService rs;
-    String status;
+
+    //set these attributes from editText fields
+
     String username;
     String password;
     String firstName;
     String lastName;
 
-
+    ArrayList<Employee>listOfEmployees;
+    String status;
     boolean found=false;
+
     //methods from AsyncTaskReturnData Interface, contains data done by AsyncTask
     @Override
     public void returnDoneTask(Object obj) {
-        //responseInsert=(RSInsertEmployeeResponse) obj;
         responseGet= (RSGetEmployeesResponse) obj;
         listOfEmployees=responseGet.getListOfEmployees();
         status=responseGet.getStatusName();
-
         messageToClient();
     }
 
@@ -66,10 +62,6 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
         txtFirstName= (EditText) view.findViewById(R.id.txtFirstName);
         txtLastName= (EditText) view.findViewById(R.id.txtLastName);
         btnRegistration=(Button) view.findViewById(R.id.btnRegistration);
-        //set Drawable for error rectangle
-        Drawable usernameOldShape=txtUsername.getBackground();
-        Drawable passwordOldShape=txtPassword.getBackground();
-
 
         rs=new RestService(this);
         btnRegistration.setOnClickListener(new View.OnClickListener() {
@@ -83,12 +75,9 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                 //checking all EditText fields
                 if(username.equalsIgnoreCase("")||password.equalsIgnoreCase("")||
                         firstName.equalsIgnoreCase("")||lastName.equalsIgnoreCase("")){
-                    Toast.makeText(getActivity().getApplicationContext(), "U must enter all parameters!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "You have to enter all parameters!", Toast.LENGTH_SHORT).show();
                 }else{
-                    //TODO Enter those parameters into RSRegisterEmployee(String username, String password,
-                    //TODO                             String firstName, String lastName)
                     rs.getEmployees();
-
                 }
 
             }

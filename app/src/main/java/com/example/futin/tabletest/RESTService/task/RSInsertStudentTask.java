@@ -3,7 +3,7 @@ package com.example.futin.tabletest.RESTService.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
 import com.example.futin.tabletest.RESTService.request.RSCreateStudentRequest;
 import com.example.futin.tabletest.RESTService.response.RSInsertStudentResponse;

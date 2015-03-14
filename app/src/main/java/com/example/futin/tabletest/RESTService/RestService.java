@@ -1,6 +1,7 @@
 package com.example.futin.tabletest.RESTService;
 
-import com.example.futin.tabletest.RESTService.data.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.request.RSCreateEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSCreateStudentRequest;
@@ -19,9 +20,15 @@ import com.example.futin.tabletest.RESTService.task.RSSignInTask;
 public class RestService {
 
     AsyncTaskReturnData returnData=null;
+    SignInReturnData returnDataSignIn=null;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
+    }
+
+    //setter for signIn method
+    public void setReturnDataSignIn(SignInReturnData returnDataSignIn) {
+        this.returnDataSignIn = returnDataSignIn;
     }
 
     public void getEmployees(){
@@ -32,7 +39,7 @@ public class RestService {
         new RSInsertEmployeeTask(new RSCreateEmployeeRequest(username, password, firstName, lastName),returnData).execute((Void) null);
     }
     public void signIn(String username, String password){
-        new RSSignInTask(new RSSignInRequest(username, password), returnData).execute((Void) null);
+        new RSSignInTask(new RSSignInRequest(username, password), returnDataSignIn).execute((Void) null);
     }
     public void getCities(){
         new RSGetCitiesTask(returnData).execute((Void) null);
