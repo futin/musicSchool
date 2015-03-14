@@ -43,8 +43,9 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
     String password;
     String firstName;
     String lastName;
-
-
+    //shapes
+    Drawable usernameOldShape;
+    Drawable passwordOldShape;
     boolean found=false;
     //methods from AsyncTaskReturnData Interface, contains data done by AsyncTask
     @Override
@@ -52,8 +53,12 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
         //responseInsert=(RSInsertEmployeeResponse) obj;
         responseGet= (RSGetEmployeesResponse) obj;
         listOfEmployees=responseGet.getListOfEmployees();
-        status=responseGet.getStatusName();
 
+     //   Log.i("asdf", responseInsert.getStatusName());
+
+        status=responseGet.getStatusName();
+      //  username=responseInsert.getEmployee().getUsername();
+      //  password=responseInsert.getEmployee().getPassword();
         messageToClient();
     }
 
@@ -97,6 +102,8 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
     }
     //message that will inform client if his registration was good
     public void messageToClient(){
+
+
             for (int i=0;i<listOfEmployees.size();i++){
                 if(username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
                         password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())){
@@ -107,11 +114,9 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
         if(status.equalsIgnoreCase("OK") && found==true){
             Toast.makeText(getActivity().getApplicationContext(), "Try with different username or password", Toast.LENGTH_SHORT).show();
             txtUsername.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
-            txtPassword.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
             found=false;
         }else{
-            txtUsername.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
-            txtPassword.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
+            txtUsername.setBackground(usernameOldShape);
             Toast.makeText(getActivity().getApplicationContext(), "Employee created successfully", Toast.LENGTH_SHORT).show();
             rs.createEmployee(username,password,firstName,lastName);
 
