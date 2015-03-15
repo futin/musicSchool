@@ -11,6 +11,15 @@ public class City {
         this.cityPtt = cityPtt;
         this.cityName = cityName;
     }
+
+    public City(int cityPtt) {
+        this.cityPtt = cityPtt;
+    }
+
+    public City() {
+
+    }
+
     public int getCityPtt() {
         return cityPtt;
     }
@@ -26,6 +35,6 @@ public class City {
 
     @Override
     public String toString() {
-        return cityName;
+        return cityName+"";
     }
 }

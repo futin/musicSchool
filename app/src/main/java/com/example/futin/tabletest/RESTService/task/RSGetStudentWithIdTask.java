@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
+import com.example.futin.tabletest.RESTService.interfaces.StudentWIthIdData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.request.RSGetStudentWithIdRequest;
@@ -30,9 +31,9 @@ public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWI
     final String TAG="getStudentWithIdTask";
     RestTemplate restTemplate;
     RSGetStudentWithIdRequest request;
-    AsyncTaskReturnData returnData;
+    StudentWIthIdData returnData;
 
-    public RSGetStudentWithIdTask(RSGetStudentWithIdRequest request, AsyncTaskReturnData returnData) {
+    public RSGetStudentWithIdTask(RSGetStudentWithIdRequest request, StudentWIthIdData returnData) {
         this.request = request;
         this.returnData = returnData;
         restTemplate=new RestTemplate();
@@ -46,7 +47,7 @@ public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWI
             header.set("Connection", "Close");
             String jsonText = request.toString();
             HttpEntity<String> entity = new HttpEntity<>(jsonText, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getStudentUrl();
+            String address = RSDataSingleton.getInstance().getServerUrl().getStudentWithIdUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Entity: " + entity);
@@ -64,24 +65,29 @@ public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWI
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
                 Log.i(TAG, "Response ok ");
-                String jsonBody=response.getBody().toString();
-                JSONArray array=new JSONArray(jsonBody);
+                Student student=null;
+                if(response.getBody()==null){
 
-                JSONObject objStudent=array.getJSONObject(0);
+                }else{
+                    String jsonBody=response.getBody().toString();
+                    JSONArray array=new JSONArray(jsonBody);
 
-                String studentId=objStudent.getString("studentId");
-                String firstName=objStudent.getString("firstName");
-                String lastName=objStudent.getString("lastName");
+                    JSONObject objStudent=array.getJSONObject(0);
 
-                int cityPtt=objStudent.getInt("cityPtt");
-                String cityName=objStudent.getString("cityName");
+                    String studentId=objStudent.getString("studentId");
+                    String firstName=objStudent.getString("firstName");
+                    String lastName=objStudent.getString("lastName");
+                    int cityPtt=objStudent.getInt("cityPtt");
 
-                City city=new City(cityPtt, cityName);
-                Student st=new Student(studentId, firstName, lastName, city);
+                    City city=new City(cityPtt);
+                     student=new Student(studentId, firstName, lastName, city);
+                    Log.i(TAG, "City "+city);
+                    Log.i(TAG, "Student "+student);
+                }
 
 
                 return new RSGetStudentWIthIdResponse(HttpStatus.OK,
-                        HttpStatus.OK.name(), st);
+                        HttpStatus.OK.name(), student);
             }
 
 
@@ -104,6 +110,8 @@ public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWI
     @Override
     protected void onPostExecute(RSGetStudentWIthIdResponse rsGetStudentWIthIdResponse) {
         super.onPostExecute(rsGetStudentWIthIdResponse);
-        returnData.returnDoneTask(rsGetStudentWIthIdResponse);
+        returnData.returnStudentData(rsGetStudentWIthIdResponse);
+        Log.i(TAG, "onPostExecute ok ");
+
     }
 }

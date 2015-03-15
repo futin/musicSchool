@@ -47,4 +47,9 @@ public class Student {
     public void setCity(City city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "fn :"+firstName+" ln: "+lastName;
+    }
 }

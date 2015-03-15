@@ -2,9 +2,10 @@ package com.example.futin.tabletest.RESTService;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.StudentWIthIdData;
 import com.example.futin.tabletest.RESTService.models.City;
-import com.example.futin.tabletest.RESTService.request.RSCreateEmployeeRequest;
-import com.example.futin.tabletest.RESTService.request.RSCreateStudentRequest;
+import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
+import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
 import com.example.futin.tabletest.RESTService.request.RSGetStudentWithIdRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
@@ -21,6 +22,7 @@ public class RestService {
 
     AsyncTaskReturnData returnData=null;
     SignInReturnData returnDataSignIn=null;
+    StudentWIthIdData returnStudentData=null;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
@@ -30,13 +32,17 @@ public class RestService {
     public void setReturnDataSignIn(SignInReturnData returnDataSignIn) {
         this.returnDataSignIn = returnDataSignIn;
     }
+    //setter for getStudentWithId method
+    public void setReturnStudentData(StudentWIthIdData returnStudentData) {
+        this.returnStudentData = returnStudentData;
+    }
 
     public void getEmployees(){
         new RSGetEmployeesTask(returnData).execute((Void) null);
     }
 
-    public void createEmployee(String username, String password, String firstName, String lastName){
-        new RSInsertEmployeeTask(new RSCreateEmployeeRequest(username, password, firstName, lastName),returnData).execute((Void) null);
+    public void insertEmployee(String username, String password, String firstName, String lastName){
+        new RSInsertEmployeeTask(new RSInsertEmployeeRequest(username, password, firstName, lastName),returnData).execute((Void) null);
     }
     public void signIn(String username, String password){
         new RSSignInTask(new RSSignInRequest(username, password), returnDataSignIn).execute((Void) null);
@@ -45,11 +51,11 @@ public class RestService {
         new RSGetCitiesTask(returnData).execute((Void) null);
     }
 
-    public void createStudent(String studentId, String firstName, String lastName, City cityPtt){
-        new RSInsertStudentTask(new RSCreateStudentRequest(studentId, firstName, lastName,cityPtt), returnData).execute((Void) null);
+    public void insertStudent(String studentId, String firstName, String lastName, int cityPtt){
+        new RSInsertStudentTask(new RSInsertStudentRequest(studentId, firstName, lastName,cityPtt), returnData).execute((Void) null);
     }
     public void getStudentWithId(String studentId){
-        new RSGetStudentWithIdTask(new RSGetStudentWithIdRequest(studentId), returnData).execute((Void) null);
+        new RSGetStudentWithIdTask(new RSGetStudentWithIdRequest(studentId), returnStudentData).execute((Void) null);
     }
 
 

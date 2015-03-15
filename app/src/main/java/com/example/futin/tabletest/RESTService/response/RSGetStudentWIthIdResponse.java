@@ -18,4 +18,8 @@ public class RSGetStudentWIthIdResponse extends BaseApiResponse{
     public RSGetStudentWIthIdResponse(HttpStatus status, String statusName) {
         super(status, statusName);
     }
+
+    public Student getStudent() {
+        return student;
+    }
 }

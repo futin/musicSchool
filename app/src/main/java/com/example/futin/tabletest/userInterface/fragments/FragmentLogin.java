@@ -86,23 +86,27 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         return view;
     }
 
-    void checkEmployee(){
-        for (int i=0;i<listOfEmployees.size();i++){
-            if(username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
-                    password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())){
-                found=true;
+    void checkEmployee() {
+        Toast.makeText(getActivity().getApplicationContext(), status, Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < listOfEmployees.size(); i++) {
+            if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
+                    password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
+                found = true;
                 break;
             }
         }
-        if(status.equalsIgnoreCase("OK") && found==true) {
-            rs.signIn(username,password);
-            found=false;
-        }else{
-            Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
+        if (status.equalsIgnoreCase("OK")) {
+            if (found == true) {
+                rs.signIn(username, password);
+                found = false;
+            } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+                Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
 
         }
     }
-
     void goToMainPage(){
         //store his info in sharedPreferences
         logedIn=true;
@@ -111,7 +115,6 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         editor.putString("firstName", firstName);
         editor.putString("lastName", lastName);
         editor.putBoolean("isLoggedIn", true);
-        Log.i("asdf", firstName+" "+lastName);
         editor.apply();
         Intent i = new Intent(getActivity().getApplicationContext(), MainPage.class);
         i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK |

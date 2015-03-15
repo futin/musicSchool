@@ -5,17 +5,17 @@ import com.example.futin.tabletest.RESTService.models.City;
 /**
  * Created by Futin on 3/9/2015.
  */
-public class RSCreateStudentRequest {
+public class RSInsertStudentRequest {
     String studentId;
     String firstName;
     String lastName;
-    City city;
+    int cityPtt;
 
-    public RSCreateStudentRequest(String studentId, String firstName, String lastName, City city) {
+    public RSInsertStudentRequest(String studentId, String firstName, String lastName, int cityPtt) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.city = city;
+        this.cityPtt = cityPtt;
     }
 
     public String getStudentId() {
@@ -42,16 +42,16 @@ public class RSCreateStudentRequest {
         this.lastName = lastName;
     }
 
-    public City getCity() {
-        return city;
+    public int getCityPtt() {
+        return cityPtt;
     }
 
-    public void setCity(City city) {
-        this.city = city;
+    public void setCityPtt(int cityPtt) {
+        this.cityPtt = cityPtt;
     }
 
     @Override
     public String toString() {
-        return "studentId="+studentId+"&firstname="+firstName+"&lastname="+lastName+"&city="+city.getCityPtt();
+        return "studentId="+studentId+"&firstname="+firstName+"&lastname="+lastName+"&cityPtt="+cityPtt;
     }
 }

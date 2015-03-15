@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.request.RSCreateStudentRequest;
+import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
 import com.example.futin.tabletest.RESTService.response.RSInsertStudentResponse;
 
 import org.springframework.http.HttpEntity;
@@ -25,10 +25,10 @@ public class RSInsertStudentTask extends AsyncTask<Void, Void, RSInsertStudentRe
 
     final String TAG="crateStudentTask";
     RestTemplate restTemplate;
-    RSCreateStudentRequest request;
+    RSInsertStudentRequest request;
     AsyncTaskReturnData returnData;
 
-    public RSInsertStudentTask(RSCreateStudentRequest request, AsyncTaskReturnData returnData) {
+    public RSInsertStudentTask(RSInsertStudentRequest request, AsyncTaskReturnData returnData) {
         this.request = request;
         this.returnData=returnData;
         restTemplate=new RestTemplate();
@@ -59,10 +59,6 @@ public class RSInsertStudentTask extends AsyncTask<Void, Void, RSInsertStudentRe
                 return new RSInsertStudentResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
-                Log.i(TAG, "Response ok ");
-
-
-
                 return new RSInsertStudentResponse(HttpStatus.OK,
                         HttpStatus.OK.name());
             }
@@ -87,6 +83,5 @@ public class RSInsertStudentTask extends AsyncTask<Void, Void, RSInsertStudentRe
     @Override
     protected void onPostExecute(RSInsertStudentResponse rsInsertStudentResponse) {
         super.onPostExecute(rsInsertStudentResponse);
-        returnData.returnDoneTask(rsInsertStudentResponse);
     }
 }

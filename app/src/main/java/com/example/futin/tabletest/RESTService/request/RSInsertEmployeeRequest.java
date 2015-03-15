@@ -3,13 +3,13 @@ package com.example.futin.tabletest.RESTService.request;
 /**
  * Created by Futin on 3/3/2015.
  */
-public class RSCreateEmployeeRequest {
+public class RSInsertEmployeeRequest {
     String username;
     String password;
     String firstName;
     String lastName;
 
-    public RSCreateEmployeeRequest(String username, String password, String firstName, String lastName) {
+    public RSInsertEmployeeRequest(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;

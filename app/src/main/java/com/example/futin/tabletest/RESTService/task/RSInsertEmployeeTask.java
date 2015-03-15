@@ -5,7 +5,7 @@ import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.request.RSCreateEmployeeRequest;
+import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.response.RSInsertEmployeeResponse;
 
 import org.springframework.http.HttpEntity;
@@ -23,12 +23,12 @@ import org.springframework.web.client.RestTemplate;
  */
 public class RSInsertEmployeeTask extends AsyncTask<Void, Void, RSInsertEmployeeResponse>{
 
-    final String TAG="createEmployee";
-    RSCreateEmployeeRequest request;
+    final String TAG="insertEmployee";
+    RSInsertEmployeeRequest request;
     RestTemplate restTemplate;
     AsyncTaskReturnData onPostReturn;
 
-    public RSInsertEmployeeTask(RSCreateEmployeeRequest request, AsyncTaskReturnData onPostReturn) {
+    public RSInsertEmployeeTask(RSInsertEmployeeRequest request, AsyncTaskReturnData onPostReturn) {
         this.request = request;
         this.onPostReturn=onPostReturn;
         restTemplate=new RestTemplate();
