@@ -110,24 +110,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 makeDefaultStudentLayout();
                 break;
             case R.id.btnSave:
-
-                String studentId=txtStudentId.getText().toString();
-                String firstName=txtFirstName.getText().toString();
-                String lastName=txtLastName.getText().toString();
-                int cityPtt=getItemFromSpinner();
-                if(checkEmtyText() && checkStudentId()) {
-                    if(!studentIsInDatabase()) {
-
-                        rs.insertStudent(studentId, firstName, lastName, cityPtt);
-                        changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
-                        changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
-                        studentLayout.setVisibility(View.INVISIBLE);
-                        Toast.makeText(getActivity().getApplicationContext(), "Student successfully saved", Toast.LENGTH_SHORT).show();
-                        makeDefaultStudentLayout();
-                    }else{
-                        Toast.makeText(getActivity().getApplicationContext(), "Error! Student already in database", Toast.LENGTH_SHORT).show();
-                    }
-                }
+                btnSaveClicked();
                     break;
             default:
                 return;
@@ -166,7 +149,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             return false;
         }
     }
-    public boolean checkEmtyText() {
+    public boolean checkEmptyText() {
         String studentId = txtStudentId.getText().toString();
         String firstName = txtFirstName.getText().toString();
         String lastName = txtLastName.getText().toString();
@@ -311,5 +294,26 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             }
         });
         return cityPtt;
+    }
+
+
+    public void btnSaveClicked(){
+        String studentId=txtStudentId.getText().toString();
+        String firstName=txtFirstName.getText().toString();
+        String lastName=txtLastName.getText().toString();
+        int cityPtt=getItemFromSpinner();
+        if(checkEmptyText() && checkStudentId()) {
+            if(!studentIsInDatabase()) {
+
+                rs.insertStudent(studentId, firstName, lastName, cityPtt);
+                changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
+                changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
+                studentLayout.setVisibility(View.INVISIBLE);
+                Toast.makeText(getActivity().getApplicationContext(), "Student successfully saved", Toast.LENGTH_SHORT).show();
+                makeDefaultStudentLayout();
+            }else{
+                Toast.makeText(getActivity().getApplicationContext(), "Error! Student already in database", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }
