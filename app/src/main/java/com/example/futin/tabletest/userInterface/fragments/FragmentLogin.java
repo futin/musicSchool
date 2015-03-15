@@ -114,6 +114,8 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         Log.i("asdf", firstName+" "+lastName);
         editor.apply();
         Intent i = new Intent(getActivity().getApplicationContext(), MainPage.class);
+        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(i);
     }
 

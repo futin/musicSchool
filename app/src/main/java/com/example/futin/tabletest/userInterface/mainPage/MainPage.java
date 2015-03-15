@@ -64,6 +64,8 @@ public class MainPage extends ActionBarActivity {
                     boolean b=sharedPreferences.getBoolean("isLoggedIn",false);
                     Toast.makeText(getApplicationContext(),""+b,Toast.LENGTH_SHORT).show();
                     Intent loginActivity=new Intent(MainPage.this, LoginAndRegistration.class);
+                    loginActivity.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                            Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(loginActivity);
 
                 }
