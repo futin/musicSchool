@@ -52,6 +52,6 @@ public class RSInsertStudentRequest {
 
     @Override
     public String toString() {
-        return "studentId="+studentId+"&firstname="+firstName+"&lastname="+lastName+"&cityPtt="+cityPtt;
+        return "studentId="+studentId+"&firstName="+firstName+"&lastName="+lastName+"&cityPtt="+cityPtt;
     }
 }

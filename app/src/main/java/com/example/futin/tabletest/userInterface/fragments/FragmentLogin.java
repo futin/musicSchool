@@ -49,7 +49,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     String lastName;
 
     @Override
-    public void returnDoneTask(Object obj) {
+    public void returnDataOnPostExecute(Object obj) {
     responseGetEmployees =(RSGetEmployeesResponse) obj;
         listOfEmployees= responseGetEmployees.getListOfEmployees();
         status= responseGetEmployees.getStatusName();
@@ -58,7 +58,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
 
     @Override
-    public void returnEmployeeInterface(Object obj) {
+    public void returnEmployeeOnPostExecute(Object obj) {
         responseSignIn= (RSSignInResponse) obj;
         firstName=responseSignIn.getEmployee().getFirstName();
         lastName=responseSignIn.getEmployee().getLastName();

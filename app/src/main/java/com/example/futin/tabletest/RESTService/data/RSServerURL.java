@@ -14,7 +14,6 @@ public class RSServerURL {
     private final static String API_INSERT_STUDENT_URL="/insertStudent.php";
     private final static String API_GET_STUDENTS_URL="/getStudents.php";
     private final static String API_GET_CITY_URL="/getCityName.php";
-    private final static String API_GET_STUDENT_WITH_ID_URL="/getStudentWIthId.php";
 
 
     public String getBaseUrl(){
@@ -34,6 +33,5 @@ public class RSServerURL {
     public String getStudentsUrl(){return getRootUrl()+API_GET_STUDENTS_URL;}
     public String getCityUrl(){return getRootUrl()+API_GET_CITY_URL;}
     public String getEmployeesUrl(){return getRootUrl()+API_GET_EMPLOYEES_URL;}
-    public String getStudentWithIdUrl(){return getRootUrl()+API_GET_STUDENT_WITH_ID_URL;}
 
 }

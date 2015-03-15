@@ -3,7 +3,6 @@ package com.example.futin.tabletest.userInterface.fragments;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +17,15 @@ import android.widget.Toast;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
-import com.example.futin.tabletest.RESTService.interfaces.StudentWIthIdData;
+import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
-import com.example.futin.tabletest.RESTService.response.RSGetStudentWIthIdResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 
 import java.util.ArrayList;
 
-public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData, StudentWIthIdData {
+public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData, ReturnStudentData {
 
     Button btnEnterStudent;
     Button btnEnterStudentsInstrument;
@@ -47,10 +46,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
     //RestService
     RestService rs;
-    RSGetStudentWIthIdResponse responseStudent;
+    RSGetStudentsResponse responseStudent;
     RSGetCitiesResponse responseCity;
     ArrayList<City>listOfCities;
-    Student student;
+    ArrayList<Student>listOfStudents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,28 +76,13 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
         //Get list of cities
         rs=new RestService(this);
-        rs.setReturnStudentData(this);
+        rs.setReturnReturnStudentData(this);
         rs.getCities();
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position) instanceof City){
-                    City city= (City) parent.getItemAtPosition(position);
-                    cityPtt=city.getCityPtt();
-                    Toast.makeText(getActivity().getApplicationContext(),"asdasd"+ city.getCityPtt(), Toast.LENGTH_SHORT).show();
+        rs.getStudents();
 
-                }else{
-                    Toast.makeText(getActivity().getApplicationContext(), "Not intstance of city", Toast.LENGTH_SHORT).show();
+        //get that value for the first time
+        getItemFromSpinner();
 
-                }
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
         return view;
     }
 
@@ -112,8 +96,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
                 studentLayout.setVisibility(View.VISIBLE);
                 setCitySpinner();
-
-
 
                 break;
             case R.id.btnEnterStudentsInstrument:
@@ -133,12 +115,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 String firstName=txtFirstName.getText().toString();
                 String lastName=txtLastName.getText().toString();
                 int cityPtt=getItemFromSpinner();
-
                 if(checkEmtyText() && checkStudentId()) {
-                    rs.getStudentWithId(studentId);
+                    if(!studentIsInDatabase()) {
 
-                    if(checkForNewStudent()) {
-                    rs.insertStudent(studentId, firstName, lastName, cityPtt);
+                        rs.insertStudent(studentId, firstName, lastName, cityPtt);
                         changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
                         changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
                         studentLayout.setVisibility(View.INVISIBLE);
@@ -182,7 +162,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             return true;
         }else{
             txtStudentId.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
-            txtStudentId.setHint("U entered "+txtStudentId.getText().length()+" digits, need 13");
+            txtStudentId.setHint("Only "+txtStudentId.getText().length()+" digits");
             return false;
         }
     }
@@ -286,26 +266,32 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         setCitySpinner();
 
     }
-    public boolean checkForNewStudent(){
-        if(student == null){
-            return true;
-        }else {
-            return false;
-        }
-    }
+  public boolean studentIsInDatabase(){
+      boolean found=false;
+      for (int i=0;i<listOfStudents.size();i++){
+          if(txtStudentId.getText().toString().equalsIgnoreCase(listOfStudents.get(i).getStudentId())){
+              found=true;
+              break;
+          }
+      }
+      if(found){
+          return true;
+      }else{
+          return false;
+      }
+  }
 
     @Override
-    public void returnDoneTask(Object obj) {
+    public void returnDataOnPostExecute(Object obj) {
         responseCity = (RSGetCitiesResponse) obj;
         listOfCities= responseCity.getListOFCities();
     }
 
     @Override
-    public void returnStudentData(Object o) {
-        responseStudent=(RSGetStudentWIthIdResponse )o;
-         student=responseStudent.getStudent();
-        Log.i("test", student.toString());
-        checkForNewStudent();
+    public void returnStudentDataOnPostExecute(Object o) {
+        responseStudent=(RSGetStudentsResponse)o;
+        listOfStudents=responseStudent.getStudents();
+        studentIsInDatabase();
     }
 
     public int getItemFromSpinner(){
@@ -315,14 +301,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 if(parent.getItemAtPosition(position) instanceof City){
                      City city= (City) parent.getItemAtPosition(position);
                      cityPtt=city.getCityPtt();
-
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(), "Not intstance of city", Toast.LENGTH_SHORT).show();
-
                 }
-
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 

@@ -46,7 +46,7 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
 
     //methods from AsyncTaskReturnData Interface, contains data done by AsyncTask
     @Override
-    public void returnDoneTask(Object obj) {
+    public void returnDataOnPostExecute(Object obj) {
         responseGet= (RSGetEmployeesResponse) obj;
         listOfEmployees=responseGet.getListOfEmployees();
         status=responseGet.getStatusName();

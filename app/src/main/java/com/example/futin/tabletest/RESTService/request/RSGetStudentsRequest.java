@@ -3,10 +3,10 @@ package com.example.futin.tabletest.RESTService.request;
 /**
  * Created by Futin on 3/9/2015.
  */
-public class RSGetStudentWithIdRequest {
+public class RSGetStudentsRequest {
     String studentId;
 
-    public RSGetStudentWithIdRequest(String studentId) {
+    public RSGetStudentsRequest(String studentId) {
         this.studentId = studentId;
     }
 

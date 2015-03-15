@@ -59,6 +59,7 @@ public class RSInsertStudentTask extends AsyncTask<Void, Void, RSInsertStudentRe
                 return new RSInsertStudentResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
+                Log.i(TAG, "Result ok ");
                 return new RSInsertStudentResponse(HttpStatus.OK,
                         HttpStatus.OK.name());
             }

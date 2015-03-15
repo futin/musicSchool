@@ -3,13 +3,11 @@ package com.example.futin.tabletest.RESTService.task;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.interfaces.StudentWIthIdData;
+import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
-import com.example.futin.tabletest.RESTService.request.RSGetStudentWithIdRequest;
-import com.example.futin.tabletest.RESTService.response.RSGetStudentWIthIdResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -23,56 +21,53 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+
 /**
  * Created by Futin on 3/9/2015.
  */
-public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWIthIdResponse>{
+public class RSGetStudentsTask extends AsyncTask<Void, Void, RSGetStudentsResponse>{
 
     final String TAG="getStudentWithIdTask";
     RestTemplate restTemplate;
-    RSGetStudentWithIdRequest request;
-    StudentWIthIdData returnData;
+    ReturnStudentData returnData;
 
-    public RSGetStudentWithIdTask(RSGetStudentWithIdRequest request, StudentWIthIdData returnData) {
-        this.request = request;
+    public RSGetStudentsTask(ReturnStudentData returnData) {
         this.returnData = returnData;
         restTemplate=new RestTemplate();
     }
 
     @Override
-    protected RSGetStudentWIthIdResponse doInBackground(Void... params) {
+    protected RSGetStudentsResponse doInBackground(Void... params) {
         try {
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             header.set("Connection", "Close");
-            String jsonText = request.toString();
+            String jsonText = "";
             HttpEntity<String> entity = new HttpEntity<>(jsonText, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getStudentWithIdUrl();
+            String address = RSDataSingleton.getInstance().getServerUrl().getStudentsUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Entity: " + entity);
             Log.i(TAG, "Before response ");
-            ResponseEntity response = restTemplate.exchange(address, HttpMethod.POST, entity, String.class);
+            ResponseEntity response = restTemplate.exchange(address, HttpMethod.GET, entity, String.class);
             Log.i(TAG, "After response ");
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                return new RSGetStudentWIthIdResponse(HttpStatus.NOT_FOUND,
+                return new RSGetStudentsResponse(HttpStatus.NOT_FOUND,
                         HttpStatus.NOT_FOUND.name());
             } else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                return new RSGetStudentWIthIdResponse(HttpStatus.BAD_REQUEST,
+                return new RSGetStudentsResponse(HttpStatus.BAD_REQUEST,
                         HttpStatus.BAD_REQUEST.name());
             }else if (response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
-                return new RSGetStudentWIthIdResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                return new RSGetStudentsResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
                 Log.i(TAG, "Response ok ");
-                Student student=null;
-                if(response.getBody()==null){
-
-                }else{
-                    String jsonBody=response.getBody().toString();
-                    JSONArray array=new JSONArray(jsonBody);
-
-                    JSONObject objStudent=array.getJSONObject(0);
+                String jsonBody=response.getBody().toString();
+                JSONArray array=new JSONArray(jsonBody);
+                ArrayList<Student> listOfStudents=new ArrayList<>();
+                for (int i=0; i<array.length();i++){
+                    JSONObject objStudent=array.getJSONObject(i);
 
                     String studentId=objStudent.getString("studentId");
                     String firstName=objStudent.getString("firstName");
@@ -80,37 +75,39 @@ public class RSGetStudentWithIdTask extends AsyncTask<Void, Void, RSGetStudentWI
                     int cityPtt=objStudent.getInt("cityPtt");
 
                     City city=new City(cityPtt);
-                     student=new Student(studentId, firstName, lastName, city);
+                    Student student=new Student(studentId, firstName, lastName, city);
+
                     Log.i(TAG, "City "+city);
                     Log.i(TAG, "Student "+student);
+
+                    listOfStudents.add(student);
                 }
-
-
-                return new RSGetStudentWIthIdResponse(HttpStatus.OK,
-                        HttpStatus.OK.name(), student);
+                Log.i(TAG, "Cities: "+listOfStudents.toString());
+                return new RSGetStudentsResponse(HttpStatus.OK,
+                        HttpStatus.OK.name(), listOfStudents);
             }
 
 
         } catch (HttpClientErrorException e) {
             Log.e(TAG, "Http Status: " + e.getStatusCode());
             Log.e(TAG, "Http Error: " + e.getResponseBodyAsString());
-            return new RSGetStudentWIthIdResponse(e.getStatusCode(),
+            return new RSGetStudentsResponse(e.getStatusCode(),
                     e.getStatusText());
         } catch (HttpServerErrorException e) {
             Log.e(TAG, "Http Status: " + e.getStatusCode());
             Log.e(TAG, "Http Error: " + e.getResponseBodyAsString());
-            return new RSGetStudentWIthIdResponse(e.getStatusCode(),
+            return new RSGetStudentsResponse(e.getStatusCode(),
                     e.getStatusText());
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return new RSGetStudentWIthIdResponse(null, null);
+            return new RSGetStudentsResponse(null, null);
         }
     }
 
     @Override
-    protected void onPostExecute(RSGetStudentWIthIdResponse rsGetStudentWIthIdResponse) {
+    protected void onPostExecute(RSGetStudentsResponse rsGetStudentWIthIdResponse) {
         super.onPostExecute(rsGetStudentWIthIdResponse);
-        returnData.returnStudentData(rsGetStudentWIthIdResponse);
+        returnData.returnStudentDataOnPostExecute(rsGetStudentWIthIdResponse);
         Log.i(TAG, "onPostExecute ok ");
 
     }

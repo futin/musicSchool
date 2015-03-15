@@ -103,7 +103,7 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
     @Override
     protected void onPostExecute(RSSignInResponse rsSignInResponse) {
         super.onPostExecute(rsSignInResponse);
-        returnData.returnEmployeeInterface(rsSignInResponse);
+        returnData.returnEmployeeOnPostExecute(rsSignInResponse);
     }
 
     @Override

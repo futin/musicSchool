@@ -1,18 +1,16 @@
 package com.example.futin.tabletest.RESTService;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
-import com.example.futin.tabletest.RESTService.interfaces.StudentWIthIdData;
-import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
-import com.example.futin.tabletest.RESTService.request.RSGetStudentWithIdRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
+import com.example.futin.tabletest.RESTService.task.RSGetStudentsTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertEmployeeTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentTask;
 import com.example.futin.tabletest.RESTService.task.RSGetCitiesTask;
-import com.example.futin.tabletest.RESTService.task.RSGetStudentWithIdTask;
 import com.example.futin.tabletest.RESTService.task.RSSignInTask;
 
 /**
@@ -22,7 +20,7 @@ public class RestService {
 
     AsyncTaskReturnData returnData=null;
     SignInReturnData returnDataSignIn=null;
-    StudentWIthIdData returnStudentData=null;
+    ReturnStudentData returnReturnStudentData =null;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
@@ -32,9 +30,9 @@ public class RestService {
     public void setReturnDataSignIn(SignInReturnData returnDataSignIn) {
         this.returnDataSignIn = returnDataSignIn;
     }
-    //setter for getStudentWithId method
-    public void setReturnStudentData(StudentWIthIdData returnStudentData) {
-        this.returnStudentData = returnStudentData;
+    //setter for getStudents method
+    public void setReturnReturnStudentData(ReturnStudentData returnReturnStudentData) {
+        this.returnReturnStudentData = returnReturnStudentData;
     }
 
     public void getEmployees(){
@@ -54,8 +52,8 @@ public class RestService {
     public void insertStudent(String studentId, String firstName, String lastName, int cityPtt){
         new RSInsertStudentTask(new RSInsertStudentRequest(studentId, firstName, lastName,cityPtt), returnData).execute((Void) null);
     }
-    public void getStudentWithId(String studentId){
-        new RSGetStudentWithIdTask(new RSGetStudentWithIdRequest(studentId), returnStudentData).execute((Void) null);
+    public void getStudents(){
+        new RSGetStudentsTask(returnReturnStudentData).execute((Void) null);
     }
 
 
