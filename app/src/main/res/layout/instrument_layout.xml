@@ -19,15 +19,16 @@
         android:text="@string/txtSelectStudent"
         android:id="@+id/textView1"
         android:textSize="20sp"
-        android:layout_alignTop="@+id/spinnerStudent"
+        android:layout_marginTop="41dp"
+        android:layout_below="@+id/spinnerStudent"
         android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:id="@+id/spinnerInstrument"
-        android:layout_alignTop="@+id/textView5"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/textView1"
+        android:layout_alignStart="@+id/spinnerStudent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -36,18 +37,17 @@
         android:text="@string/txtSelectInstrument"
         android:id="@+id/textView5"
         android:textSize="20sp"
-        android:layout_above="@+id/textView6"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="62dp" />
+        android:layout_alignTop="@+id/spinnerStudent"
+        android:layout_alignParentStart="true" />
 
 
     <Spinner
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:id="@+id/spinnerStudent"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="37dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/spinnerInstrument" />
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:id="@+id/btnCancelInst"
