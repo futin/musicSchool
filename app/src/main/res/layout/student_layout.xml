@@ -104,7 +104,7 @@
         />
 
     <Button
-        android:id="@+id/btnCancel"
+        android:id="@+id/btnCancelInst"
         android:layout_width="130dp"
         android:layout_height="40dp"
         android:background="@drawable/button_shape_inside_layout"
@@ -113,13 +113,12 @@
         android:shadowDy="0"
         android:shadowRadius="5"
         android:text="@string/txtBtn_cancel"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="74dp"
         android:textColor="#D9D9D7"
         android:textSize="12sp"
         android:nestedScrollingEnabled="false"
         android:layout_below="@+id/citySpinner"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="250dp" />
+        android:layout_alignParentStart="true" />
 
     <Button
         android:id="@+id/btnSave"
@@ -134,6 +133,6 @@
         android:textColor="#D9D9D7"
         android:textSize="12sp"
         android:nestedScrollingEnabled="false"
-        android:layout_alignTop="@+id/btnCancel"
+        android:layout_alignTop="@+id/btnCancelInst"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>

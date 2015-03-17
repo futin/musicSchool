@@ -6,7 +6,7 @@ package com.example.futin.tabletest.RESTService.data;
 public class RSServerURL {
 
 
-    private final static String API_BASE_URL="http://192.168.1.3";
+    private final static String API_BASE_URL="http://192.168.4.100";
     private final static String API_ROOT_URL="/musicSchool";
     private final static String API_GET_EMPLOYEES_URL="/getEmployees.php";
     private final static String API_EMPLOYEES_LOGIN_URL="/loginService.php";
@@ -14,6 +14,7 @@ public class RSServerURL {
     private final static String API_INSERT_STUDENT_URL="/insertStudent.php";
     private final static String API_GET_STUDENTS_URL="/getStudents.php";
     private final static String API_GET_CITY_URL="/getCityName.php";
+    private final static String API_GET_INSTRUMENTS_URL="/getInstruments.php";
 
 
     public String getBaseUrl(){
@@ -33,5 +34,5 @@ public class RSServerURL {
     public String getStudentsUrl(){return getRootUrl()+API_GET_STUDENTS_URL;}
     public String getCityUrl(){return getRootUrl()+API_GET_CITY_URL;}
     public String getEmployeesUrl(){return getRootUrl()+API_GET_EMPLOYEES_URL;}
-
+    public String getInstrumentsUrl(){return getRootUrl()+API_GET_INSTRUMENTS_URL;}
 }

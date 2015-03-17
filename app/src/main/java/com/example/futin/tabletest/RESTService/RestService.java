@@ -1,12 +1,14 @@
 package com.example.futin.tabletest.RESTService;
 
 import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.interfaces.ReturnInstrumentData;
 import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
 import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
+import com.example.futin.tabletest.RESTService.task.RSGetInstrumentsTask;
 import com.example.futin.tabletest.RESTService.task.RSGetStudentsTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertEmployeeTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentTask;
@@ -21,6 +23,7 @@ public class RestService {
     AsyncTaskReturnData returnData=null;
     SignInReturnData returnDataSignIn=null;
     ReturnStudentData returnReturnStudentData =null;
+    ReturnInstrumentData returnInstrumentData=null;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
@@ -55,7 +58,9 @@ public class RestService {
     public void getStudents(){
         new RSGetStudentsTask(returnReturnStudentData).execute((Void) null);
     }
-
+    public void getInstruments(){
+        new RSGetInstrumentsTask(returnInstrumentData).execute((Void) null);
+    }
 
 
 }

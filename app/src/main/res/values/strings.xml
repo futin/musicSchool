@@ -31,12 +31,16 @@
     <string name="editTextStudentFirstName"></string>
     <string name="txtBtn_cancel">Cancel</string>
     <string name="txtBtnSave">Save</string>
-<!--
-    <array name="cityNameArray">
-        <item>Beograd</item>
-        <item>Mladenovac</item>
-        <item>Novi Sad</item>
-        <item>Kragujevac</item>
-    </array>
--->
+    <string name="txtSelectInstrument">Select student:</string>
+    <string name="txtSelectStudent">Select Instrument:</string>
+    <string name="instrument_number">Set number of instruments:</string>
+
+    <!--
+        <array name="cityNameArray">
+            <item>Beograd</item>
+            <item>Mladenovac</item>
+            <item>Novi Sad</item>
+            <item>Kragujevac</item>
+        </array>
+    -->
 </resources>

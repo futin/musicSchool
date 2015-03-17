@@ -31,17 +31,26 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     Button btnEnterStudentsInstrument;
 
     ViewGroup enterDataLayout;
-    ViewGroup studentLayout;
     ViewGroup instrumentLayout;
 
+    //RelativeLayout instrumentLayout
+    Button btnCancelInst;
+    Button btnSaveInst;
+
+    EditText txtNumberOfInstruments;
+    Spinner spinnerStudent;
+    Spinner spinnerInstrument;
+
     //RelativeLayout studentLayout
+    ViewGroup studentLayout;
+
     Button btnCancel;
     Button btnSave;
 
     EditText txtStudentId;
     EditText txtFirstName;
     EditText txtLastName;
-    Spinner spinner;
+    Spinner spinnerCity;
     int cityPtt=0;
 
     //RestService
@@ -65,14 +74,23 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
 
         //studentLayout
-        btnCancel= (Button) studentLayout.findViewById(R.id.btnCancel);
+        btnCancel= (Button) studentLayout.findViewById(R.id.btnCancelInst);
         btnSave= (Button) studentLayout.findViewById(R.id.btnSave);
         btnSave.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
-        spinner= (Spinner) studentLayout.findViewById(R.id.citySpinner);
+        spinnerCity = (Spinner) studentLayout.findViewById(R.id.citySpinner);
         txtStudentId= (EditText) studentLayout.findViewById(R.id.txtStudentId);
         txtFirstName=(EditText) studentLayout.findViewById(R.id.txtFirstName);
         txtLastName=(EditText) studentLayout.findViewById(R.id.txtLastName);
+
+        //instrumentLayout
+        btnCancelInst= (Button) studentLayout.findViewById(R.id.btnCancelInst);
+        btnSaveInst= (Button) studentLayout.findViewById(R.id.btnSaveInst);
+        spinnerInstrument = (Spinner) studentLayout.findViewById(R.id.spinnerInstrument);
+        spinnerStudent = (Spinner) studentLayout.findViewById(R.id.spinnerStudent);
+        txtStudentId= (EditText) studentLayout.findViewById(R.id.txtStudentId);
+
+
 
         //Get list of cities
         rs=new RestService(this);
@@ -103,7 +121,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
 
                 break;
-            case R.id.btnCancel:
+            case R.id.btnCancelInst:
                 changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
                 studentLayout.setVisibility(View.INVISIBLE);
@@ -135,7 +153,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
     public void setCitySpinner(){
         ArrayAdapter<City> cityAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfCities);
-        spinner.setAdapter(cityAdapter);
+        spinnerCity.setAdapter(cityAdapter);
         }
 
     public boolean checkStudentId(){
@@ -278,16 +296,17 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     }
 
     public int getItemFromSpinner(){
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(parent.getItemAtPosition(position) instanceof City){
-                     City city= (City) parent.getItemAtPosition(position);
-                     cityPtt=city.getCityPtt();
-                }else{
+                if (parent.getItemAtPosition(position) instanceof City) {
+                    City city = (City) parent.getItemAtPosition(position);
+                    cityPtt = city.getCityPtt();
+                } else {
                     Toast.makeText(getActivity().getApplicationContext(), "Not intstance of city", Toast.LENGTH_SHORT).show();
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
