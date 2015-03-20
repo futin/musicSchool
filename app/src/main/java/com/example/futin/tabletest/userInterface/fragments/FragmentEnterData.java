@@ -1,7 +1,10 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
+import android.app.DatePickerDialog;
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.InputType;
 import android.transition.TransitionManager;
 import android.util.Log;
 import android.os.Handler;
@@ -12,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -28,8 +32,12 @@ import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
+import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData,
         ReturnStudentData, ReturnInstrumentData {
@@ -44,12 +52,16 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     ViewGroup instrumentLayout;
 
     //RelativeLayout instrumentLayout
+    SimpleDateFormat dateFormatter;
+    DatePickerDialog pickDate;
+
     Button btnCancelInst;
     Button btnSaveInst;
 
-    EditText txtNumberOfInstruments;
     Spinner spinnerStudent;
     Spinner spinnerInstrument;
+    EditText txtNumberOfInstruments;
+    EditText txtDate;
 
     String studentName;
     String instrumentName;
@@ -81,34 +93,12 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.activity_fragment_enter_data, container,false);
-        btnEnterStudent= (Button) view.findViewById(R.id.btnEnterStudent);
-        btnEnterStudentsInstrument= (Button) view.findViewById(R.id.btnEnterStudentsInstrument);
-        enterDataLayout= (ViewGroup) view.findViewById(R.id.enterDataLayout);
 
-        btnEnterStudent.setOnClickListener(this);
-        btnEnterStudentsInstrument.setOnClickListener(this);
-        studentLayout= (ViewGroup) view.findViewById(R.id.studentLayout);
-        instrumentLayout=(ViewGroup) view.findViewById(R.id.instrumentLayout);
-        studentLayout.setVisibility(View.INVISIBLE);
-        instrumentLayout.setVisibility(View.INVISIBLE);
+        dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
 
-        //studentLayout
-        btnCancel= (Button) studentLayout.findViewById(R.id.btnCancelInst);
-        btnSave= (Button) studentLayout.findViewById(R.id.btnSave);
-        btnSave.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
-        spinnerCity = (Spinner) studentLayout.findViewById(R.id.citySpinner);
-        txtStudentId= (EditText) studentLayout.findViewById(R.id.txtStudentId);
-        txtFirstName=(EditText) studentLayout.findViewById(R.id.txtFirstName);
-        txtLastName=(EditText) studentLayout.findViewById(R.id.txtLastName);
+        findViewById(view);
 
-        //instrumentLayout
-        btnCancelInst= (Button) instrumentLayout.findViewById(R.id.btnCancelInst);
-        btnSaveInst= (Button) instrumentLayout.findViewById(R.id.btnSaveInst);
-        spinnerInstrument = (Spinner) instrumentLayout.findViewById(R.id.spinnerInstrument);
-        spinnerStudent = (Spinner) instrumentLayout.findViewById(R.id.spinnerStudent);
-
-
+        setDateTimeField();
 
         //Get list of cities
         rs=new RestService(this);
@@ -144,7 +134,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 instrumentLayout.setVisibility(View.VISIBLE);
                 setInstrumentSpinner();
                 setStudentSpinner();
-                break;
+               break;
             case R.id.btnCancelInst:
                 changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -156,6 +146,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     break;
             case R.id.btnSaveInst:
                 btnSaveInstClicked();
+                break;
+            case R.id.txtDate:
+                pickDate.show();
                 break;
             default:
                 return;
@@ -206,7 +199,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                ArrayAdapter<Student> studentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfStudents);
+                ArrayAdapter<Student> studentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfStudents);
                 spinnerStudent.setAdapter(studentAdapter);
             }
         }, DELAYED_TIME);
@@ -450,5 +443,53 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
     public void makeToast(String text){
         Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    public void setDateTimeField() {
+        final Context context=getActivity();
+        Calendar newCalendar = Calendar.getInstance();
+        pickDate = new DatePickerDialog(context, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                Calendar newDate = Calendar.getInstance();
+                newDate.set(year, monthOfYear, dayOfMonth);
+                txtDate.setText(dateFormatter.format(newDate.getTime()));
+            }
+        }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public void findViewById(View view){
+
+        btnEnterStudent= (Button) view.findViewById(R.id.btnEnterStudent);
+        btnEnterStudentsInstrument= (Button) view.findViewById(R.id.btnEnterStudentsInstrument);
+        enterDataLayout= (ViewGroup) view.findViewById(R.id.enterDataLayout);
+
+        btnEnterStudent.setOnClickListener(this);
+        btnEnterStudentsInstrument.setOnClickListener(this);
+        studentLayout= (ViewGroup) view.findViewById(R.id.studentLayout);
+        instrumentLayout=(ViewGroup) view.findViewById(R.id.instrumentLayout);
+        studentLayout.setVisibility(View.INVISIBLE);
+        instrumentLayout.setVisibility(View.INVISIBLE);
+
+        //studentLayout
+        btnCancel= (Button) studentLayout.findViewById(R.id.btnCancelInst);
+        btnSave= (Button) studentLayout.findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(this);
+        btnCancel.setOnClickListener(this);
+        spinnerCity = (Spinner) studentLayout.findViewById(R.id.citySpinner);
+        txtStudentId= (EditText) studentLayout.findViewById(R.id.txtStudentId);
+        txtFirstName=(EditText) studentLayout.findViewById(R.id.txtFirstName);
+        txtLastName=(EditText) studentLayout.findViewById(R.id.txtLastName);
+
+        //instrumentLayout
+        btnCancelInst= (Button) instrumentLayout.findViewById(R.id.btnCancelInst);
+        btnSaveInst= (Button) instrumentLayout.findViewById(R.id.btnSaveInst);
+        spinnerInstrument = (Spinner) instrumentLayout.findViewById(R.id.spinnerInstrument);
+        spinnerStudent = (Spinner) instrumentLayout.findViewById(R.id.spinnerStudent);
+        txtDate= (EditText) instrumentLayout.findViewById(R.id.txtDate);
+        txtNumberOfInstruments= (EditText) instrumentLayout.findViewById(R.id.txtNumberOfInstruments);
+
+        txtDate.setOnClickListener(this);
+        txtDate.setInputType(InputType.TYPE_NULL);
     }
 }
