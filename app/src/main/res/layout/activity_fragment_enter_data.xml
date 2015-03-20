@@ -38,6 +38,6 @@
         android:layout_alignParentEnd="true" />
 
     <include layout="@layout/student_layout" ></include>
-
+    <include layout="@layout/instrument_layout"></include>
 
 </RelativeLayout>

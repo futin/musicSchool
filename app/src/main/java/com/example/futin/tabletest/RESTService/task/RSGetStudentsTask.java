@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
  */
 public class RSGetStudentsTask extends AsyncTask<Void, Void, RSGetStudentsResponse>{
 
-    final String TAG="getStudentWithIdTask";
+    final String TAG="getStudentsTask";
     RestTemplate restTemplate;
     ReturnStudentData returnData;
 
@@ -82,7 +82,7 @@ public class RSGetStudentsTask extends AsyncTask<Void, Void, RSGetStudentsRespon
 
                     listOfStudents.add(student);
                 }
-                Log.i(TAG, "Cities: "+listOfStudents.toString());
+                Log.i(TAG, "Students: "+listOfStudents.toString());
                 return new RSGetStudentsResponse(HttpStatus.OK,
                         HttpStatus.OK.name(), listOfStudents);
             }

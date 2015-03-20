@@ -33,7 +33,8 @@
     <string name="txtBtnSave">Save</string>
     <string name="txtSelectInstrument">Select student:</string>
     <string name="txtSelectStudent">Select Instrument:</string>
-    <string name="instrument_number">Set number of instruments:</string>
+    <string name="instrument_number">Set number \nof instruments:</string>
+    <string name="dateText">Insert date</string>
 
     <!--
         <array name="cityNameArray">

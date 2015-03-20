@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
+import com.example.futin.tabletest.RESTService.listeners.SignInReturnData;
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.response.RSSignInResponse;

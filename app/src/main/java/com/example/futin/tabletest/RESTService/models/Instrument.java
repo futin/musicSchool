@@ -40,6 +40,6 @@ public class Instrument {
 
     @Override
     public String toString() {
-        return "instrumentName="+instrumentName+"&instrumentType="+instrumentType+"&instrumentInStock="+instrumentsInStock;
+        return instrumentName;
     }
 }

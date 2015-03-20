@@ -3,6 +3,7 @@ package com.example.futin.tabletest.userInterface.fragments;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,16 +17,20 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
-import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 
 import java.util.ArrayList;
 
-public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData, ReturnStudentData {
+public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData,
+        ReturnStudentData, ReturnInstrumentData {
 
     Button btnEnterStudent;
     Button btnEnterStudentsInstrument;
@@ -40,6 +45,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     EditText txtNumberOfInstruments;
     Spinner spinnerStudent;
     Spinner spinnerInstrument;
+
+    String studentName;
+    String instrumentName;
 
     //RelativeLayout studentLayout
     ViewGroup studentLayout;
@@ -57,8 +65,13 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     RestService rs;
     RSGetStudentsResponse responseStudent;
     RSGetCitiesResponse responseCity;
+    RSGetInstrumentsResponse responseInstument;
+
     ArrayList<City>listOfCities;
     ArrayList<Student>listOfStudents;
+    ArrayList<Instrument>listOfInstruments;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -70,8 +83,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         btnEnterStudent.setOnClickListener(this);
         btnEnterStudentsInstrument.setOnClickListener(this);
         studentLayout= (ViewGroup) view.findViewById(R.id.studentLayout);
+        instrumentLayout=(ViewGroup) view.findViewById(R.id.instrumentLayout);
         studentLayout.setVisibility(View.INVISIBLE);
-
+        instrumentLayout.setVisibility(View.INVISIBLE);
 
         //studentLayout
         btnCancel= (Button) studentLayout.findViewById(R.id.btnCancelInst);
@@ -84,22 +98,23 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         txtLastName=(EditText) studentLayout.findViewById(R.id.txtLastName);
 
         //instrumentLayout
-        btnCancelInst= (Button) studentLayout.findViewById(R.id.btnCancelInst);
-        btnSaveInst= (Button) studentLayout.findViewById(R.id.btnSaveInst);
-        spinnerInstrument = (Spinner) studentLayout.findViewById(R.id.spinnerInstrument);
-        spinnerStudent = (Spinner) studentLayout.findViewById(R.id.spinnerStudent);
-        txtStudentId= (EditText) studentLayout.findViewById(R.id.txtStudentId);
+        btnCancelInst= (Button) instrumentLayout.findViewById(R.id.btnCancelInst);
+        btnSaveInst= (Button) instrumentLayout.findViewById(R.id.btnSaveInst);
+        spinnerInstrument = (Spinner) instrumentLayout.findViewById(R.id.spinnerInstrument);
+        spinnerStudent = (Spinner) instrumentLayout.findViewById(R.id.spinnerStudent);
 
 
 
         //Get list of cities
         rs=new RestService(this);
         rs.setReturnReturnStudentData(this);
+        rs.setReturnInstrumentData(this);
         rs.getCities();
         rs.getStudents();
+        rs.getInstruments();
 
         //get that value for the first time
-        getItemFromSpinner();
+        getCityFromSpinner();
 
         return view;
     }
@@ -112,6 +127,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             case R.id.btnEnterStudent:
                changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
                changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
+               instrumentLayout.setVisibility(View.INVISIBLE);
                 studentLayout.setVisibility(View.VISIBLE);
                 setCitySpinner();
 
@@ -119,7 +135,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             case R.id.btnEnterStudentsInstrument:
                 changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
-
+                studentLayout.setVisibility(View.INVISIBLE);
+                instrumentLayout.setVisibility(View.VISIBLE);
+                setInstrumentSpinner();
+                setStudentSpinner();
                 break;
             case R.id.btnCancelInst:
                 changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
@@ -130,6 +149,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             case R.id.btnSave:
                 btnSaveClicked();
                     break;
+            case R.id.btnSaveInst:
+                btnSaveInstClicked();
+                break;
             default:
                 return;
         }
@@ -154,7 +176,21 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     public void setCitySpinner(){
         ArrayAdapter<City> cityAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfCities);
         spinnerCity.setAdapter(cityAdapter);
+        Log.i("citys: ",listOfCities.toString());
         }
+    public void setInstrumentSpinner(){
+        ArrayAdapter<Instrument> instrumentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfInstruments);
+        spinnerInstrument.setAdapter(instrumentAdapter);
+        Log.i("instr: ",listOfInstruments.toString());
+
+    }
+    public void setStudentSpinner(){
+        ArrayAdapter<Student> studentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfStudents);
+        Log.i("stud: ",listOfStudents.toString());
+        spinnerStudent.setAdapter(studentAdapter);
+
+
+    }
 
     public boolean checkStudentId(){
 
@@ -295,7 +331,14 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         studentIsInDatabase();
     }
 
-    public int getItemFromSpinner(){
+    @Override
+    public void returnInstrumentDataOnPostExecute(Object o) {
+        responseInstument = (RSGetInstrumentsResponse) o;
+        listOfInstruments=responseInstument.getListOfInstruments();
+
+    }
+
+    public int getCityFromSpinner(){
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -303,7 +346,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     City city = (City) parent.getItemAtPosition(position);
                     cityPtt = city.getCityPtt();
                 } else {
-                    Toast.makeText(getActivity().getApplicationContext(), "Not intstance of city", Toast.LENGTH_SHORT).show();
+                    makeToast("Not instance of city");
                 }
             }
 
@@ -315,12 +358,53 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         return cityPtt;
     }
 
+    public String getStudentFromSpinner(){
+        spinnerStudent.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position) instanceof  Student){
+                    Student student= (Student) parent.getItemAtPosition(position);
+                    studentName=student.getFirstName()+" "+student.getLastName();
+                }else{
+                    makeToast("Not instance of Student");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        return studentName;
+    }
+
+    public String getInstrumentFromSpinner(){
+
+        spinnerInstrument.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(parent.getItemAtPosition(position) instanceof Instrument){
+                    Instrument instrument= (Instrument) parent.getItemAtPosition(position);
+                    instrumentName=instrument.getInstrumentName();
+                }else{
+                    makeToast("Not instance of Instrument");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        return instrumentName;
+    }
 
     public void btnSaveClicked(){
         String studentId=txtStudentId.getText().toString();
         String firstName=txtFirstName.getText().toString();
         String lastName=txtLastName.getText().toString();
-        int cityPtt=getItemFromSpinner();
+        int cityPtt= getCityFromSpinner();
         if(checkEmptyText() && checkStudentId()) {
             if(!studentIsInDatabase()) {
 
@@ -328,11 +412,21 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 changeButtonPosition(btnEnterStudent, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_LEFT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
                 studentLayout.setVisibility(View.INVISIBLE);
-                Toast.makeText(getActivity().getApplicationContext(), "Student successfully saved", Toast.LENGTH_SHORT).show();
+                makeToast("Student successfully saved");
                 makeDefaultStudentLayout();
             }else{
-                Toast.makeText(getActivity().getApplicationContext(), "Error! Student already in database", Toast.LENGTH_SHORT).show();
+                makeToast("Error! Student already in database");
             }
         }
+    }
+    public void btnSaveInstClicked(){
+        String studentName=getStudentFromSpinner();
+        String instrumentName= getInstrumentFromSpinner();
+        int numberOfInstruments= Integer.parseInt(txtNumberOfInstruments.getText().toString());
+
+    }
+
+    public void makeToast(String text){
+        Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

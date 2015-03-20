@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.response.RSGetEmployeesResponse;
 

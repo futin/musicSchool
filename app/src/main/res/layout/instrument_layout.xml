@@ -19,7 +19,7 @@
         android:text="@string/txtSelectStudent"
         android:id="@+id/textView1"
         android:textSize="20sp"
-        android:layout_marginTop="41dp"
+        android:layout_marginTop="25dp"
         android:layout_below="@+id/spinnerStudent"
         android:layout_alignParentStart="true" />
 
@@ -28,7 +28,10 @@
         android:layout_height="40dp"
         android:id="@+id/spinnerInstrument"
         android:layout_alignTop="@+id/textView1"
-        android:layout_alignStart="@+id/spinnerStudent" />
+        android:layout_alignStart="@+id/spinnerStudent"
+        android:layout_marginTop="-10dp"
+        android:layout_centerVertical="true"
+        android:layout_alignEnd="@+id/spinnerStudent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,16 +41,18 @@
         android:id="@+id/textView5"
         android:textSize="20sp"
         android:layout_alignTop="@+id/spinnerStudent"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_toStartOf="@+id/spinnerStudent" />
 
 
     <Spinner
         android:layout_width="200dp"
         android:layout_height="40dp"
         android:id="@+id/spinnerStudent"
-        android:layout_marginTop="37dp"
+        android:layout_marginTop="25dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/textView1" />
 
     <Button
         android:id="@+id/btnCancelInst"
@@ -62,9 +67,9 @@
         android:textColor="#D9D9D7"
         android:textSize="12sp"
         android:nestedScrollingEnabled="false"
-        android:layout_marginBottom="125dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/textViewDate"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="62dp" />
 
     <Button
         android:id="@+id/btnSaveInst"
@@ -84,20 +89,46 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="45dp"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/instrument_number"
         android:id="@+id/textView6"
-        android:layout_above="@+id/btnCancelInst"
+        android:layout_below="@+id/spinnerInstrument"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="91dp" />
+        android:layout_marginTop="30dp"
+        android:textSize="18dp"
+        android:layout_toStartOf="@+id/spinnerInstrument" />
 
     <EditText
         android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtNumberOfInstruments"
         android:inputType="number"
+        android:layout_above="@+id/textViewDate"
+        android:layout_toStartOf="@+id/btnSaveInst"
+        android:layout_toRightOf="@+id/textView6"
+        android:layout_alignEnd="@+id/spinnerInstrument" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="@string/dateText"
+        android:id="@+id/textViewDate"
+        android:textSize="18dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView6"
+        android:layout_marginTop="30dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:layout_alignBottom="@+id/textViewDate"
+        android:layout_alignStart="@+id/txtNumberOfInstruments"
+        android:layout_alignEnd="@+id/txtNumberOfInstruments" />
 
 </RelativeLayout>

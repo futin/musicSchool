@@ -50,6 +50,6 @@ public class Student {
 
     @Override
     public String toString() {
-        return "fn :"+firstName+" ln: "+lastName;
+        return firstName+" "+lastName;
     }
 }

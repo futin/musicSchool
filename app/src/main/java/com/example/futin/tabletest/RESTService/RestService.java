@@ -1,9 +1,9 @@
 package com.example.futin.tabletest.RESTService;
 
-import com.example.futin.tabletest.RESTService.interfaces.AsyncTaskReturnData;
-import com.example.futin.tabletest.RESTService.interfaces.ReturnInstrumentData;
-import com.example.futin.tabletest.RESTService.interfaces.ReturnStudentData;
-import com.example.futin.tabletest.RESTService.interfaces.SignInReturnData;
+import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.SignInReturnData;
 import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
@@ -36,6 +36,12 @@ public class RestService {
     //setter for getStudents method
     public void setReturnReturnStudentData(ReturnStudentData returnReturnStudentData) {
         this.returnReturnStudentData = returnReturnStudentData;
+    }
+    //setter for getInstrument method
+
+
+    public void setReturnInstrumentData(ReturnInstrumentData returnInstrumentData) {
+        this.returnInstrumentData = returnInstrumentData;
     }
 
     public void getEmployees(){

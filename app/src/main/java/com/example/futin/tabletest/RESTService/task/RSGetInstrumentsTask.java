@@ -4,10 +4,8 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.interfaces.ReturnInstrumentData;
-import com.example.futin.tabletest.RESTService.models.Employee;
+import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
 import com.example.futin.tabletest.RESTService.models.Instrument;
-import com.example.futin.tabletest.RESTService.response.RSGetEmployeesResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
 
 import org.json.JSONArray;
@@ -72,7 +70,7 @@ public class RSGetInstrumentsTask extends AsyncTask<Void, Void, RSGetInstruments
 
                     String instName=objInstrument.getString("instrumentName");
                     String instType=objInstrument.getString("instrumentType");
-                    int instInStock=objInstrument.getInt("instrumentInStock");
+                    int instInStock=objInstrument.getInt("instrumentsInStock");
 
                     Instrument instrument=new Instrument(instName, instType, instInStock);
 
@@ -104,6 +102,6 @@ public class RSGetInstrumentsTask extends AsyncTask<Void, Void, RSGetInstruments
     @Override
     protected void onPostExecute(RSGetInstrumentsResponse rsGetInstrumentsResponse) {
         super.onPostExecute(rsGetInstrumentsResponse);
-        returnData.returnInstrumentData(rsGetInstrumentsResponse);
+        returnData.returnInstrumentDataOnPostExecute(rsGetInstrumentsResponse);
     }
 }
