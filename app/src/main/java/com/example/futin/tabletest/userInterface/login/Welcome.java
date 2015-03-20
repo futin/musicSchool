@@ -13,7 +13,8 @@ import android.os.Handler;
 
 public class Welcome extends ActionBarActivity {
 
-    private final int DELAYED_TIME = 2000;
+    //TODO make it on 2000
+    private final int DELAYED_TIME = 500;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

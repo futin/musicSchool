@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.transition.TransitionManager;
 import android.util.Log;
+import android.os.Handler;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,9 @@ import java.util.ArrayList;
 
 public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData,
         ReturnStudentData, ReturnInstrumentData {
+
+    private final int DELAYED_TIME = 500;
+
 
     Button btnEnterStudent;
     Button btnEnterStudentsInstrument;
@@ -174,20 +179,37 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
 
     public void setCitySpinner(){
-        ArrayAdapter<City> cityAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfCities);
-        spinnerCity.setAdapter(cityAdapter);
-        Log.i("citys: ",listOfCities.toString());
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                        R.layout.my_spinner_dropdown_item, listOfCities);
+                spinnerCity.setAdapter(cityAdapter);
+            }
+        }, DELAYED_TIME);
+
         }
     public void setInstrumentSpinner(){
-        ArrayAdapter<Instrument> instrumentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfInstruments);
-        spinnerInstrument.setAdapter(instrumentAdapter);
-        Log.i("instr: ",listOfInstruments.toString());
+
+       new Handler().postDelayed(new Runnable() {
+           @Override
+           public void run() {
+               ArrayAdapter<Instrument> instrumentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfInstruments);
+               spinnerInstrument.setAdapter(instrumentAdapter);
+           }
+       }, DELAYED_TIME);
 
     }
     public void setStudentSpinner(){
-        ArrayAdapter<Student> studentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfStudents);
-        Log.i("stud: ",listOfStudents.toString());
-        spinnerStudent.setAdapter(studentAdapter);
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                ArrayAdapter<Student> studentAdapter=new ArrayAdapter<>(getActivity().getApplicationContext(), R.layout.my_spinner_dropdown_item, listOfStudents);
+                spinnerStudent.setAdapter(studentAdapter);
+            }
+        }, DELAYED_TIME);
 
 
     }
