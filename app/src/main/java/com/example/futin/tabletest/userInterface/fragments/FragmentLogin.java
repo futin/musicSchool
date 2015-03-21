@@ -87,7 +87,6 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
 
     void checkEmployee() {
-        Toast.makeText(getActivity().getApplicationContext(), status, Toast.LENGTH_SHORT).show();
         for (int i = 0; i < listOfEmployees.size(); i++) {
             if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
                     password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {

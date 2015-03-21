@@ -12,9 +12,10 @@
         android:layout_height="wrap_content"
         android:text="@string/txtBtnShowStudents"
         android:id="@+id/btnShowStudents"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="30dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignStart="@+id/btnShowStudWithInst"
+        android:layout_alignEnd="@+id/btnShowInstruments" />
 
     <Button
         android:layout_width="wrap_content"
@@ -39,7 +40,9 @@
         android:layout_height="wrap_content"
         android:text="@string/txtBtnShowCities"
         android:id="@+id/btnShowCities"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="56dp"
         android:layout_below="@+id/btnShowStudWithInst"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignStart="@+id/btnShowStudWithInst"
+        android:layout_alignEnd="@+id/btnShowStudWithInst"
+        />
 </RelativeLayout>

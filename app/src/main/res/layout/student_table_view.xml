@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tblLayout"
+    android:id="@+id/tblLayoutStudent"
     android:layout_width="match_parent"
     android:layout_height="250dp"
     android:shrinkColumns="*"
@@ -22,34 +22,39 @@
         android:layout_height="fill_parent">
 
         <TextView
-            android:id="@+id/cityIdColumn"
+            android:id="@+id/studentIdColumn"
             android:text="Id"
             android:textStyle="bold|italic"
             android:typeface="serif"
             android:layout_column="0"
-            android:layout_span="2"
+            android:layout_span="4"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"></TextView>
 
         <TextView
-            android:id="@+id/cityNameColumn"
+            android:id="@+id/studentFirstAndLastNameColumn"
             android:text="Name"
             android:textStyle="bold|italic"
             android:typeface="serif"
             android:layout_column="2"
-            android:layout_span="4"
+            android:layout_span="6"
             android:layout_width="match_parent"
             android:textSize="22dp"
+            android:layout_weight="2"
             android:textColor="#ff3b5020"></TextView>
 
         <TextView
-            android:id="@+id/cityPttColumn"
-            android:text="Ptt"
+            android:id="@+id/studentPttColumn"
+            android:text="City ptt"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="6"
+            android:layout_column="8"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"></TextView>
     </TableRow>
 
 </TableLayout>

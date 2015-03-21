@@ -34,6 +34,9 @@ public class RestService {
         this.returnData = returnData;
     }
 
+    public RestService() {
+    }
+
     //setter for signIn method
     public void setReturnDataSignIn(SignInReturnData returnDataSignIn) {
         this.returnDataSignIn = returnDataSignIn;
