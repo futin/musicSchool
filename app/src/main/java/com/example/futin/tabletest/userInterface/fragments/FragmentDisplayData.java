@@ -1,13 +1,10 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,9 +13,7 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.userInterface.tables.ShowCitiesTableView;
-import com.example.futin.tabletest.userInterface.tables.ShowInstrumentsTableView;
 import com.example.futin.tabletest.userInterface.tables.ShowStudentsTableView;
-import com.example.futin.tabletest.userInterface.tables.ShowStudentsWithInsturmentsTableView;
 
 public class FragmentDisplayData extends Fragment implements View.OnClickListener{
 
@@ -27,7 +22,7 @@ public class FragmentDisplayData extends Fragment implements View.OnClickListene
     Button btnShowInstruments;
     Button btnShowStudWithInst;
     Button btnShowCities;
-
+    FragmentToActivity FTAInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,35 +39,29 @@ public class FragmentDisplayData extends Fragment implements View.OnClickListene
         btnShowStudWithInst.setOnClickListener(this);
         btnShowCities.setOnClickListener(this);
 
+       btnShowCities.requestFocus();
         return view;
     }
 
     public void makeToast(String text){
         Toast.makeText(getActivity().getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.btnShowStudents:
-                Intent intentStud=new Intent(getActivity(), ShowStudentsTableView.class);
-                startActivity(intentStud);
-            case R.id.btnShowInstruments:
-                Intent intentInst=new Intent(getActivity().getApplicationContext(), ShowInstrumentsTableView.class);
-                startActivity(intentInst);
-                break;
-            case R.id.btnShowStudWithInst:
-                Intent intentStuWithInst=new Intent(getActivity().getApplicationContext(), ShowStudentsWithInsturmentsTableView.class);
-                startActivity(intentStuWithInst);
-                break;
-            case R.id.btnShowCities:
-                Intent intentCity=new Intent(getActivity().getApplicationContext(), ShowCitiesTableView.class);
-                startActivity(intentCity);
-                break;
-            default:
-                return;
+                FTAInterface.switchActivities(v);
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            FTAInterface = (FragmentToActivity) activity;
+        }catch (ClassCastException e){
+            throw new ClassCastException(activity.toString()+" must implement FragmentToActivity interface!");
         }
     }
-
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        FTAInterface=null;
+    }
 }

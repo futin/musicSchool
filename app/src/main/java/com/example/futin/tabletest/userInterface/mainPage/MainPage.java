@@ -11,13 +11,19 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.userInterface.adapter.TabMainPageAdapter;
+import com.example.futin.tabletest.userInterface.fragments.FragmentToActivity;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
+import com.example.futin.tabletest.userInterface.tables.ShowCitiesTableView;
+import com.example.futin.tabletest.userInterface.tables.ShowInstrumentsTableView;
+import com.example.futin.tabletest.userInterface.tables.ShowStudentsTableView;
+import com.example.futin.tabletest.userInterface.tables.ShowStudentsWithInsturmentsTableView;
 
-public class MainPage extends ActionBarActivity {
+public class MainPage extends ActionBarActivity implements FragmentToActivity{
 
     TabMainPageAdapter tabAdapter;
     ViewPager myViewPager;
@@ -79,5 +85,29 @@ public class MainPage extends ActionBarActivity {
                     .show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void switchActivities(View v) {
+        switch (v.getId()){
+            case R.id.btnShowStudents:
+                Intent intentStud=new Intent(this, ShowStudentsTableView.class);
+                 startActivity(intentStud);
+                break;
+            case R.id.btnShowInstruments:
+                Intent intentInst=new Intent(this, ShowInstrumentsTableView.class);
+                 startActivity(intentInst);
+                break;
+            case R.id.btnShowStudWithInst:
+                Intent intentStudWithInst=new Intent(this, ShowStudentsWithInsturmentsTableView.class);
+                startActivity(intentStudWithInst);
+                break;
+            case R.id.btnShowCities:
+                Intent intentCity=new Intent(this, ShowCitiesTableView.class);
+                startActivity(intentCity);
+                break;
+            default:
+                return;
+        }
     }
 }
