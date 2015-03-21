@@ -44,6 +44,8 @@
     <string name="title_activity_show_instruments_table_view"></string>
     <string name="title_activity_show_cities_table_view"></string>
     <string name="title_activity_show_students_with_insturments_table_view"></string>
+    <string name="txtCityTableName">City Table</string>
+    <string name="search_for_city"></string>
 
     <!--
         <array name="cityNameArray">

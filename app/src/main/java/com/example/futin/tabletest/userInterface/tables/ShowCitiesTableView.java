@@ -144,10 +144,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
           //  paramsCityId.column=1;
             cityPtt.setLayoutParams(paramsCityPtt);
 
-            cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-            cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-            cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
-
             cityId.setTextSize(22);
             cityName.setTextSize(22);
             cityPtt.setTextSize(22);
@@ -156,6 +152,15 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             cityName.setGravity(Gravity.CENTER);
             cityPtt.setGravity(Gravity.CENTER);
 
+            if(idCounter %2==0){
+                cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+            }else {
+                cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+            }
             row.addView(cityId);
             row.addView(cityName);
             row.addView(cityPtt);

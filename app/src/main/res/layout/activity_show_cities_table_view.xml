@@ -7,9 +7,52 @@
     tools:context="com.example.futin.tabletest.userInterface.tables.ShowCitiesTableView"
     android:id="@+id/cityTableLayout">
 
-    <include layout="@layout/city_table_view"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Search:"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/textView7"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="28dp" />
+
+    <ScrollView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:id="@+id/scrollView"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"></include>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="85dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true">
+
+        <include layout="@layout/city_table_view"
+            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_below="@+id/scrollView"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="10dp"></include>
+    </ScrollView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="City table"
+        android:id="@+id/textView7"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="25dp"
+        android:textStyle="bold|italic"
+        android:textColor="#ff3b5020" />
+
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/editText"
+        android:layout_alignTop="@+id/textView8"
+        android:layout_alignEnd="@+id/scrollView"
+        android:hint="search for city" />
+
 </RelativeLayout>

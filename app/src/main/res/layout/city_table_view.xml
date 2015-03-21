@@ -6,22 +6,7 @@
     android:layout_height="250dp"
     android:shrinkColumns="*"
     android:stretchColumns="*">
-    <TableRow
-        android:id="@+id/tableRow4"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal">
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold|italic"
-            android:typeface="serif"
-            android:textSize="30dp"
-            android:text="City table"
-            android:gravity="center"
-            android:layout_span="7"></TextView>
-    </TableRow>
+
     <TableRow
         android:id="@+id/tableRow1"
         android:layout_height="wrap_content"
@@ -44,7 +29,7 @@
             android:layout_column="0"
             android:layout_span="2"
             android:textSize="22dp"
-            ></TextView>
+            android:textColor="#ff3b5020"></TextView>
 
         <TextView
             android:id="@+id/cityNameColumn"
@@ -55,7 +40,7 @@
             android:layout_span="4"
             android:layout_width="match_parent"
             android:textSize="22dp"
-            ></TextView>
+            android:textColor="#ff3b5020"></TextView>
 
         <TextView
             android:id="@+id/cityPttColumn"
@@ -64,7 +49,7 @@
             android:typeface="serif"
             android:layout_column="6"
             android:textSize="22dp"
-            ></TextView>
+            android:textColor="#ff3b5020"></TextView>
     </TableRow>
 
 </TableLayout>
