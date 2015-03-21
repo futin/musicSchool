@@ -3,9 +3,11 @@ package com.example.futin.tabletest.RESTService;
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.SignInReturnData;
 import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
+import com.example.futin.tabletest.RESTService.request.RSInsertStudentWithInstrumentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
 import com.example.futin.tabletest.RESTService.task.RSGetInstrumentsTask;
@@ -13,6 +15,7 @@ import com.example.futin.tabletest.RESTService.task.RSGetStudentsTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertEmployeeTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentTask;
 import com.example.futin.tabletest.RESTService.task.RSGetCitiesTask;
+import com.example.futin.tabletest.RESTService.task.RSInsertStudentWithInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSSignInTask;
 
 /**
@@ -24,6 +27,7 @@ public class RestService {
     SignInReturnData returnDataSignIn=null;
     ReturnStudentData returnReturnStudentData =null;
     ReturnInstrumentData returnInstrumentData=null;
+    ReturnStudentWithInstrumentData returnStudentWithInstrumentData=null;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
@@ -39,6 +43,10 @@ public class RestService {
     }
     //setter for getInstrument method
 
+
+    public void setReturnStudentWithInstrumentData(ReturnStudentWithInstrumentData returnStudentWithInstrumentData) {
+        this.returnStudentWithInstrumentData = returnStudentWithInstrumentData;
+    }
 
     public void setReturnInstrumentData(ReturnInstrumentData returnInstrumentData) {
         this.returnInstrumentData = returnInstrumentData;
@@ -67,6 +75,14 @@ public class RestService {
     public void getInstruments(){
         new RSGetInstrumentsTask(returnInstrumentData).execute((Void) null);
     }
-
+  /*  public void getStudentWithInstrument(){
+        new RSGetStudentWithInstrumentTask(returnData).execute((Void) null);
+    }
+    */
+    public void insertStudentWithInstrument(String studentId, int instrumentId, String employeeName,
+                                            int numberOfInstruments, String date){
+        new RSInsertStudentWithInstrumentTask(new RSInsertStudentWithInstrumentRequest(studentId,
+                instrumentId, employeeName, numberOfInstruments,date),returnStudentWithInstrumentData).execute((Void) null);
+    }
 
 }

@@ -63,7 +63,7 @@
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
-        android:text="@string/txtBtn_cancel"
+        android:text="@string/txtBtn_cancel_inst"
         android:textColor="#D9D9D7"
         android:textSize="12sp"
         android:nestedScrollingEnabled="false"

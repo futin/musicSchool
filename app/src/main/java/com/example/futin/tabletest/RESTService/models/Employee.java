@@ -14,6 +14,9 @@ public class Employee {
     String password;
     String firstName;
     String lastName;
+    String date;
+    Student student;
+
 
     public Employee(String username, String password, String firstName, String lastName) {
         this.username = username;
@@ -25,6 +28,12 @@ public class Employee {
     public Employee(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public Employee(String firstName, Student student, String date) {
+        this.firstName = firstName;
+        this.student = student;
+        this.date=date;
     }
 
     public String getUsername() {
@@ -51,6 +60,10 @@ public class Employee {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
-
-
+    public Student getStudent() {
+        return student;
+    }
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 }

@@ -68,11 +68,12 @@ public class RSGetInstrumentsTask extends AsyncTask<Void, Void, RSGetInstruments
                 for (int i=0; i<array.length();i++){
                     JSONObject objInstrument=array.getJSONObject(i);
 
+                    int instId=objInstrument.getInt("instrumentId");
                     String instName=objInstrument.getString("instrumentName");
                     String instType=objInstrument.getString("instrumentType");
                     int instInStock=objInstrument.getInt("instrumentsInStock");
 
-                    Instrument instrument=new Instrument(instName, instType, instInStock);
+                    Instrument instrument=new Instrument(instId,instName, instType, instInStock);
 
                     listOfInstruments.add(instrument);
                 }

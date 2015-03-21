@@ -8,12 +8,18 @@ public class Student {
     String firstName;
     String lastName;
     City city;
+    Instrument instrument;
 
     public Student(String studentId, String firstName, String lastName, City city) {
         this.studentId = studentId;
         this.firstName = firstName;
         this.lastName = lastName;
         this.city = city;
+    }
+
+    public Student(String studentId, Instrument instrument) {
+        this.studentId = studentId;
+        this.instrument = instrument;
     }
 
     public String getStudentId() {
@@ -46,6 +52,14 @@ public class Student {
 
     public void setCity(City city) {
         this.city = city;
+    }
+
+    public Instrument getInstrument() {
+        return instrument;
+    }
+
+    public void setInstrument(Instrument instrument) {
+        this.instrument = instrument;
     }
 
     @Override

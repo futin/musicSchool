@@ -30,6 +30,7 @@
     <string name="editTextStudentLastName"></string>
     <string name="editTextStudentFirstName"></string>
     <string name="txtBtn_cancel">Cancel</string>
+    <string name="txtBtn_cancel_inst">Cancel</string>
     <string name="txtBtnSave">Save</string>
     <string name="txtSelectInstrument">Select student:</string>
     <string name="txtSelectStudent">Select Instrument:</string>
