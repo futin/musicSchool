@@ -15,7 +15,7 @@
         android:id="@+id/textView8"
         android:layout_below="@+id/textView7"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="28dp" />
+        android:layout_marginTop="20dp" />
 
     <ScrollView
         android:layout_width="150dp"
@@ -32,7 +32,7 @@
             android:layout_width="fill_parent"
             android:layout_below="@+id/scrollView"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="10dp"></include>
+            android:layout_marginTop="1dp"></include>
     </ScrollView>
 
     <TextView
@@ -51,8 +51,10 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/editText"
-        android:layout_alignTop="@+id/textView8"
+        android:hint="search for city"
+        android:layout_alignBottom="@+id/textView8"
         android:layout_alignEnd="@+id/scrollView"
-        android:hint="search for city" />
+        android:layout_toEndOf="@+id/textView8"
+        android:layout_marginBottom="-5dp" />
 
 </RelativeLayout>
