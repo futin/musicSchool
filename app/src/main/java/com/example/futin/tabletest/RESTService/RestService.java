@@ -11,6 +11,7 @@ import com.example.futin.tabletest.RESTService.request.RSInsertStudentWithInstru
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
 import com.example.futin.tabletest.RESTService.task.RSGetInstrumentsTask;
+import com.example.futin.tabletest.RESTService.task.RSGetStudentWithInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSGetStudentsTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertEmployeeTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentTask;
@@ -75,14 +76,14 @@ public class RestService {
     public void getInstruments(){
         new RSGetInstrumentsTask(returnInstrumentData).execute((Void) null);
     }
-  /*  public void getStudentWithInstrument(){
-        new RSGetStudentWithInstrumentTask(returnData).execute((Void) null);
+    public void getStudentWithInstrument(){
+        new RSGetStudentWithInstrumentTask(returnStudentWithInstrumentData).execute((Void) null);
     }
-    */
+
     public void insertStudentWithInstrument(String studentId, int instrumentId, String employeeName,
                                             int numberOfInstruments, String date){
         new RSInsertStudentWithInstrumentTask(new RSInsertStudentWithInstrumentRequest(studentId,
-                instrumentId, employeeName, numberOfInstruments,date),returnStudentWithInstrumentData).execute((Void) null);
+                instrumentId, employeeName, numberOfInstruments,date)).execute((Void) null);
     }
 
 }

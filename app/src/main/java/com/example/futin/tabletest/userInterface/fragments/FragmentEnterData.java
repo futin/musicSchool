@@ -42,7 +42,7 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 
 public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData,
-        ReturnStudentData, ReturnInstrumentData, ReturnStudentWithInstrumentData {
+        ReturnStudentData, ReturnInstrumentData {
 
     private final int DELAYED_TIME = 500;
 
@@ -106,7 +106,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         rs=new RestService(this);
         rs.setReturnReturnStudentData(this);
         rs.setReturnInstrumentData(this);
-        rs.setReturnStudentWithInstrumentData(this);
         rs.getCities();
         rs.getStudents();
         rs.getInstruments();
@@ -381,12 +380,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         responseInstrument = (RSGetInstrumentsResponse) o;
         listOfInstruments= responseInstrument.getListOfInstruments();
 
-    }
-
-    @Override
-    public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
-        responseInsertStudentWithInstrument= (RSInsertStudentWithInstrumentResponse) o;
-        employee=responseInsertStudentWithInstrument.getEmployee();
     }
 
     public int getCityFromSpinner(){
