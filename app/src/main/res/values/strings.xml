@@ -40,12 +40,10 @@
     <string name="txtBtnShowInstruments">Show instruments</string>
     <string name="txtBtnShowStudentsWithInstruments">Show students \n with instruments</string>
     <string name="txtBtnShowCities">Show cities</string>
-    <string name="title_activity_show_students_table_view">ShowStudentsTableView</string>
-    <string name="title_activity_show_instruments_table_view">ShowInstrumentsTableView</string>
-    <string name="title_activity_show_cities_table_view">ShowCitiesTableView</string>
-    <string name="title_activity_show_students_with_insturments_table_view">
-        ShowStudentsWithInsturmentsTableView
-    </string>
+    <string name="title_activity_show_students_table_view"></string>
+    <string name="title_activity_show_instruments_table_view"></string>
+    <string name="title_activity_show_cities_table_view"></string>
+    <string name="title_activity_show_students_with_insturments_table_view"></string>
 
     <!--
         <array name="cityNameArray">

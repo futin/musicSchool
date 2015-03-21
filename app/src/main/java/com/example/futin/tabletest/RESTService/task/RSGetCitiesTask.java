@@ -98,6 +98,7 @@ public class RSGetCitiesTask extends AsyncTask<Void, Void, RSGetCitiesResponse> 
     @Override
     protected void onPostExecute(RSGetCitiesResponse rsGetCitiesResponse) {
         super.onPostExecute(rsGetCitiesResponse);
+        Log.e(TAG, "On post city ok");
         returnData.returnDataOnPostExecute(rsGetCitiesResponse);
     }
 }
