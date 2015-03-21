@@ -10,6 +10,7 @@ import android.transition.TransitionManager;
 import android.os.Handler;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -544,4 +545,5 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         txtDate.setOnClickListener(this);
         txtDate.setInputType(InputType.TYPE_NULL);
     }
+
 }

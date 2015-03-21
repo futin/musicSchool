@@ -4,7 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
+        android:orde
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,14 +14,11 @@
         <activity
             android:name=".userInterface.login.Welcome"
             android:label="Welcome" >
-
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".userInterface.login.LoginAndRegistration"
@@ -37,21 +36,29 @@
             android:name=".userInterface.fragments.FragmentDisplayData"
             android:label="@string/title_activity_fragment_display_data" >
         </activity>
-        <activity
-            android:name="com.example.futin.tabletest.userInterface.mainPage.MainPage"
-             >
+        <activity android:name=".userInterface.mainPage.MainPage" >
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-               <action android:name="android.intent.action.MAIN" />
-
-               <category android:name="android.intent.category.LAUNCHER" />
-
-           </intent-filter>
-       </activity>
-   </application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".userInterface.tables.ShowStudentsTableView"
+            android:label="@string/title_activity_show_students_table_view" >
+        </activity>
+        <activity
+            android:name=".userInterface.tables.ShowInstrumentsTableView"
+            android:label="@string/title_activity_show_instruments_table_view" >
+        </activity>
+        <activity
+            android:name=".userInterface.tables.ShowCitiesTableView"
+            android:label="@string/title_activity_show_cities_table_view" >
+        </activity>
+        <activity
+            android:name=".userInterface.tables.ShowStudentsWithInsturmentsTableView"
+            android:label="@string/title_activity_show_students_with_insturments_table_view" >
+        </activity>
+    </application>
 
 </manifest>
-
-
-
-
