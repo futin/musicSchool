@@ -1,21 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tblLayoutStudent"
+    android:id="@+id/tblLayoutStudentHeader"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
+    android:layout_height="30dp"
     android:shrinkColumns="*"
     android:stretchColumns="*">
-
-    <TableRow
-        android:id="@+id/tableRow1"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-        <TextView
-            android:id="@+id/txtTest1"
-            android:text=""></TextView>
-
-    </TableRow>
 
     <TableRow
         android:layout_width="fill_parent"

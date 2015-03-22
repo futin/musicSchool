@@ -34,7 +34,7 @@ import java.util.ArrayList;
  */
 public class RSSearchForStudentWithInstrumentTask extends AsyncTask<Void, Void, RSSearchForStudentWIthInstrumentsResponse> {
 
-    final String TAG="searchForStudentsWithInstrumentTask";
+    final String TAG="searchForSWI";
     RestTemplate restTemplate;
     SearchStudentWithInstrumentData returnData;
     RSSearchForStudentWithInstrumentRequest request;
@@ -53,7 +53,7 @@ public class RSSearchForStudentWithInstrumentTask extends AsyncTask<Void, Void, 
             header.set("Connection", "Close");
             String jsonText = request.toString();
             HttpEntity<String> entity = new HttpEntity<>(jsonText, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getSearchForStudentUrl();
+            String address = RSDataSingleton.getInstance().getServerUrl().getSearchForStudentWithInstrumentUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Before response ");

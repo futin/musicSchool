@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,7 +26,6 @@ import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.listeners.SearchStudentData;
-import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
@@ -44,13 +42,17 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     RelativeLayout studentTableLayout;
     ArrayList<Student> listOfStudents=new ArrayList<>();
     TableLayout tblLayoutStudent;
+    TableLayout tblLayoutStudentHeader;
 
     TextView studentIdColumn;
     TextView studentFirstAndLastNameColumn;
     TextView studentPttColumn;
-    TextView txtNoResult;
+    TextView txtNoResultStudents;
+
+    TextView test;
     int counter=0;
 
+    TableRow row;
     EditText searchStudent;
     RestService rs;
     @Override
@@ -60,14 +62,17 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
+        row = new TableRow(this);
 
         studentTableLayout= (RelativeLayout) findViewById(R.id.studentTableLayout);
         tblLayoutStudent = (TableLayout) findViewById(R.id.tblLayoutStudent);
+        tblLayoutStudentHeader= (TableLayout) findViewById(R.id.tblLayoutStudentHeader);
         studentIdColumn = (TextView) findViewById(R.id.studentIdColumn);
         studentFirstAndLastNameColumn= (TextView) findViewById(R.id.studentFirstAndLastNameColumn);
         studentPttColumn= (TextView) findViewById(R.id.studentPttColumn);
         searchStudent= (EditText) findViewById(R.id.txtSearchStudent);
-        txtNoResult= (TextView) findViewById(R.id.txtNoResult);
+        txtNoResultStudents= (TextView) findViewById(R.id.txtNoResultStudents);
+
 
         rs=new RestService();
         rs.setReturnReturnStudentData(this);
@@ -139,7 +144,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     public void setTableSearchView(){
         tblLayoutStudent.removeAllViews();
         if(listOfStudents !=null){
-            txtNoResult.setVisibility(View.INVISIBLE);
+            txtNoResultStudents.setVisibility(View.INVISIBLE);
             for (Student student : listOfStudents) {
             counter++;
 
@@ -147,7 +152,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             String name = student.getFirstName() + " " + student.getLastName();
             String ptt = String.valueOf(student.getCity().getCityPtt());
 
-            TableRow row = new TableRow(this);
+            TableRow row1 = new TableRow(this);
 
             TextView studId = new TextView(this);
             TextView studName = new TextView(this);
@@ -201,25 +206,23 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
             }
-            row.addView(studId);
-            row.addView(studName);
-            row.addView(studCityPtt);
+            row1.addView(studId);
+            row1.addView(studName);
+            row1.addView(studCityPtt);
 
-            tblLayoutStudent.addView(row);
-
-
+            tblLayoutStudent.addView(row1);
             }
         }else{
-            txtNoResult.setVisibility(View.VISIBLE);
-            txtNoResult.setText("No result for these parameters");
-            txtNoResult.setGravity(Gravity.CENTER);
+            txtNoResultStudents.setVisibility(View.VISIBLE);
+            txtNoResultStudents.setText("No result for these parameters");
+            txtNoResultStudents.setGravity(Gravity.CENTER);
         }
     }
     @Override
     public void returnStudentDataOnPostExecute(Object o) {
         returnData= (RSGetStudentsResponse) o;
         listOfStudents =returnData.getStudents();
-        setTableSearchView();
+        //setTableSearchView();
     }
 
     @Override

@@ -43,6 +43,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
     TextView instrumentNameColumn;
     TextView numberOfInstrumentsColumn;
     TextView dateColumn;
+    TextView txtNoResultStudWithInst;
     int counter=0;
 
     @Override
@@ -60,7 +61,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
         instrumentNameColumn= (TextView) findViewById(R.id.instrumentNameColumn);
         numberOfInstrumentsColumn= (TextView) findViewById(R.id.numberOfInstrumentsColumn);
         dateColumn= (TextView) findViewById(R.id.dateColumn);
-
+        txtNoResultStudWithInst= (TextView) findViewById(R.id.txtNoResultStudWithInst);
         RestService rs=new RestService();
         rs.setReturnStudentWithInstrumentData(this);
         rs.getStudentWithInstrument();

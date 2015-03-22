@@ -51,7 +51,7 @@ public class RSSearchForCityTask extends AsyncTask<Void, Void, RSSearchForCityRe
             header.set("Connection", "Close");
             String jsonText = request.toString();
             HttpEntity<String> entity = new HttpEntity<>(jsonText, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getSearchForStudentUrl();
+            String address = RSDataSingleton.getInstance().getServerUrl().getSearchForCityUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Before response ");

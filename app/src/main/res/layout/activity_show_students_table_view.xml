@@ -17,22 +17,71 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp" />
 
+    <include layout="@layout/student_table_view"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/txtSearchStudent"
+        android:id="@+id/include"></include>
+
     <ScrollView
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:id="@+id/scrollViewStud"
-        android:layout_alignParentTop="true"
+        android:id="@+id/scrollViewStudents"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="85dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/include">
 
-        <include layout="@layout/student_table_view"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_below="@+id/scrollViewStud"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="1dp"></include>
+        <TableLayout
+            android:id="@+id/tblLayoutStudent"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*"
+            android:layout_marginTop="0dp">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:id="@+id/studentIdColumn"
+                    android:text="Id"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="0"
+                    android:layout_span="4"
+                    android:textSize="22dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"></TextView>
+
+                <TextView
+                    android:id="@+id/studentFirstAndLastNameColumn"
+                    android:text="Name"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="2"
+                    android:layout_span="6"
+                    android:layout_width="match_parent"
+                    android:textSize="22dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"></TextView>
+
+                <TextView
+                    android:id="@+id/studentPttColumn"
+                    android:text="City ptt"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="8"
+                    android:textSize="22dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"></TextView>
+            </TableRow>
+            </TableLayout>
     </ScrollView>
 
     <TextView
@@ -53,25 +102,20 @@
         android:id="@+id/txtSearchStudent"
         android:hint="search for student"
         android:layout_alignBottom="@+id/textView11"
-        android:layout_alignEnd="@+id/scrollViewStud"
+        android:layout_alignEnd="@+id/scrollViewStudents"
         android:layout_toEndOf="@+id/textView11"
         android:layout_marginBottom="-5dp" />
-
-    <HorizontalScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/horizontalScrollView" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large text"
-        android:id="@+id/txtNoResult"
-        android:layout_alignTop="@+id/scrollViewStud"
+        android:id="@+id/txtNoResultStudents"
+        android:layout_alignTop="@+id/scrollViewStudents"
         android:layout_alignParentStart="true"
         android:layout_marginTop="55dp"
-        android:layout_alignEnd="@+id/scrollViewStud"
+        android:layout_alignEnd="@+id/scrollViewStudents"
         android:textColor="#ff6c6c6c"
         android:textSize="30dp"
         android:textStyle="bold|italic"

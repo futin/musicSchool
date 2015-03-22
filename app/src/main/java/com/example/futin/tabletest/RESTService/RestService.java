@@ -73,6 +73,18 @@ public class RestService {
         this.searchStudentData = searchStudentData;
     }
 
+    public void setSearchCityData(SearchCityData searchCityData) {
+        this.searchCityData = searchCityData;
+    }
+
+    public void setSearchInstrumentData(SearchInstrumentData searchInstrumentData) {
+        this.searchInstrumentData = searchInstrumentData;
+    }
+
+    public void setSearchStudentWithInstrumentData(SearchStudentWithInstrumentData searchStudentWithInstrumentData) {
+        this.searchStudentWithInstrumentData = searchStudentWithInstrumentData;
+    }
+
     //GET methods
     public void getEmployees(){
         new RSGetEmployeesTask(returnData).execute((Void) null);

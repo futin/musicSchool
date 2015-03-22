@@ -56,5 +56,19 @@
         android:layout_marginBottom="-5dp"
         android:layout_alignEnd="@+id/scrollViewStudWithInst"
         android:layout_toEndOf="@+id/textView11" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large text"
+        android:id="@+id/txtNoResultStudWithInst"
+        android:layout_alignTop="@+id/scrollViewStudWithInst"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="55dp"
+        android:layout_alignEnd="@+id/scrollViewStudWithInst"
+        android:textColor="#ff6c6c6c"
+        android:textSize="30dp"
+        android:textStyle="bold|italic"
+        android:visibility="invisible" />
 
 </RelativeLayout>
