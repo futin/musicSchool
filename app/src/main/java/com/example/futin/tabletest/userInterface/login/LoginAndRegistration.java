@@ -1,5 +1,6 @@
 package com.example.futin.tabletest.userInterface.login;
 
+import android.content.pm.ActivityInfo;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ public class LoginAndRegistration extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_and_registration);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         tabAdapter=new TabLoginAdapter(getSupportFragmentManager());
         myViewPager= (ViewPager) findViewById(R.id.pager);

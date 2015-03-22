@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
@@ -48,6 +50,8 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_students_with_insturments_table_view);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+
         sharedPreferences = getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         instrumentTableLayout= (RelativeLayout) findViewById(R.id.instrumentTableLayout);
@@ -115,12 +119,14 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
 
             String studName=newFirstName+" "+lastName;
             //studentWithInstruments
-            String firstEmpName=employee.getFirstName();
-            String lastEmpName=employee.getLastName();
-            String newFirstEmpName=firstEmpName.substring(0,1)+".";
+            String name=employee.getFirstName();
+            Log.i("emp name: ",name);
+            String[] splitName=name.split(" ");
+            String firstEmpName=splitName[0].substring(0,1)+".";
+            String lastEmpName=splitName[1];
 
 
-            String empName=newFirstEmpName+" "+lastEmpName;
+            String empName=firstEmpName+" "+lastEmpName;
             String date=employee.getDate();
             String numberOfInst=String.valueOf(employee.getStudent().getNumberOfInstruments());
             //instrument
@@ -226,4 +232,5 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
         setTableView();
 
     }
+
 }

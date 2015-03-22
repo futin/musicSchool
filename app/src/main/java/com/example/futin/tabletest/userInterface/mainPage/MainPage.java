@@ -37,6 +37,8 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_page);
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
 
         tabAdapter=new TabMainPageAdapter(getSupportFragmentManager());
         myViewPager= (ViewPager) findViewById(R.id.MainPagePager);

@@ -34,7 +34,7 @@
     <string name="txtBtnSave">Save</string>
     <string name="txtSelectInstrument">Select student:</string>
     <string name="txtSelectStudent">Select Instrument:</string>
-    <string name="instrument_number">Set number \nof instruments:</string>
+    <string name="instrument_number">Set quantity \nof instruments:</string>
     <string name="dateText">Insert date</string>
     <string name="txtBtnShowStudents">Show students</string>
     <string name="txtBtnShowInstruments">Show instruments</string>
