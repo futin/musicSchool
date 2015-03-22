@@ -91,11 +91,6 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         instrumentTypeColumnHeader.setGravity(Gravity.CENTER);
         instrumentInStockColumnHeader.setGravity(Gravity.CENTER);
 
-        instrumentIdColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-        instrumentNameColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-        instrumentTypeColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-        instrumentInStockColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-
         txtNoResultInstrument= (TextView) findViewById(R.id.txtNoResultInstrument);
         txtSearchInstrument= (EditText) findViewById(R.id.txtSearchInstrument);
 
@@ -250,7 +245,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 tblLayoutInstrument.addView(row);
             }
         }else{
-            txtNoResultInstrument.setVisibility(View.INVISIBLE);
+            txtNoResultInstrument.setVisibility(View.VISIBLE);
             txtNoResultInstrument.setGravity(Gravity.CENTER);
             txtNoResultInstrument.setText("No result for these parameters");
 

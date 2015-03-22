@@ -16,28 +16,33 @@
             android:text="Id"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="1"
+            android:layout_column="0"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_span="2"
+            android:layout_gravity="center_horizontal"></TextView>
 
         <TextView
             android:id="@+id/cityNameColumnHeader"
             android:text="Name"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="4"
+            android:layout_column="2"
             android:layout_width="match_parent"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_span="4"
+            android:layout_gravity="center_horizontal"></TextView>
 
         <TextView
             android:id="@+id/cityPttColumnHeader"
             android:text="Ptt"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="7"
+            android:layout_column="6"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_gravity="center_horizontal"></TextView>
     </TableRow>
 
 </TableLayout>

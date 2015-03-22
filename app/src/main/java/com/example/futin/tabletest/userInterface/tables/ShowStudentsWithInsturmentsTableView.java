@@ -29,6 +29,7 @@ import com.example.futin.tabletest.RESTService.listeners.SearchStudentWithInstru
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
+import com.example.futin.tabletest.RESTService.response.RSSearchForStudentWIthInstrumentsResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
 import java.util.ArrayList;
@@ -38,7 +39,8 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
 
     SharedPreferences sharedPreferences;
     RSGetStudentWithInstrumentResponse returnData;
-    SearchStudentWithInstrumentData returnSearchedData;
+    RSSearchForStudentWIthInstrumentsResponse returnSearchedData;
+
     ArrayList<Employee>listOfEmployees;
 
     RelativeLayout instrumentTableLayout;
@@ -52,7 +54,6 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
     TextView dateColumn;
     TextView txtNoResultStudWithInst;
     EditText txtSearchStudentWithInstrument;
-    int counter=0;
     RestService rs;
 
     @Override
@@ -143,6 +144,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
 
     public void setTableView(){
         tblLayoutStudentWithInstrument.removeAllViews();
+        int counter=0;
         if(listOfEmployees != null) {
             txtNoResultStudWithInst.setVisibility(View.INVISIBLE);
             for (Employee employee : listOfEmployees) {
@@ -276,8 +278,8 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
 
     @Override
     public void searchStudentWithInstrumentReturnData(Object o) {
-        returnSearchedData= (SearchStudentWithInstrumentData) o;
-        listOfEmployees=returnData.getListOfStudentsWithInstrument();
+        returnSearchedData= (RSSearchForStudentWIthInstrumentsResponse) o;
+        listOfEmployees=returnSearchedData.getListOfEmployees();
         setTableView();
     }
 }
