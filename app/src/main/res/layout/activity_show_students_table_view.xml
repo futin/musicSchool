@@ -47,7 +47,7 @@
                 android:layout_height="fill_parent">
 
                 <TextView
-                    android:id="@+id/studentIdColumn"
+                    android:id="@+id/studentIdColumnDefault"
                     android:text="Id"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"></TextView>
 
                 <TextView
-                    android:id="@+id/studentFirstAndLastNameColumn"
+                    android:id="@+id/studentFirstAndLastNameColumnDefault"
                     android:text="Name"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
@@ -71,7 +71,7 @@
                     android:textColor="#ff3b5020"></TextView>
 
                 <TextView
-                    android:id="@+id/studentPttColumn"
+                    android:id="@+id/studentPttColumnDefault"
                     android:text="City ptt"
                     android:textStyle="bold|italic"
                     android:typeface="serif"

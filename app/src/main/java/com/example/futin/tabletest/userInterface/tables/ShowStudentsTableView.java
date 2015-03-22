@@ -166,9 +166,9 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studentFirstAndLastNameColumn.setGravity(Gravity.CENTER);
             studentPttColumn.setGravity(Gravity.CENTER);
 
-            studId.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-            studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-            studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                studentIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                studentFirstAndLastNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                studentPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
             //LayoutParams for studId
             TableRow.LayoutParams paramsStudId = (TableRow.LayoutParams) studentIdColumn.getLayoutParams();
