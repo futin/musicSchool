@@ -4,12 +4,18 @@ import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchCityData;
+import com.example.futin.tabletest.RESTService.listeners.SearchInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.SearchStudentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchStudentWithInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.SignInReturnData;
 import com.example.futin.tabletest.RESTService.request.RSInsertEmployeeRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentRequest;
 import com.example.futin.tabletest.RESTService.request.RSInsertStudentWithInstrumentRequest;
+import com.example.futin.tabletest.RESTService.request.RSSearchForCityRequest;
+import com.example.futin.tabletest.RESTService.request.RSSearchForInstrumentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSearchForStudentRequest;
+import com.example.futin.tabletest.RESTService.request.RSSearchForStudentWithInstrumentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
 import com.example.futin.tabletest.RESTService.task.RSGetEmployeesTask;
 import com.example.futin.tabletest.RESTService.task.RSGetInstrumentsTask;
@@ -19,7 +25,10 @@ import com.example.futin.tabletest.RESTService.task.RSInsertEmployeeTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentTask;
 import com.example.futin.tabletest.RESTService.task.RSGetCitiesTask;
 import com.example.futin.tabletest.RESTService.task.RSInsertStudentWithInstrumentTask;
+import com.example.futin.tabletest.RESTService.task.RSSearchForCityTask;
+import com.example.futin.tabletest.RESTService.task.RSSearchForInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSSearchForStudentTask;
+import com.example.futin.tabletest.RESTService.task.RSSearchForStudentWithInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSSignInTask;
 
 /**
@@ -35,6 +44,9 @@ public class RestService {
 
     //search listeners
     SearchStudentData searchStudentData;
+    SearchCityData searchCityData;
+    SearchInstrumentData searchInstrumentData;
+    SearchStudentWithInstrumentData searchStudentWithInstrumentData;
 
     public RestService(AsyncTaskReturnData returnData) {
         this.returnData = returnData;
@@ -98,5 +110,15 @@ public class RestService {
     //SEARCH methods
     public void searchForStudent(String searchText){
         new RSSearchForStudentTask(new RSSearchForStudentRequest(searchText), searchStudentData).execute((Void) null);
+    }
+    public void searchForInstrument(String searchText){
+        new RSSearchForInstrumentTask(new RSSearchForInstrumentRequest(searchText), searchInstrumentData).execute((Void) null);
+    }
+    public void searchForCity(String searchText){
+        new RSSearchForCityTask(new RSSearchForCityRequest(searchText), searchCityData).execute((Void) null);
+    }
+    public void searchForStudentWithInstrument(String searchText){
+        new RSSearchForStudentWithInstrumentTask(new RSSearchForStudentWithInstrumentRequest(searchText),
+                searchStudentWithInstrumentData).execute((Void) null);
     }
 }

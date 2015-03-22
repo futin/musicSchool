@@ -17,7 +17,6 @@ import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
@@ -227,7 +226,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
     @Override
     public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
         returnData= (RSGetStudentWithInstrumentResponse) o;
-        listOfEmployees=returnData.getListOfEmployees();
+        listOfEmployees=returnData.getListOfStudentsWithInstrument();
         Log.i("listOfEmpl", listOfEmployees.toString());
         setTableView();
 

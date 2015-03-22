@@ -10,18 +10,18 @@ import java.util.ArrayList;
  * Created by Futin on 3/21/2015.
  */
 public class RSGetStudentWithInstrumentResponse extends BaseApiResponse {
-    ArrayList<Employee>listOfEmployees;
+    ArrayList<Employee> listOfStudentsWithInstrument;
 
-    public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName, ArrayList<Employee>listOfEmployees) {
+    public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName, ArrayList<Employee> listOfStudentsWithInstrument) {
         super(status, statusName);
-        this.listOfEmployees = listOfEmployees;
+        this.listOfStudentsWithInstrument = listOfStudentsWithInstrument;
     }
 
     public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName) {
         super(status, statusName);
     }
 
-    public ArrayList<Employee> getListOfEmployees() {
-        return listOfEmployees;
+    public ArrayList<Employee> getListOfStudentsWithInstrument() {
+        return listOfStudentsWithInstrument;
     }
 }

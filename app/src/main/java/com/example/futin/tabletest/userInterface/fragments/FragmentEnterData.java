@@ -6,12 +6,10 @@ import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.InputType;
-import android.transition.TransitionManager;
 import android.os.Handler;
 
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -37,7 +35,6 @@ import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
-import com.example.futin.tabletest.RESTService.response.RSInsertStudentWithInstrumentResponse;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -411,7 +408,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     @Override
     public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
         responseStudentWithInstrument= (RSGetStudentWithInstrumentResponse) o;
-        listOfStudentsWithInst=responseStudentWithInstrument.getListOfEmployees();
+        listOfStudentsWithInst=responseStudentWithInstrument.getListOfStudentsWithInstrument();
         isStudentWithInstrumentInDatabase();
     }
 
