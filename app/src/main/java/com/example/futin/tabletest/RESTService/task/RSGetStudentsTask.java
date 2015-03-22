@@ -77,9 +77,6 @@ public class RSGetStudentsTask extends AsyncTask<Void, Void, RSGetStudentsRespon
                     City city=new City(cityPtt);
                     Student student=new Student(studentId, firstName, lastName, city);
 
-                    Log.i(TAG, "City "+city);
-                    Log.i(TAG, "Student "+student);
-
                     listOfStudents.add(student);
                 }
                 Log.i(TAG, "Students: "+listOfStudents.toString());

@@ -17,6 +17,8 @@ public class RSServerURL {
     private final static String API_GET_INSTRUMENTS_URL="/getInstruments.php";
     private final static String API_INSERT_STUDENT_WITH_INSTRUMENT_URL="/insertStudentWithInstrument.php";
     private final static String API_GET_STUDENT_WITH_INSTRUMENT_URL="/getStudentWithInstrument.php";
+    private final static String API_SEARCH_FOR_STUDENT_URL="/searchForStudent.php";
+
 
 
     public String getBaseUrl(){
@@ -39,4 +41,5 @@ public class RSServerURL {
     public String getInstrumentsUrl(){return getRootUrl()+API_GET_INSTRUMENTS_URL;}
     public String getInsertStudentWithInstrumentUrl(){return getRootUrl()+API_INSERT_STUDENT_WITH_INSTRUMENT_URL;}
     public String getStudentWIthInstrumentUrl(){return getRootUrl() + API_GET_STUDENT_WITH_INSTRUMENT_URL;}
+    public String getSearchForStudentUrl(){return getRootUrl()+API_SEARCH_FOR_STUDENT_URL;}
 }

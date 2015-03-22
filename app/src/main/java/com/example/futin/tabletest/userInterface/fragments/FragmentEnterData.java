@@ -374,12 +374,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     public boolean isStudentWithInstrumentInDatabase(){
         boolean found=false;
         for (Employee emp: listOfStudentsWithInst){
-            Log.i("equals studId: ", emp.getStudent().getStudentId());
-            Log.i("equals studIdSpinner: ", ""+getStudentFromSpinner());
-            Log.i("equals isntId: ", String.valueOf(emp.getStudent().getInstrument().getInstrumentId()));
-            Log.i("equals instIdSpinn: ", String.valueOf(getInstrumentFromSpinner()));
-
-
             if(emp.getStudent().getStudentId().equalsIgnoreCase(getStudentFromSpinner())
                     && emp.getStudent().getInstrument().getInstrumentId()==(getInstrumentFromSpinner())){
                 found=true;

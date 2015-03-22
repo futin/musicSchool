@@ -8,40 +8,51 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchStudentData;
 import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
+import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
 import java.util.ArrayList;
 
-public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData{
+public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchStudentData{
 
     SharedPreferences sharedPreferences;
 
     RSGetStudentsResponse returnData;
+    RSSearchForStudentResponse returnDataSearch;
     RelativeLayout studentTableLayout;
-    ArrayList<Student> listOfStudents;
+    ArrayList<Student> listOfStudents=new ArrayList<>();
     TableLayout tblLayoutStudent;
 
     TextView studentIdColumn;
     TextView studentFirstAndLastNameColumn;
     TextView studentPttColumn;
+    TextView txtNoResult;
     int counter=0;
 
+    EditText searchStudent;
+    RestService rs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,13 +66,35 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         studentIdColumn = (TextView) findViewById(R.id.studentIdColumn);
         studentFirstAndLastNameColumn= (TextView) findViewById(R.id.studentFirstAndLastNameColumn);
         studentPttColumn= (TextView) findViewById(R.id.studentPttColumn);
+        searchStudent= (EditText) findViewById(R.id.txtSearchStudent);
+        txtNoResult= (TextView) findViewById(R.id.txtNoResult);
 
-        RestService rs=new RestService();
+        rs=new RestService();
         rs.setReturnReturnStudentData(this);
+        rs.setSearchStudentData(this);
         rs.getStudents();
 
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        searchStudent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+              rs.searchForStudent(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,20 +136,22 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         return super.onOptionsItemSelected(item);
     }
 
-
-    public void setTableView(){
-        for (Student student : listOfStudents){
+    public void setTableSearchView(){
+        tblLayoutStudent.removeAllViews();
+        if(listOfStudents !=null){
+            txtNoResult.setVisibility(View.INVISIBLE);
+            for (Student student : listOfStudents) {
             counter++;
 
-            String id=String.valueOf(student.getStudentId());
-            String name=student.getFirstName()+" "+student.getLastName();
-            String ptt=String.valueOf(student.getCity().getCityPtt());
+            String id = String.valueOf(student.getStudentId());
+            String name = student.getFirstName() + " " + student.getLastName();
+            String ptt = String.valueOf(student.getCity().getCityPtt());
 
-            TableRow row=new TableRow(this);
+            TableRow row = new TableRow(this);
 
-            TextView studId=new TextView(this);
-            TextView studName=new TextView(this);
-            TextView studCityPtt=new TextView(this);
+            TextView studId = new TextView(this);
+            TextView studName = new TextView(this);
+            TextView studCityPtt = new TextView(this);
 
             studId.setText(id);
             studName.setText(name);
@@ -131,19 +166,19 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
             //LayoutParams for studId
-            TableRow.LayoutParams paramsStudId=(TableRow.LayoutParams) studentIdColumn.getLayoutParams();
+            TableRow.LayoutParams paramsStudId = (TableRow.LayoutParams) studentIdColumn.getLayoutParams();
             //  paramsCityId.span=1;
             //  paramsCityId.column=1;
             studId.setLayoutParams(paramsStudId);
 
             //LayoutParams for studName
-            TableRow.LayoutParams paramsStudName=(TableRow.LayoutParams)studentFirstAndLastNameColumn.getLayoutParams();
+            TableRow.LayoutParams paramsStudName = (TableRow.LayoutParams) studentFirstAndLastNameColumn.getLayoutParams();
             //  paramsCityId.span=3;
             //  paramsCityId.column=1;
             studName.setLayoutParams(paramsStudName);
 
             //LayoutParams for studCityPtt
-            TableRow.LayoutParams paramsStudType=(TableRow.LayoutParams)studentPttColumn.getLayoutParams();
+            TableRow.LayoutParams paramsStudType = (TableRow.LayoutParams) studentPttColumn.getLayoutParams();
             //   paramsCityId.span=3;
             //  paramsCityId.column=1;
             studCityPtt.setLayoutParams(paramsStudType);
@@ -157,11 +192,11 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studCityPtt.setGravity(Gravity.CENTER);
 
 
-            if(counter %2==0){
+            if (counter % 2 == 0) {
                 studId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
-            }else {
+            } else {
                 studId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
@@ -171,14 +206,31 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             row.addView(studCityPtt);
 
             tblLayoutStudent.addView(row);
+
+
+            }
+        }else{
+            txtNoResult.setVisibility(View.VISIBLE);
+            txtNoResult.setText("No result for these parameters");
+            txtNoResult.setGravity(Gravity.CENTER);
         }
     }
-
     @Override
     public void returnStudentDataOnPostExecute(Object o) {
         returnData= (RSGetStudentsResponse) o;
         listOfStudents =returnData.getStudents();
-        setTableView();
-        Log.i("isntrument ", listOfStudents.toString());
+        setTableSearchView();
+    }
+
+    @Override
+    public void searchStudentReturnData(Object o) {
+        returnDataSearch=(RSSearchForStudentResponse)o;
+        listOfStudents=returnDataSearch.getListOfSearchedStudents();
+        setTableSearchView();
+
+    }
+
+    public void makeToast(String text){
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

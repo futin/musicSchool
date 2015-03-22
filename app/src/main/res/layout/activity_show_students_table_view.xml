@@ -50,7 +50,7 @@
     <EditText
         android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:id="@+id/txtSearchStudentWithInstrument"
+        android:id="@+id/txtSearchStudent"
         android:hint="search for student"
         android:layout_alignBottom="@+id/textView11"
         android:layout_alignEnd="@+id/scrollViewStud"
@@ -61,5 +61,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/horizontalScrollView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large text"
+        android:id="@+id/txtNoResult"
+        android:layout_alignTop="@+id/scrollViewStud"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="55dp"
+        android:layout_alignEnd="@+id/scrollViewStud"
+        android:textColor="#ff6c6c6c"
+        android:textSize="30dp"
+        android:textStyle="bold|italic"
+        android:visibility="invisible" />
 
 </RelativeLayout>
