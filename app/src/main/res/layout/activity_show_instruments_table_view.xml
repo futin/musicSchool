@@ -21,19 +21,75 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/scrollViewInstruments"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="85dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/include3">
 
-        <include layout="@layout/instrument_table_view"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_below="@+id/scrollViewInstruments"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="1dp"></include>
+        <TableLayout
+            android:id="@+id/tblLayoutInstrument"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/instrumentIdColumn"
+                    android:text="Id"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="0"
+                    android:layout_span="1"
+                    android:textSize="22dp"
+                    android:textColor="#ff3b5020"></TextView>
+
+                <TextView
+                    android:id="@+id/instrumentNameColumn"
+                    android:text="Name"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="1"
+                    android:layout_width="match_parent"
+                    android:textSize="22dp"
+                    android:textColor="#ff3b5020"
+                    android:layout_span="3"></TextView>
+
+                <TextView
+                    android:id="@+id/instrumentTypeColumn"
+                    android:text="Type"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="4"
+                    android:textSize="22dp"
+                    android:textColor="#ff3b5020"
+                    android:layout_span="2"></TextView>
+                <TextView
+                    android:id="@+id/instrumentInStockColumn"
+                    android:text="In stock"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="5"
+                    android:textSize="22dp"
+                    android:textColor="#ff3b5020"
+                    android:layout_span="2"></TextView>
+            </TableRow>
+
+
+
+        </TableLayout>
     </ScrollView>
+
+    <include layout="@layout/instrument_table_view"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/textView10"
+        android:layout_alignParentStart="true"
+        android:id="@+id/include3"></include>
 
     <TextView
         android:layout_width="wrap_content"

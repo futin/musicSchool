@@ -43,13 +43,13 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
     RelativeLayout cityTableLayout;
     TableLayout tblLayout;
+    TableLayout tblLayoutHeader;
 
     TextView cityIdColumn;
     TextView cityNameColumn;
     TextView cityPttColumn;
     TextView txtNoResultCity;
 
-    TextView test;
     EditText txtSearchCity;
     RestService rs;
     @Override
@@ -61,7 +61,8 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         cityTableLayout= (RelativeLayout) findViewById(R.id.cityTableLayout);
-        tblLayout= (TableLayout) findViewById(R.id.tblLayout);
+        tblLayout= (TableLayout) findViewById(R.id.tblLayoutCity);
+        tblLayoutHeader= (TableLayout) findViewById(R.id.tblLayoutCityHeader);
         cityIdColumn= (TextView) findViewById(R.id.cityIdColumn);
         cityNameColumn= (TextView) findViewById(R.id.cityNameColumn);
         cityPttColumn= (TextView) findViewById(R.id.cityPttColumn);
@@ -138,7 +139,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
     public void setTableView(){
         int idCounter=0;
-        tblLayout.removeViews(0,2);
+        tblLayout.removeAllViews();
         if(listOfCities != null) {
             txtNoResultCity.setVisibility(View.INVISIBLE);
             for (City city : listOfCities) {
@@ -218,7 +219,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     public void returnDataOnPostExecute(Object obj) {
         returnData= (RSGetCitiesResponse) obj;
         listOfCities=returnData.getListOFCities();
-       // setTableView();
+        setTableView();
     }
 
     @Override

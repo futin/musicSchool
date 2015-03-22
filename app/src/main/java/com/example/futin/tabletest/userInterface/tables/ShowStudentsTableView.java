@@ -222,7 +222,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     public void returnStudentDataOnPostExecute(Object o) {
         returnData= (RSGetStudentsResponse) o;
         listOfStudents =returnData.getStudents();
-        //setTableSearchView();
+        setTableSearchView();
     }
 
     @Override

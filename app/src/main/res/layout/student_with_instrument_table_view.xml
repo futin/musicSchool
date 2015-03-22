@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tblLayoutStudentWithInstrument"
+    android:id="@+id/tblLayoutStudentWithInstrumentHeader"
     android:layout_width="match_parent"
     android:layout_height="30dp"
     android:shrinkColumns="*"
@@ -12,7 +12,7 @@
         android:layout_height="fill_parent">
 
         <TextView
-            android:id="@+id/studentNameColumn"
+            android:id="@+id/studentNameColumnHeader"
             android:text="Student"
             android:textStyle="bold|italic"
             android:typeface="serif"
@@ -21,10 +21,11 @@
             android:textSize="16dp"
             android:layout_weight="2"
             android:textColor="#ff3b5020"
-            android:layout_width="match_parent"></TextView>
+            android:layout_width="match_parent"
+            android:layout_gravity="center_horizontal"></TextView>
 
         <TextView
-            android:id="@+id/employeeNameColumn"
+            android:id="@+id/employeeNameColumnHeader"
             android:text="Employee"
             android:textStyle="bold|italic"
             android:typeface="serif"
@@ -33,10 +34,11 @@
             android:textSize="16sp"
             android:layout_weight="2"
             android:textColor="#ff3b5020"
-            android:layout_span="3"></TextView>
+            android:layout_span="3"
+            android:layout_gravity="center_horizontal"></TextView>
 
         <TextView
-            android:id="@+id/instrumentNameColumn"
+            android:id="@+id/instrumentNameColumnHeader"
             android:text="Instrument"
             android:textStyle="bold|italic"
             android:typeface="serif"
@@ -45,9 +47,10 @@
             android:layout_weight="2"
             android:textColor="#ff3b5020"
             android:layout_width="match_parent"
-            android:layout_span="3"></TextView>
+            android:layout_span="3"
+            android:layout_gravity="center_horizontal"></TextView>
         <TextView
-            android:id="@+id/numberOfInstrumentsColumn"
+            android:id="@+id/numberOfInstrumentsColumnHeader"
             android:text="Quantity"
             android:textStyle="bold|italic"
             android:typeface="serif"
@@ -56,9 +59,10 @@
             android:layout_weight="2"
             android:textColor="#ff3b5020"
             android:layout_width="match_parent"
-            android:layout_span="2"></TextView>
+            android:layout_span="2"
+            android:layout_gravity="center_horizontal"></TextView>
         <TextView
-            android:id="@+id/dateColumn"
+            android:id="@+id/dateColumnHeader"
             android:text="Date"
             android:textStyle="bold|italic"
             android:typeface="serif"
@@ -67,7 +71,8 @@
             android:layout_weight="2"
             android:textColor="#ff3b5020"
             android:layout_width="match_parent"
-            android:layout_span="3"></TextView>
+            android:layout_span="3"
+            android:layout_gravity="center_horizontal"></TextView>
     </TableRow>
 
 </TableLayout>

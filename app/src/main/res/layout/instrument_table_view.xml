@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tblLayoutInstrument"
+    android:id="@+id/tblLayoutInstrumentHeader"
     android:layout_width="match_parent"
     android:layout_height="30dp"
     android:shrinkColumns="*"
@@ -12,43 +12,44 @@
         android:layout_height="30dp">
 
         <TextView
-            android:id="@+id/instrumentIdColumn"
+            android:id="@+id/instrumentIdColumnHeader"
             android:text="Id"
             android:textStyle="bold|italic"
             android:typeface="serif"
             android:layout_column="0"
-            android:layout_span="2"
+            android:layout_span="0"
             android:textSize="22dp"
             android:textColor="#ff3b5020"></TextView>
 
         <TextView
-            android:id="@+id/instrumentNameColumn"
+            android:id="@+id/instrumentNameColumnHeader"
             android:text="Name"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="2"
-            android:layout_span="4"
+            android:layout_column="1"
             android:layout_width="match_parent"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_span="3"></TextView>
 
         <TextView
-            android:id="@+id/instrumentTypeColumn"
+            android:id="@+id/instrumentTypeColumnHeader"
             android:text="Type"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="6"
+            android:layout_column="4"
             android:textSize="22dp"
-            android:layout_span="4"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_span="3"></TextView>
         <TextView
-            android:id="@+id/instrumentInStockColumn"
+            android:id="@+id/instrumentInStockColumnHeader"
             android:text="In stock"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="8"
+            android:layout_column="7"
             android:textSize="22dp"
-            android:textColor="#ff3b5020"></TextView>
+            android:textColor="#ff3b5020"
+            android:layout_span="2"></TextView>
     </TableRow>
 
 </TableLayout>

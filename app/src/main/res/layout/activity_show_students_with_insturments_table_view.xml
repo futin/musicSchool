@@ -21,18 +21,81 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:id="@+id/scrollViewStudWithInst"
-        android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="85dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true">
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/include4">
 
-        <include layout="@layout/student_with_instrument_table_view"
-            android:layout_height="wrap_content"
-            android:layout_width="fill_parent"
-            android:layout_below="@+id/scrollViewStudWithInst"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="1dp"></include>
+        <TableLayout
+            android:id="@+id/tblLayoutStudentWithInstrument"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:shrinkColumns="*"
+            android:stretchColumns="*">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+                <TextView
+                    android:id="@+id/studentNameColumn"
+                    android:text="Student"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="0"
+                    android:layout_span="3"
+                    android:textSize="16dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"></TextView>
+
+                <TextView
+                    android:id="@+id/employeeNameColumn"
+                    android:text="Employee"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="3"
+                    android:layout_width="match_parent"
+                    android:textSize="16sp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_span="3"></TextView>
+
+                <TextView
+                    android:id="@+id/instrumentNameColumn"
+                    android:text="Instrument"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="6"
+                    android:textSize="16dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"
+                    android:layout_span="3"></TextView>
+                <TextView
+                    android:id="@+id/numberOfInstrumentsColumn"
+                    android:text="Quantity"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="8"
+                    android:textSize="16dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"
+                    android:layout_span="2"></TextView>
+                <TextView
+                    android:id="@+id/dateColumn"
+                    android:text="Date"
+                    android:textStyle="bold|italic"
+                    android:typeface="serif"
+                    android:layout_column="8"
+                    android:textSize="16dp"
+                    android:layout_weight="2"
+                    android:textColor="#ff3b5020"
+                    android:layout_width="match_parent"
+                    android:layout_span="3"></TextView>
+            </TableRow>
+            </TableLayout>
     </ScrollView>
 
     <TextView
@@ -46,6 +109,14 @@
         android:textSize="25dp"
         android:textStyle="bold|italic"
         android:textColor="#ff3b5020" />
+
+    <include layout="@layout/student_with_instrument_table_view"
+        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_below="@+id/txtSearchStudentWithInstrument"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:id="@+id/include4"></include>
 
     <EditText
         android:layout_width="250dp"

@@ -46,12 +46,20 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     RestService rs;
 
     TableLayout tblLayoutInstrument;
+    TableLayout tblLayoutInstrumentHeader;
+    //normal
+    TextView instrumentIdColumnHeader;
+    TextView instrumentNameColumnHeader;
+    TextView instrumentTypeColumnHeader;
+    TextView instrumentInStockColumnHeader;
+
+    //header
     TextView instrumentIdColumn;
     TextView instrumentNameColumn;
     TextView instrumentTypeColumn;
     TextView instrumentInStockColumn;
-    TextView txtNoResultInstrument;
 
+    TextView txtNoResultInstrument;
     EditText txtSearchInstrument;
 
     @Override
@@ -63,11 +71,31 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         instrumentTableLayout= (RelativeLayout) findViewById(R.id.instrumentTableLayout);
+
         tblLayoutInstrument= (TableLayout) findViewById(R.id.tblLayoutInstrument);
+        //normal
         instrumentIdColumn= (TextView) findViewById(R.id.instrumentIdColumn);
         instrumentNameColumn= (TextView) findViewById(R.id.instrumentNameColumn);
         instrumentTypeColumn= (TextView) findViewById(R.id.instrumentTypeColumn);
         instrumentInStockColumn= (TextView) findViewById(R.id.instrumentInStockColumn);
+        //header
+        tblLayoutInstrumentHeader= (TableLayout) findViewById(R.id.tblLayoutInstrumentHeader);
+        instrumentIdColumnHeader= (TextView) findViewById(R.id.instrumentIdColumnHeader);
+        instrumentNameColumnHeader= (TextView) findViewById(R.id.instrumentNameColumnHeader);
+        instrumentTypeColumnHeader= (TextView) findViewById(R.id.instrumentTypeColumnHeader);
+        instrumentInStockColumnHeader= (TextView) findViewById(R.id.instrumentInStockColumnHeader);
+
+        //instantiate header
+        instrumentIdColumnHeader.setGravity(Gravity.CENTER);
+        instrumentNameColumnHeader.setGravity(Gravity.CENTER);
+        instrumentTypeColumnHeader.setGravity(Gravity.CENTER);
+        instrumentInStockColumnHeader.setGravity(Gravity.CENTER);
+
+        instrumentIdColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+        instrumentNameColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+        instrumentTypeColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+        instrumentInStockColumnHeader.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+
         txtNoResultInstrument= (TextView) findViewById(R.id.txtNoResultInstrument);
         txtSearchInstrument= (EditText) findViewById(R.id.txtSearchInstrument);
 
@@ -140,6 +168,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
 
     public void setTableView(){
         int counter=0;
+        tblLayoutInstrument.removeAllViews();
         if(listOfInstruments != null) {
             for (Instrument inst : listOfInstruments) {
                 txtNoResultInstrument.setVisibility(View.INVISIBLE);
@@ -167,11 +196,6 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instrumentTypeColumn.setGravity(Gravity.CENTER);
                 instrumentInStockColumn.setGravity(Gravity.CENTER);
 
-                instrumentIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                instrumentNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                instrumentTypeColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                instrumentInStockColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-
                 //LayoutParams for instId
                 TableRow.LayoutParams paramsInstId = (TableRow.LayoutParams) instrumentIdColumn.getLayoutParams();
                 //  paramsCityId.span=1;
@@ -190,9 +214,9 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 //  paramsCityId.column=1;
                 instType.setLayoutParams(paramsInstType);
 
-                //LayoutParams for isntInStock
+                //LayoutParams for instInStock
                 TableRow.LayoutParams paramsInstInStock = (TableRow.LayoutParams) instrumentInStockColumn.getLayoutParams();
-                //   paramsCityId.span=3;
+                // paramsInstInStock.span=3;
                 //  paramsCityId.column=1;
                 instInStock.setLayoutParams(paramsInstInStock);
 
