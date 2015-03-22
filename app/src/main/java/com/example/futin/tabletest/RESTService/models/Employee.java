@@ -66,4 +66,17 @@ public class Employee {
     public void setStudent(Student student) {
         this.student = student;
     }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee name: "+firstName+" "+lastName+", Student: "+student+" and date: "+date;
+    }
 }

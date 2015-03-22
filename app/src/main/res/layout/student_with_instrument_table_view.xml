@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tblLayoutStudentWithInstrument"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:shrinkColumns="*"
+    android:stretchColumns="*">
+
+    <TableRow
+        android:id="@+id/tableRow1"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent">
+        <TextView
+            android:id="@+id/txtTest1"
+            android:text=""></TextView>
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <TextView
+            android:id="@+id/studentNameColumn"
+            android:text="Student"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:layout_column="0"
+            android:layout_span="3"
+            android:textSize="16dp"
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"></TextView>
+
+        <TextView
+            android:id="@+id/employeeNameColumn"
+            android:text="Employee"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:layout_column="3"
+            android:layout_width="match_parent"
+            android:textSize="16sp"
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_span="3"></TextView>
+
+        <TextView
+            android:id="@+id/instrumentNameColumn"
+            android:text="Instrument"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:layout_column="6"
+            android:textSize="16dp"
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"
+            android:layout_span="3"></TextView>
+        <TextView
+            android:id="@+id/numberOfInstrumentsColumn"
+            android:text="Quantity"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:layout_column="8"
+            android:textSize="16dp"
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"
+            android:layout_span="2"></TextView>
+        <TextView
+            android:id="@+id/dateColumn"
+            android:text="Date"
+            android:textStyle="bold|italic"
+            android:typeface="serif"
+            android:layout_column="8"
+            android:textSize="16dp"
+            android:layout_weight="2"
+            android:textColor="#ff3b5020"
+            android:layout_width="match_parent"
+            android:layout_span="3"></TextView>
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+    </TableRow>
+
+</TableLayout>

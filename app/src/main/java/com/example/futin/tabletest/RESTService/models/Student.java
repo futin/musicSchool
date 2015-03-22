@@ -9,6 +9,7 @@ public class Student {
     String lastName;
     City city;
     Instrument instrument;
+    int numberOfInstruments;
 
     public Student(String studentId, String firstName, String lastName, City city) {
         this.studentId = studentId;
@@ -17,9 +18,12 @@ public class Student {
         this.city = city;
     }
 
-    public Student(String studentId, Instrument instrument) {
+    public Student(String studentId, Instrument instrument, String firstName, String lastName,int numberOfInstruments) {
         this.studentId = studentId;
         this.instrument = instrument;
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.numberOfInstruments=numberOfInstruments;
     }
 
     public String getStudentId() {
@@ -60,6 +64,14 @@ public class Student {
 
     public void setInstrument(Instrument instrument) {
         this.instrument = instrument;
+    }
+
+    public int getNumberOfInstruments() {
+        return numberOfInstruments;
+    }
+
+    public void setNumberOfInstruments(int numberOfInstruments) {
+        this.numberOfInstruments = numberOfInstruments;
     }
 
     @Override

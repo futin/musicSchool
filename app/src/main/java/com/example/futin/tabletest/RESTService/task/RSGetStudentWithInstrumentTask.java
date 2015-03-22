@@ -24,13 +24,15 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+
 /**
  * Created by Futin on 3/21/2015.
  */
 public class RSGetStudentWithInstrumentTask extends AsyncTask<Void, Void, RSGetStudentWithInstrumentResponse>
 {
 
-    final String TAG="insertStudentWithInst";
+    final String TAG="getStudentWithInst";
     RestTemplate restTemplate;
     ReturnStudentWithInstrumentData returnData;
 
@@ -47,11 +49,11 @@ public class RSGetStudentWithInstrumentTask extends AsyncTask<Void, Void, RSGetS
             header.set("Connection", "Close");
             String jsonText = "";
             HttpEntity<String> entity = new HttpEntity<>(jsonText, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getInsertStudentWithInstrumentUrl();
+            String address = RSDataSingleton.getInstance().getServerUrl().getStudentWIthInstrumentUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Before response ");
-            ResponseEntity response = restTemplate.exchange(address, HttpMethod.POST, entity, String.class);
+            ResponseEntity response = restTemplate.exchange(address, HttpMethod.GET, entity, String.class);
             Log.i(TAG, "After response ");
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
                 return new RSGetStudentWithInstrumentResponse(HttpStatus.NOT_FOUND,
@@ -69,25 +71,35 @@ public class RSGetStudentWithInstrumentTask extends AsyncTask<Void, Void, RSGetS
                 Log.i(TAG, "Json body "+jsonBody);
 
                 JSONArray array=new JSONArray(jsonBody);
-                Employee employee=null;
+
+                ArrayList<Employee>listOfEmployees=new ArrayList<>();
                 for (int i=0; i<array.length();i++){
                     JSONObject objEmployee=array.getJSONObject(i);
 
+                    //student
                     String studentId=objEmployee.getString("studentId");
+                    String studFirstName=objEmployee.getString("firstName");
+                    String studentLastName=objEmployee.getString("lastName");
+                    //instrument
                     int instrumentId=objEmployee.getInt("instrumentId");
+                    String instName=objEmployee.getString("instrumentName");
+                    //
+                    //studentWithInstrument
                     String employeeName=objEmployee.getString("employeeName");
-                    int numberOfInstrument=objEmployee.getInt("numberOfInstrument");
                     String date=objEmployee.getString("date");
+                    int numberOfInstrument=objEmployee.getInt("numberOfInstruments");
 
-                    employee=new Employee(employeeName, new Student(studentId, new Instrument(instrumentId,
-                            numberOfInstrument)),date);
+                    Employee employee=new Employee(employeeName, new Student(studentId, new Instrument(instrumentId,
+                             instName),studFirstName, studentLastName, numberOfInstrument),date);
 
+                    listOfEmployees.add(employee);
                 }
-                Log.i(TAG, "Employee: "+employee.getStudent().getInstrument().getInstrumentName());
+                Log.i(TAG, "Employee: "+listOfEmployees.toString());
 
                 return new RSGetStudentWithInstrumentResponse(HttpStatus.OK,
-                        HttpStatus.OK.name());
+                        HttpStatus.OK.name(),listOfEmployees);
             }
+
 
 
         } catch (HttpClientErrorException e) {
@@ -109,6 +121,7 @@ public class RSGetStudentWithInstrumentTask extends AsyncTask<Void, Void, RSGetS
     @Override
     protected void onPostExecute(RSGetStudentWithInstrumentResponse rsGetStudentWithInstrumentResponse) {
         super.onPostExecute(rsGetStudentWithInstrumentResponse);
+        Log.i(TAG, "onPostExecute ok");
         returnData.returnStudentWithInstrumentDataOnPostExecute(rsGetStudentWithInstrumentResponse);
     }
 }

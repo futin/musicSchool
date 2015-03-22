@@ -7,22 +7,60 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.RelativeLayout;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 
 import com.example.futin.tabletest.R;
+import com.example.futin.tabletest.RESTService.RestService;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
+import com.example.futin.tabletest.RESTService.models.Employee;
+import com.example.futin.tabletest.RESTService.models.Instrument;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
-public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity {
+import java.util.ArrayList;
+
+public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
+        implements ReturnStudentWithInstrumentData{
 
     SharedPreferences sharedPreferences;
+    RSGetStudentWithInstrumentResponse returnData;
+    ArrayList<Employee>listOfEmployees;
+
+    RelativeLayout instrumentTableLayout;
+    ArrayList<Instrument> listOfInstruments;
+    TableLayout tblLayoutStudentWithInstrument;
+    TextView studentNameColumn;
+    TextView employeeNameColumn;
+    TextView instrumentNameColumn;
+    TextView numberOfInstrumentsColumn;
+    TextView dateColumn;
+    int counter=0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_students_with_insturments_table_view);
         sharedPreferences = getSharedPreferences("employee", Context.MODE_PRIVATE);
+
+        instrumentTableLayout= (RelativeLayout) findViewById(R.id.instrumentTableLayout);
+        tblLayoutStudentWithInstrument = (TableLayout) findViewById(R.id.tblLayoutStudentWithInstrument);
+        studentNameColumn = (TextView) findViewById(R.id.studentNameColumn);
+        employeeNameColumn= (TextView) findViewById(R.id.employeeNameColumn);
+        instrumentNameColumn= (TextView) findViewById(R.id.instrumentNameColumn);
+        numberOfInstrumentsColumn= (TextView) findViewById(R.id.numberOfInstrumentsColumn);
+        dateColumn= (TextView) findViewById(R.id.dateColumn);
+
+        RestService rs=new RestService();
+        rs.setReturnStudentWithInstrumentData(this);
+        rs.getStudentWithInstrument();
     }
 
 
@@ -64,5 +102,128 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity {
                         .show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void setTableView(){
+        for (Employee employee : listOfEmployees ){
+            counter++;
+
+            //student
+            String firstName=employee.getStudent().getFirstName();
+            String lastName=employee.getStudent().getLastName();
+            String newFirstName=firstName.substring(0,1)+".";
+
+            String studName=newFirstName+" "+lastName;
+            //studentWithInstruments
+            String firstEmpName=employee.getFirstName();
+            String lastEmpName=employee.getLastName();
+            String newFirstEmpName=firstEmpName.substring(0,1)+".";
+
+
+            String empName=newFirstEmpName+" "+lastEmpName;
+            String date=employee.getDate();
+            String numberOfInst=String.valueOf(employee.getStudent().getNumberOfInstruments());
+            //instrument
+            String instName=employee.getStudent().getInstrument().getInstrumentName();
+
+            TableRow row=new TableRow(this);
+
+            TextView studentName=new TextView(this);
+            TextView employeeName=new TextView(this);
+            TextView instrumentName=new TextView(this);
+            TextView numberOfInstruments=new TextView(this);
+            TextView dateView=new TextView(this);
+
+
+            studentName.setText(studName);
+            employeeName.setText(empName);
+            instrumentName.setText(instName);
+            numberOfInstruments.setText(numberOfInst);
+            dateView.setText(date);
+
+            studentNameColumn.setGravity(Gravity.CENTER);
+            instrumentNameColumn.setGravity(Gravity.CENTER);
+            employeeNameColumn.setGravity(Gravity.CENTER);
+            numberOfInstrumentsColumn.setGravity(Gravity.CENTER);
+            dateColumn.setGravity(Gravity.CENTER);
+
+            studentNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            instrumentNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            employeeNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            numberOfInstrumentsColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            dateColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+
+            //LayoutParams for studName
+            TableRow.LayoutParams paramsStudName=(TableRow.LayoutParams)studentNameColumn.getLayoutParams();
+          //  paramsStudName.span=3;
+            //  paramsCityId.column=1;
+            studentName.setLayoutParams(paramsStudName);
+
+            //LayoutParams for empName
+            TableRow.LayoutParams paramsEmpName=(TableRow.LayoutParams)employeeNameColumn.getLayoutParams();
+            //  paramsCityId.span=3;
+            //  paramsCityId.column=1;
+            employeeName.setLayoutParams(paramsEmpName);
+
+            //LayoutParams for instName
+            TableRow.LayoutParams paramsInstName=(TableRow.LayoutParams)instrumentNameColumn.getLayoutParams();
+            //   paramsCityId.span=3;
+            //  paramsCityId.column=1;
+            instrumentName.setLayoutParams(paramsInstName);
+
+            //LayoutParams for numbOfInst
+            TableRow.LayoutParams paramsNumbOfInst=(TableRow.LayoutParams)numberOfInstrumentsColumn.getLayoutParams();
+            //   paramsCityId.span=3;
+            //  paramsCityId.column=1;
+            numberOfInstruments.setLayoutParams(paramsNumbOfInst);
+            //LayoutParams for date
+                    TableRow.LayoutParams paramsDate=(TableRow.LayoutParams)dateColumn.getLayoutParams();
+            //   paramsCityId.span=3;
+            //  paramsCityId.column=1;
+            dateView.setLayoutParams(paramsDate);
+
+            studentName.setTextSize(16);
+            employeeName.setTextSize(16);
+            instrumentName.setTextSize(16);
+            numberOfInstruments.setTextSize(16);
+            dateView.setTextSize(16);
+
+            studentName.setGravity(Gravity.CENTER);
+            employeeName.setGravity(Gravity.CENTER);
+            instrumentName.setGravity(Gravity.CENTER);
+            numberOfInstruments.setGravity(Gravity.CENTER);
+            dateView.setGravity(Gravity.CENTER);
+
+            if(counter %2==0){
+                studentName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                employeeName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                instrumentName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                numberOfInstruments.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                dateView.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+
+            }else {
+                studentName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                employeeName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                instrumentName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                numberOfInstruments.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                dateView.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+            }
+            row.addView(studentName);
+            row.addView(employeeName);
+            row.addView(instrumentName);
+            row.addView(numberOfInstruments);
+            row.addView(dateView);
+
+            tblLayoutStudentWithInstrument.addView(row);
+        }
+    }
+
+    @Override
+    public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
+        returnData= (RSGetStudentWithInstrumentResponse) o;
+        listOfEmployees=returnData.getListOfEmployees();
+        Log.i("listOfEmpl", listOfEmployees.toString());
+        setTableView();
+
     }
 }

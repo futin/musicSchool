@@ -470,8 +470,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
             int numberOfInstruments= Integer.parseInt(txtNumberOfInstruments.getText().toString());
           SharedPreferences sharedPreferences= getActivity().getSharedPreferences("employee",
                   Context.MODE_PRIVATE);
-            String employeeName=sharedPreferences.getString("firstName","");
+            String employeeFirstName=sharedPreferences.getString("firstName","");
+            String employeeLastName=sharedPreferences.getString("lastName","");
 
+            String employeeName=employeeFirstName+" "+employeeLastName;
             //Splitting date from txtDate
             StringTokenizer tokens = new StringTokenizer(txtDate.getText().toString(), "-");
             String month = tokens.nextToken();

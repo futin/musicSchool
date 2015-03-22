@@ -17,9 +17,9 @@ public class Instrument {
         this.instrumentsInStock = instrumentsInStock;
     }
 
-    public Instrument(int instrumentId, int instrumentsInStock) {
+    public Instrument(int instrumentId, String instrumentName) {
         this.instrumentId = instrumentId;
-        this.instrumentsInStock = instrumentsInStock;
+        this.instrumentName=instrumentName;
     }
 
     public String getInstrumentName() {

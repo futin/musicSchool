@@ -4,22 +4,24 @@ import com.example.futin.tabletest.RESTService.models.Employee;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+
 /**
  * Created by Futin on 3/21/2015.
  */
 public class RSGetStudentWithInstrumentResponse extends BaseApiResponse {
-    Employee employee;
+    ArrayList<Employee>listOfEmployees;
 
-    public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName, Employee employee) {
+    public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName, ArrayList<Employee>listOfEmployees) {
         super(status, statusName);
-        this.employee = employee;
+        this.listOfEmployees = listOfEmployees;
     }
 
     public RSGetStudentWithInstrumentResponse(HttpStatus status, String statusName) {
         super(status, statusName);
     }
 
-    public Employee getEmployee() {
-        return employee;
+    public ArrayList<Employee> getListOfEmployees() {
+        return listOfEmployees;
     }
 }

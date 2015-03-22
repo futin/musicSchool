@@ -130,10 +130,10 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             instrumentTypeColumn.setGravity(Gravity.CENTER);
             instrumentInStockColumn.setGravity(Gravity.CENTER);
 
-            instId.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-            instName.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-            instType.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-            instInStock.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            instrumentIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            instrumentNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            instrumentTypeColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            instrumentInStockColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
             //LayoutParams for instId
             TableRow.LayoutParams paramsInstId=(TableRow.LayoutParams)instrumentIdColumn.getLayoutParams();

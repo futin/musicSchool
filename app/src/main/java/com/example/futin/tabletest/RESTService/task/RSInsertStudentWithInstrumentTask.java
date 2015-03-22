@@ -69,27 +69,7 @@ public class RSInsertStudentWithInstrumentTask extends AsyncTask<Void, Void, RSI
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
                 Log.i(TAG, "Response ok ");
-                /*
-                String jsonBody=response.getBody().toString();
-                Log.i(TAG, "Json body "+jsonBody);
 
-                JSONArray array=new JSONArray(jsonBody);
-                Employee employee=null;
-                for (int i=0; i<array.length();i++){
-                    JSONObject objEmployee=array.getJSONObject(i);
-
-                    String studentId=objEmployee.getString("studentId");
-                    int instrumentId=objEmployee.getInt("instrumentId");
-                    String employeeName=objEmployee.getString("employeeName");
-                    int numberOfInstrument=objEmployee.getInt("numberOfInstrument");
-                    String date=objEmployee.getString("date");
-
-                    employee=new Employee(employeeName, new Student(studentId, new Instrument(instrumentId,
-                            numberOfInstrument)),date);
-
-                }
-                Log.i(TAG, "Employee: "+employee.getStudent().getInstrument().getInstrumentName());
-*/
                 return new RSInsertStudentWithInstrumentResponse(HttpStatus.OK,
                         HttpStatus.OK.name());
             }
