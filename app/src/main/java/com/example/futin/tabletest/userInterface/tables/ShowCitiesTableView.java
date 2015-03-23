@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -16,11 +18,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
@@ -34,7 +38,8 @@ import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
 import java.util.ArrayList;
 
-public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData{
+public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData
+        {
 
     SharedPreferences sharedPreferences;
     RSGetCitiesResponse returnData;
@@ -49,6 +54,10 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     TextView cityNameColumn;
     TextView cityPttColumn;
     TextView txtNoResultCity;
+
+    //innerClass onClickRow
+    int idCounter;
+    boolean isRowPicked=false;
 
     EditText txtSearchCity;
     RestService rs;
@@ -138,21 +147,27 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     }
 
     public void setTableView(){
-        int idCounter=0;
+         idCounter=0;
         tblLayout.removeAllViews();
         if(listOfCities != null) {
             txtNoResultCity.setVisibility(View.INVISIBLE);
             for (City city : listOfCities) {
                 idCounter++;
-                String id = String.valueOf(idCounter);
+                final String id = String.valueOf(idCounter);
                 String name = city.getCityName();
                 String ptt = String.valueOf(city.getCityPtt());
 
-                TableRow row = new TableRow(this);
+               final TableRow row = new TableRow(this);
 
-                TextView cityId = new TextView(this);
-                TextView cityName = new TextView(this);
-                TextView cityPtt = new TextView(this);
+                final Drawable test=getResources().getDrawable(R.drawable.cell_shape);
+                //clickable row
+
+
+              final  TextView cityId = new TextView(this);
+                final TextView cityName = new TextView(this);
+                final  TextView cityPtt = new TextView(this);
+                final CheckBox checkBox=new CheckBox(this);
+                
 
                 cityId.setText(id);
                 cityName.setText(name);
@@ -204,7 +219,40 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 row.addView(cityId);
                 row.addView(cityName);
                 row.addView(cityPtt);
+                //make textView only for counting and taking data.
+                final TextView counter= (TextView) row.getChildAt(0);
 
+
+                row.setClickable(true);
+                row.setOnClickListener(new View.OnClickListener() {
+                    TextView oldCityId=cityId;
+                    TextView oldCityName=cityName;
+                    TextView oldCityPtt=cityPtt;
+
+                    @Override
+                    public void onClick(View v) {
+                        TableRow row = (TableRow)v;
+                        TextView counter = (TextView)row.getChildAt(0);
+                        isRowPicked=!isRowPicked;
+                        if(!isRowPicked) {
+                            cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
+                        }else{
+                            if (Integer.parseInt(id) % 2 == 0 ) {
+                                oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                            } else {
+                                oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                            }
+                        }
+                        Toast.makeText(getApplicationContext(),isRowPicked+"", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
                 tblLayout.addView(row);
 
             }
@@ -228,4 +276,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         listOfCities=returnSearchedData.getListOfSearchedCities();
         setTableView();
     }
+
+
 }
