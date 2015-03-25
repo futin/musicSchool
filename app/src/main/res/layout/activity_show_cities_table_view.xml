@@ -23,7 +23,8 @@
         android:layout_below="@+id/textView11"
         android:layout_alignParentStart="true"
         android:layout_marginTop="10dp"
-        android:id="@+id/include2"></include>
+        android:id="@+id/include2"
+        android:layout_alignEnd="@+id/scrollViewStudents"></include>
 
     <ScrollView
         android:layout_width="150dp"
@@ -31,8 +32,10 @@
         android:id="@+id/scrollViewStudents"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/include2">
+        android:layout_below="@+id/include2"
+        android:layout_toStartOf="@+id/button"
+        android:layout_marginRight="0dp"
+        android:layout_alignEnd="@+id/button">
 
         <TableLayout
             android:id="@+id/tblLayoutCity"
@@ -51,31 +54,39 @@
                     android:textStyle="bold|italic"
                     android:typeface="serif"
                     android:layout_column="0"
-                    android:layout_span="2"
                     android:textSize="22dp"
-                    android:textColor="#ff3b5020"></TextView>
+                    android:textColor="#ff3b5020"
+                    android:gravity="center"></TextView>
 
                 <TextView
                     android:id="@+id/cityNameColumn"
                     android:text="Name"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
-                    android:layout_column="2"
-                    android:layout_span="4"
+                    android:layout_column="1"
                     android:layout_width="match_parent"
                     android:textSize="22dp"
-                    android:textColor="#ff3b5020"></TextView>
+                    android:textColor="#ff3b5020"
+                    android:gravity="center"></TextView>
 
                 <TextView
                     android:id="@+id/cityPttColumn"
                     android:text="Ptt"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
-                    android:layout_column="6"
+                    android:layout_column="2"
                     android:textSize="22dp"
-                    android:textColor="#ff3b5020"></TextView>
+                    android:textColor="#ff3b5020"
+                    android:gravity="center"></TextView>
+
             </TableRow>
-            </TableLayout>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent">
+
+            </TableRow>
+        </TableLayout>
     </ScrollView>
 
     <TextView
@@ -91,14 +102,14 @@
         android:textColor="#ff3b5020" />
 
     <EditText
-        android:layout_width="250dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtSearchCity"
         android:hint="search for city"
         android:layout_alignBottom="@+id/textView11"
-        android:layout_alignEnd="@+id/scrollViewStudents"
+        android:layout_marginBottom="-5dp"
         android:layout_toEndOf="@+id/textView11"
-        android:layout_marginBottom="-5dp" />
+        android:minWidth="300dp" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,5 +124,14 @@
         android:textSize="30dp"
         android:textStyle="bold|italic"
         android:visibility="invisible" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete row"
+        android:id="@+id/button"
+        android:onClick="deleteRow"
+        android:layout_alignBottom="@+id/txtSearchCity"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -45,7 +45,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     RSGetCitiesResponse returnData;
     RSSearchForCityResponse returnSearchedData;
     ArrayList<City> listOfCities;
-
+    ArrayList<City>listOfTableCities;
     RelativeLayout cityTableLayout;
     TableLayout tblLayout;
     TableLayout tblLayoutHeader;
@@ -54,10 +54,10 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     TextView cityNameColumn;
     TextView cityPttColumn;
     TextView txtNoResultCity;
-
+    TextView checkboxCity;
     //innerClass onClickRow
     int idCounter;
-    boolean isRowPicked=false;
+    boolean isChecked=false;
 
     EditText txtSearchCity;
     RestService rs;
@@ -77,7 +77,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         cityPttColumn= (TextView) findViewById(R.id.cityPttColumn);
         txtNoResultCity= (TextView) findViewById(R.id.txtNoResultCity);
         txtSearchCity= (EditText) findViewById(R.id.txtSearchCity);
-
+        checkboxCity= (TextView) findViewById(R.id.checkBoxCity);
 
         rs=new RestService(this);
         rs.setSearchCityData(this);
@@ -157,17 +157,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 String name = city.getCityName();
                 String ptt = String.valueOf(city.getCityPtt());
 
-               final TableRow row = new TableRow(this);
+                final TableRow row = new TableRow(this);
 
-                final Drawable test=getResources().getDrawable(R.drawable.cell_shape);
-                //clickable row
-
-
-              final  TextView cityId = new TextView(this);
+                final TextView cityId = new TextView(this);
                 final TextView cityName = new TextView(this);
-                final  TextView cityPtt = new TextView(this);
-                final CheckBox checkBox=new CheckBox(this);
-                
+                final TextView cityPtt = new TextView(this);
+                final CheckBox checkBox = new CheckBox(this);
 
                 cityId.setText(id);
                 cityName.setText(name);
@@ -176,6 +171,9 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityIdColumn.setGravity(Gravity.CENTER);
                 cityNameColumn.setGravity(Gravity.CENTER);
                 cityPttColumn.setGravity(Gravity.CENTER);
+                checkboxCity.setGravity(Gravity.CENTER);
+
+                checkBox.setButtonDrawable(R.drawable.custom_checkbox);
 
                 cityIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
                 cityNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
@@ -186,6 +184,13 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 //  paramsCityId.span=1;
                 //  paramsCityId.column=1;
                 cityId.setLayoutParams(paramsCityId);
+
+                //LayoutParams for checkbox
+                TableRow.LayoutParams paramsCheckBox = (TableRow.LayoutParams) checkboxCity.getLayoutParams();
+                //paramsCheckBox.column=4;
+                //  paramsCityId.span=2;
+                // paramsCheckBox.gravity=Gravity.CENTER;
+                checkBox.setLayoutParams(paramsCheckBox);
 
                 //LayoutParams for cityName
                 TableRow.LayoutParams paramsCityName = (TableRow.LayoutParams) cityNameColumn.getLayoutParams();
@@ -202,6 +207,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityId.setTextSize(22);
                 cityName.setTextSize(22);
                 cityPtt.setTextSize(22);
+                checkBox.setTextSize(22);
 
                 cityId.setGravity(Gravity.CENTER);
                 cityName.setGravity(Gravity.CENTER);
@@ -219,27 +225,20 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 row.addView(cityId);
                 row.addView(cityName);
                 row.addView(cityPtt);
-                //make textView only for counting and taking data.
-                final TextView counter= (TextView) row.getChildAt(0);
+                row.addView(checkBox);
 
-
-                row.setClickable(true);
-                row.setOnClickListener(new View.OnClickListener() {
-                    TextView oldCityId=cityId;
-                    TextView oldCityName=cityName;
-                    TextView oldCityPtt=cityPtt;
-
+                checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TableRow row = (TableRow)v;
-                        TextView counter = (TextView)row.getChildAt(0);
-                        isRowPicked=!isRowPicked;
-                        if(!isRowPicked) {
+                        TextView oldCityId = cityId;
+                        TextView oldCityName = cityName;
+                        TextView oldCityPtt = cityPtt;
+                        if (checkBox.isChecked()) {
                             cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
-                        }else{
-                            if (Integer.parseInt(id) % 2 == 0 ) {
+                        } else {
+                            if (Integer.parseInt(id) % 2 == 0) {
                                 oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
@@ -249,14 +248,14 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                                 oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
                             }
                         }
-                        Toast.makeText(getApplicationContext(),isRowPicked+"", Toast.LENGTH_SHORT).show();
-
                     }
                 });
-                tblLayout.addView(row);
 
+                row.setClickable(true);
+                tblLayout.addView(row);
             }
-        }else{
+        }
+        else{
             txtNoResultCity.setText("No result for these parameters");
             txtNoResultCity.setGravity(Gravity.CENTER);
             txtNoResultCity.setVisibility(View.VISIBLE);
@@ -277,5 +276,17 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         setTableView();
     }
 
+     public void deleteRow(View v){
+
+
+         for(int i=0; i<tblLayout.getChildCount();i++){
+             TableRow checked= (TableRow) tblLayout.getChildAt(i);
+             CheckBox c= (CheckBox) checked.getVirtualChildAt(3);
+             Log.i("checkbox", String.valueOf(c.isChecked()));
+             if(c.isChecked())
+                 Toast.makeText(getApplicationContext(), "Deleted "+(i+1)+" row",Toast.LENGTH_SHORT).show();
+
+         }
+      }
 
 }
