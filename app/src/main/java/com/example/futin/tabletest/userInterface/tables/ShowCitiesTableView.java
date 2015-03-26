@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -29,8 +30,10 @@ import android.widget.Toast;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.listeners.DeleteCityRows;
 import com.example.futin.tabletest.RESTService.listeners.SearchCityData;
 import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.response.RSDeleteCityRowsResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForCityResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
@@ -38,29 +41,39 @@ import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
 import java.util.ArrayList;
 
-public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData
+public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData,
+        DeleteCityRows
+
         {
 
     SharedPreferences sharedPreferences;
     RSGetCitiesResponse returnData;
     RSSearchForCityResponse returnSearchedData;
     ArrayList<City> listOfCities;
-    ArrayList<City>listOfTableCities;
+    RSDeleteCityRowsResponse returnDeletedData;
     RelativeLayout cityTableLayout;
     TableLayout tblLayout;
     TableLayout tblLayoutHeader;
+    Button btnDeleteRow;
 
     TextView cityIdColumn;
     TextView cityNameColumn;
     TextView cityPttColumn;
     TextView txtNoResultCity;
     TextView checkboxCity;
+
     //innerClass onClickRow
     int idCounter;
     boolean isChecked=false;
 
     EditText txtSearchCity;
     RestService rs;
+
+    boolean deleteMode=false;
+
+    //for deleteListener
+    String status;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +91,14 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         txtNoResultCity= (TextView) findViewById(R.id.txtNoResultCity);
         txtSearchCity= (EditText) findViewById(R.id.txtSearchCity);
         checkboxCity= (TextView) findViewById(R.id.checkBoxCity);
+        btnDeleteRow= (Button) findViewById(R.id.btnDeleteRow);
 
         rs=new RestService(this);
         rs.setSearchCityData(this);
+        rs.setDeleteCityRowsData(this);
         rs.getCities();
+
+        btnDeleteRow.setEnabled(false);
 
     }
 
@@ -110,7 +127,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        inflater.inflate(R.menu.menu_item_table_view, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -142,10 +159,24 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                             }
                         })
                         .show();
+                break;
+            case R.id.delete_mode:
+                deleteMode=!deleteMode;
+                if(deleteMode){
+                    Toast.makeText(getApplicationContext(), "ON",Toast.LENGTH_SHORT).show();
+                    btnDeleteRow.setEnabled(true);
+                    getCheckboxFromTable(View.VISIBLE);
+
+                }else{
+                    Toast.makeText(getApplicationContext(), "OFF",Toast.LENGTH_SHORT).show();
+                    btnDeleteRow.setEnabled(false);
+                   getCheckboxFromTable(View.INVISIBLE);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    //entering rows into tableLayout
     public void setTableView(){
          idCounter=0;
         tblLayout.removeAllViews();
@@ -212,7 +243,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityId.setGravity(Gravity.CENTER);
                 cityName.setGravity(Gravity.CENTER);
                 cityPtt.setGravity(Gravity.CENTER);
-
+                //for different background of every row
                 if (idCounter % 2 == 0) {
                     cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -222,6 +253,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                     cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
                 }
+                //setting rows
                 row.addView(cityId);
                 row.addView(cityName);
                 row.addView(cityPtt);
@@ -233,11 +265,13 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                         TextView oldCityId = cityId;
                         TextView oldCityName = cityName;
                         TextView oldCityPtt = cityPtt;
+                        //changing checked rows background
                         if (checkBox.isChecked()) {
                             cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
                         } else {
+                            //if it is not checked, return to previous state
                             if (Integer.parseInt(id) % 2 == 0) {
                                 oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -250,16 +284,16 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                         }
                     }
                 });
-
-                row.setClickable(true);
                 tblLayout.addView(row);
             }
         }
         else{
-            txtNoResultCity.setText("No result for these parameters");
+            txtNoResultCity.setText("No results for these parameters");
             txtNoResultCity.setGravity(Gravity.CENTER);
             txtNoResultCity.setVisibility(View.VISIBLE);
         }
+
+
     }
 
     @Override
@@ -267,6 +301,8 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         returnData= (RSGetCitiesResponse) obj;
         listOfCities=returnData.getListOFCities();
         setTableView();
+        btnDeleteRow.setEnabled(false);
+        getCheckboxFromTable(View.INVISIBLE);
     }
 
     @Override
@@ -276,17 +312,59 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         setTableView();
     }
 
-     public void deleteRow(View v){
+     @Override
+     public void deleteCityRowsReturnData(Object o) {
+        returnDeletedData= (RSDeleteCityRowsResponse) o;
+        status=returnData.getStatusName();
+     }
 
 
-         for(int i=0; i<tblLayout.getChildCount();i++){
-             TableRow checked= (TableRow) tblLayout.getChildAt(i);
-             CheckBox c= (CheckBox) checked.getVirtualChildAt(3);
+     public void deleteRow(View v) {
+         final ArrayList<Integer> listOfCheckedCities = new ArrayList<>();
+
+         for (int i = 0; i < tblLayout.getChildCount(); i++) {
+
+             //iterate through whole table
+             TableRow checked = (TableRow) tblLayout.getChildAt(i);
+             //take 4-th row (our checkbox)
+             CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
+             //take primary key from table
+             TextView pttView = (TextView) checked.getVirtualChildAt(2);
+             if (c.isChecked()) {
+                 int ptt = Integer.parseInt(pttView.getText().toString());
+                 //put all integers into list
+                 listOfCheckedCities.add(ptt);
+             }
              Log.i("checkbox", String.valueOf(c.isChecked()));
-             if(c.isChecked())
-                 Toast.makeText(getApplicationContext(), "Deleted "+(i+1)+" row",Toast.LENGTH_SHORT).show();
-
          }
-      }
+         if (listOfCheckedCities != null && listOfCheckedCities.size() > 0) {
+             new AlertDialog.Builder(this)
+                     .setTitle("Deleting rows")
+                     .setMessage("Are u sure you want to delete selected row/rows?")
+                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                         public void onClick(DialogInterface dialog, int which) {
+                                rs.deleteCityRows(listOfCheckedCities);
+                                rs.getCities();
+                         }
+                     })
+                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                         @Override
+                         public void onClick(DialogInterface dialog, int which) {
+
+                         }
+                     })
+                     .show();
+         }
+     }
+
+    void getCheckboxFromTable(int type){
+        for (int i = 0; i < tblLayout.getChildCount(); i++) {
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayout.getChildAt(i);
+            //take 4-th row (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
+            c.setVisibility(type);
+        }
+    }
 
 }

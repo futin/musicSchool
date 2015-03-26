@@ -26,6 +26,9 @@ public class RSServerURL {
     private final static String API_SEARCH_FOR_INSTRUMENT_URL="/searchForInstrument.php";
     private final static String API_SEARCH_FOR_STUDENT_WITH_INSTRUMENT_URL="/searchForStudentWithInstrument.php";
 
+    private final static String API_DELETE_CITY_ROW_URL="/deleteCityRows.php";
+
+
 
 
     public String getBaseUrl(){
@@ -54,5 +57,7 @@ public class RSServerURL {
     public String getSearchForInstrumentUrl(){return getRootUrl()+API_SEARCH_FOR_INSTRUMENT_URL;}
     public String getSearchForCityUrl(){return getRootUrl()+API_SEARCH_FOR_CITY_URL;}
     public String getSearchForStudentWithInstrumentUrl(){return getRootUrl()+API_SEARCH_FOR_STUDENT_WITH_INSTRUMENT_URL;}
+
+    public String getDeleteCityRowUrl(){return  getRootUrl()+API_DELETE_CITY_ROW_URL;}
 
 }

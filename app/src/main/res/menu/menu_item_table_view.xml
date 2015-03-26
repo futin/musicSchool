@@ -1,0 +1,47 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/log_out_menu_item" android:title="@string/log_out_menu_item"
+        android:orderInCategory="12" app:showAsAction="always"
+        />
+    <item android:id="@+id/delete_mode1" android:title=""
+        android:orderInCategory="2" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode2" android:title=""
+        android:orderInCategory="3" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode3" android:title=""
+        android:orderInCategory="4" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode4" android:title=""
+        android:orderInCategory="5" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode5" android:title=""
+        android:orderInCategory="7" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode6" android:title=""
+        android:orderInCategory="8" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode7" android:title=""
+        android:orderInCategory="9" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode8" android:title=""
+        android:orderInCategory="13" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode9" android:title=""
+        android:orderInCategory="11" app:showAsAction="always"
+        android:enabled="false"
+        />
+    <item android:id="@+id/delete_mode" android:title="@string/delete_mode"
+        android:orderInCategory="1" app:showAsAction="always"
+        />
+
+</menu>
