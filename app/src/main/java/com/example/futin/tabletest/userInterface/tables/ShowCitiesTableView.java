@@ -31,26 +31,34 @@ import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.listeners.DeleteCityRows;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.listeners.SearchCityData;
 import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSDeleteCityRowsResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForCityResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
 import java.util.ArrayList;
+import java.util.InvalidPropertiesFormatException;
 
 public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData,
-        DeleteCityRows
+        DeleteCityRows, ReturnStudentData
+{
 
-        {
+
 
     SharedPreferences sharedPreferences;
     RSGetCitiesResponse returnData;
     RSSearchForCityResponse returnSearchedData;
-    ArrayList<City> listOfCities;
     RSDeleteCityRowsResponse returnDeletedData;
+    RSGetStudentsResponse returnStudentsData;
+
+    ArrayList<City> listOfCities;
+    ArrayList<Student>listOfStudents;
     RelativeLayout cityTableLayout;
     TableLayout tblLayout;
     TableLayout tblLayoutHeader;
@@ -96,10 +104,11 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         rs=new RestService(this);
         rs.setSearchCityData(this);
         rs.setDeleteCityRowsData(this);
+        rs.setReturnReturnStudentData(this);
         rs.getCities();
+        rs.getStudents();
 
         btnDeleteRow.setEnabled(false);
-
     }
 
     @Override
@@ -163,12 +172,10 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             case R.id.delete_mode:
                 deleteMode=!deleteMode;
                 if(deleteMode){
-                    Toast.makeText(getApplicationContext(), "ON",Toast.LENGTH_SHORT).show();
                     btnDeleteRow.setEnabled(true);
                     getCheckboxFromTable(View.VISIBLE);
 
                 }else{
-                    Toast.makeText(getApplicationContext(), "OFF",Toast.LENGTH_SHORT).show();
                     btnDeleteRow.setEnabled(false);
                    getCheckboxFromTable(View.INVISIBLE);
                 }
@@ -202,7 +209,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityIdColumn.setGravity(Gravity.CENTER);
                 cityNameColumn.setGravity(Gravity.CENTER);
                 cityPttColumn.setGravity(Gravity.CENTER);
-                checkboxCity.setGravity(Gravity.CENTER);
 
                 checkBox.setButtonDrawable(R.drawable.custom_checkbox);
 
@@ -215,13 +221,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 //  paramsCityId.span=1;
                 //  paramsCityId.column=1;
                 cityId.setLayoutParams(paramsCityId);
-
-                //LayoutParams for checkbox
-                TableRow.LayoutParams paramsCheckBox = (TableRow.LayoutParams) checkboxCity.getLayoutParams();
-                //paramsCheckBox.column=4;
-                //  paramsCityId.span=2;
-                // paramsCheckBox.gravity=Gravity.CENTER;
-                checkBox.setLayoutParams(paramsCheckBox);
 
                 //LayoutParams for cityName
                 TableRow.LayoutParams paramsCityName = (TableRow.LayoutParams) cityNameColumn.getLayoutParams();
@@ -244,6 +243,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityName.setGravity(Gravity.CENTER);
                 cityPtt.setGravity(Gravity.CENTER);
                 //for different background of every row
+
                 if (idCounter % 2 == 0) {
                     cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -253,6 +253,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                     cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
                 }
+
                 //setting rows
                 row.addView(cityId);
                 row.addView(cityName);
@@ -266,7 +267,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                         TextView oldCityName = cityName;
                         TextView oldCityPtt = cityPtt;
                         //changing checked rows background
-                        if (checkBox.isChecked()) {
+                        if (checkBox.isChecked()){
                             cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
@@ -292,7 +293,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             txtNoResultCity.setGravity(Gravity.CENTER);
             txtNoResultCity.setVisibility(View.VISIBLE);
         }
-
+        //only way to set checkbox invisible on start
+        if (btnDeleteRow.isEnabled()){
+            getCheckboxFromTable(View.VISIBLE);
+        }else{
+            getCheckboxFromTable(View.INVISIBLE);
+        }
 
     }
 
@@ -301,8 +307,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         returnData= (RSGetCitiesResponse) obj;
         listOfCities=returnData.getListOFCities();
         setTableView();
-        btnDeleteRow.setEnabled(false);
-        getCheckboxFromTable(View.INVISIBLE);
     }
 
     @Override
@@ -310,6 +314,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         returnSearchedData= (RSSearchForCityResponse) o;
         listOfCities=returnSearchedData.getListOfSearchedCities();
         setTableView();
+
     }
 
      @Override
@@ -318,44 +323,72 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         status=returnData.getStatusName();
      }
 
+      @Override
+     public void returnStudentDataOnPostExecute(Object o) {
+        returnStudentsData= (RSGetStudentsResponse) o;
+          listOfStudents=returnStudentsData.getStudents();
+     }
 
-     public void deleteRow(View v) {
-         final ArrayList<Integer> listOfCheckedCities = new ArrayList<>();
+    public void deleteRow(View v) {
+        final ArrayList<Integer> listOfCheckedCities = new ArrayList<>();
 
-         for (int i = 0; i < tblLayout.getChildCount(); i++) {
+        for (int i = 0; i < tblLayout.getChildCount(); i++) {
 
-             //iterate through whole table
-             TableRow checked = (TableRow) tblLayout.getChildAt(i);
-             //take 4-th row (our checkbox)
-             CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
-             //take primary key from table
-             TextView pttView = (TextView) checked.getVirtualChildAt(2);
-             if (c.isChecked()) {
-                 int ptt = Integer.parseInt(pttView.getText().toString());
-                 //put all integers into list
-                 listOfCheckedCities.add(ptt);
-             }
-             Log.i("checkbox", String.valueOf(c.isChecked()));
-         }
-         if (listOfCheckedCities != null && listOfCheckedCities.size() > 0) {
-             new AlertDialog.Builder(this)
-                     .setTitle("Deleting rows")
-                     .setMessage("Are u sure you want to delete selected row/rows?")
-                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                         public void onClick(DialogInterface dialog, int which) {
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayout.getChildAt(i);
+            //take 4-th row (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
+            //take primary key from table
+            TextView pttView = (TextView) checked.getVirtualChildAt(2);
+            if (c.isChecked()) {
+                int ptt = Integer.parseInt(pttView.getText().toString());
+                //put all integers into list
+                listOfCheckedCities.add(ptt);
+            }
+            Log.i("checkbox", String.valueOf(c.isChecked()));
+        }
+        boolean isFound = false;
+
+        if (listOfCheckedCities != null && listOfCheckedCities.size() > 0 &&
+                listOfStudents != null && listOfStudents.size() > 0) {
+            //take list of students and parse it to get each cityPtt from the list
+            String listOfChecked = listOfCheckedCities.toString();
+            String listWithNoBrackets = listOfChecked.substring(1, listOfChecked.length() - 1);
+            String[] parsedList = listWithNoBrackets.split(", ");
+            //check for match student's cityPtt with real city's ptt
+            for (int i = 0; i < parsedList.length; i++) {
+                for (Student student : listOfStudents) {
+                    if (student.getCity().getCityPtt() == Integer.parseInt(parsedList[i])) {
+                        isFound = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!isFound){
+            if(listOfCheckedCities.size() > 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Deleting rows")
+                        .setMessage("Are u sure you want to delete selected row/rows?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
                                 rs.deleteCityRows(listOfCheckedCities);
                                 rs.getCities();
-                         }
-                     })
-                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                         @Override
-                         public void onClick(DialogInterface dialog, int which) {
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                         }
-                     })
-                     .show();
-         }
-     }
+                            }
+                        })
+                        .show();
+            }
+        }else{
+            Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
+    }
+
+}
 
     void getCheckboxFromTable(int type){
         for (int i = 0; i < tblLayout.getChildCount(); i++) {
@@ -364,6 +397,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             //take 4-th row (our checkbox)
             CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
             c.setVisibility(type);
+
         }
     }
 

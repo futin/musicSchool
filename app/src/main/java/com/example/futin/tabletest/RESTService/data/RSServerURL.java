@@ -6,7 +6,7 @@ package com.example.futin.tabletest.RESTService.data;
 public class RSServerURL {
 
 
-    private final static String API_BASE_URL="http://192.168.4.100";
+    private final static String API_BASE_URL="http://192.168.1.7";
     private final static String API_ROOT_URL="/musicSchool";
 
 
