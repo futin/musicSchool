@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -27,15 +28,15 @@ import java.util.ArrayList;
 
 public class FragmentLogin extends Fragment implements AsyncTaskReturnData, SignInReturnData {
 
-    //from acctivity_fragment_login
+    //from activity_fragment_login
     EditText txtUsername;
     EditText txtPassword;
     Button btnLogin;
+    CheckBox checkBoxStayLoggedIn;
     //RestService references
     RestService rs;
     RSGetEmployeesResponse responseGetEmployees =null;
     RSSignInResponse responseSignIn=null;
-    boolean logedIn=false;
     //set these attributes from editText fields
     String username;
     String password;
@@ -62,7 +63,6 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         responseSignIn= (RSSignInResponse) obj;
         firstName=responseSignIn.getEmployee().getFirstName();
         lastName=responseSignIn.getEmployee().getLastName();
-        Log.i("asdfw", firstName+" "+lastName);
         goToMainPage();
     }
 
@@ -73,6 +73,8 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         txtUsername= (EditText) view.findViewById(R.id.txtUsername);
         txtPassword= (EditText) view.findViewById(R.id.txtPassword);
         btnLogin=(Button) view.findViewById(R.id.btnLogin);
+        checkBoxStayLoggedIn= (CheckBox) view.findViewById(R.id.checkBoxStayLoggedIn);
+
         rs=new RestService(this);
         rs.setReturnDataSignIn(this);
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +110,12 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
     void goToMainPage(){
         //store his info in sharedPreferences
-        logedIn=true;
          SharedPreferences sharedPreferences= getActivity().getSharedPreferences("employee", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("firstName", firstName);
         editor.putString("lastName", lastName);
-        editor.putBoolean("isLoggedIn", true);
+        Toast.makeText(getActivity().getApplicationContext(), checkBoxStayLoggedIn.isChecked()+"", Toast.LENGTH_SHORT).show();
+        editor.putBoolean("isLoggedIn", checkBoxStayLoggedIn.isChecked());
         editor.apply();
         Intent i = new Intent(getActivity().getApplicationContext(), MainPage.class);
         i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK |

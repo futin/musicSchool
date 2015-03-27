@@ -33,6 +33,7 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
 
     String firstName;
     String lastName;
+    boolean isLoggedIn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +55,10 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
+        sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
+        //first parameter is to get from sharedPref, other is for default
+        isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn)
         inflater.inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
     }

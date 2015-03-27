@@ -47,6 +47,7 @@
     <string name="txtCityTableName">City Table</string>
     <string name="search_for_city"></string>
     <string name="delete_mode">Delete mode</string>
+    <string name="stay_logged_in_text">stay logged in</string>
 
 
     <!--

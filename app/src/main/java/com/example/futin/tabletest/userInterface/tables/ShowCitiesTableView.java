@@ -48,14 +48,12 @@ import java.util.InvalidPropertiesFormatException;
 public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData,
         DeleteCityRows, ReturnStudentData
 {
-
-
-
     SharedPreferences sharedPreferences;
     RSGetCitiesResponse returnData;
     RSSearchForCityResponse returnSearchedData;
     RSDeleteCityRowsResponse returnDeletedData;
     RSGetStudentsResponse returnStudentsData;
+    RestService rs;
 
     ArrayList<City> listOfCities;
     ArrayList<Student>listOfStudents;
@@ -63,6 +61,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     TableLayout tblLayout;
     TableLayout tblLayoutHeader;
     Button btnDeleteRow;
+    EditText txtSearchCity;
 
     TextView cityIdColumn;
     TextView cityNameColumn;
@@ -72,15 +71,11 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
     //innerClass onClickRow
     int idCounter;
-    boolean isChecked=false;
 
-    EditText txtSearchCity;
-    RestService rs;
 
     boolean deleteMode=false;
+    boolean isLoggedIn;
 
-    //for deleteListener
-    String status;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,7 +131,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
+        sharedPreferences=getSharedPreferences("employee", MODE_PRIVATE);
+        isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn)
         inflater.inflate(R.menu.menu_item_table_view, menu);
+        else
+        inflater.inflate(R.menu.menu_item_table_view_not_logged_in, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -320,7 +320,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
      @Override
      public void deleteCityRowsReturnData(Object o) {
         returnDeletedData= (RSDeleteCityRowsResponse) o;
-        status=returnData.getStatusName();
      }
 
       @Override
@@ -345,7 +344,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 //put all integers into list
                 listOfCheckedCities.add(ptt);
             }
-            Log.i("checkbox", String.valueOf(c.isChecked()));
         }
         boolean isFound = false;
 
@@ -385,8 +383,13 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                         .show();
             }
         }else{
+            //check to make difference between single and multiple rows
+            if(listOfCheckedCities.size()==1)
             Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
-    }
+            else
+            Toast.makeText(getApplicationContext(), "You cannot delete these rows!", Toast.LENGTH_SHORT).show();
+
+        }
 
 }
 
