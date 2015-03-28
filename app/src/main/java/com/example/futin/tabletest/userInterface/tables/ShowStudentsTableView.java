@@ -25,7 +25,7 @@ import android.widget.Toast;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
-import com.example.futin.tabletest.RESTService.listeners.SearchStudentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
@@ -33,7 +33,7 @@ import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
 import java.util.ArrayList;
 
-public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchStudentData{
+public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchData {
 
     SharedPreferences sharedPreferences;
 
@@ -76,7 +76,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
 
         rs=new RestService();
         rs.setReturnReturnStudentData(this);
-        rs.setSearchStudentData(this);
+        rs.setSearchData(this);
         rs.getStudents();
 
     }
@@ -226,7 +226,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     }
 
     @Override
-    public void searchStudentReturnData(Object o) {
+    public void searchData(Object o) {
         returnDataSearch=(RSSearchForStudentResponse)o;
         listOfStudents=returnDataSearch.getListOfSearchedStudents();
         setTableSearchView();

@@ -25,9 +25,8 @@ import android.widget.TextView;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
-import com.example.futin.tabletest.RESTService.listeners.SearchStudentWithInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.Employee;
-import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentWIthInstrumentsResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
@@ -35,7 +34,7 @@ import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 import java.util.ArrayList;
 
 public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
-        implements ReturnStudentWithInstrumentData, SearchStudentWithInstrumentData{
+        implements ReturnStudentWithInstrumentData, SearchData {
 
     SharedPreferences sharedPreferences;
     RSGetStudentWithInstrumentResponse returnData;
@@ -77,7 +76,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
 
         rs=new RestService();
         rs.setReturnStudentWithInstrumentData(this);
-        rs.setSearchStudentWithInstrumentData(this);
+        rs.setSearchData(this);
         rs.getStudentWithInstrument();
     }
 
@@ -277,7 +276,7 @@ public class ShowStudentsWithInsturmentsTableView extends ActionBarActivity
     }
 
     @Override
-    public void searchStudentWithInstrumentReturnData(Object o) {
+    public void searchData(Object o) {
         returnSearchedData= (RSSearchForStudentWIthInstrumentsResponse) o;
         listOfEmployees=returnSearchedData.getListOfEmployees();
         setTableView();

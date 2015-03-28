@@ -5,8 +5,9 @@ import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
 import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
-import com.example.futin.tabletest.RESTService.request.RSDeleteCityRowsRequest;
-import com.example.futin.tabletest.RESTService.response.RSDeleteCityRowsResponse;
+import com.example.futin.tabletest.RESTService.request.RSDeleteStudentWithInstrumentRowsRequest;
+import com.example.futin.tabletest.RESTService.response.RSDeleteStudentRowsResponse;
+import com.example.futin.tabletest.RESTService.response.RSDeleteStudentWithInstrumentResponse;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -19,53 +20,53 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Created by Futin on 3/26/2015.
+ * Created by Futin on 3/28/2015.
  */
-public class RSDeleteCityRowsTask extends AsyncTask<Void, Void, RSDeleteCityRowsResponse> {
+public class RSDeleteStudentWithInstrumentRowsTask extends AsyncTask<Void, Void, RSDeleteStudentWithInstrumentResponse> {
 
-    final String TAG="deleteCityRowsTask";
-    RSDeleteCityRowsRequest request;
+    final String TAG="deleteStudInst";
+    RSDeleteStudentWithInstrumentRowsRequest request;
     RestTemplate restTemplate;
     DeleteRows returnData;
 
-    public RSDeleteCityRowsTask(RSDeleteCityRowsRequest request, DeleteRows returnData) {
+    public RSDeleteStudentWithInstrumentRowsTask(RSDeleteStudentWithInstrumentRowsRequest request, DeleteRows returnData) {
         this.request = request;
         this.returnData = returnData;
         restTemplate=new RestTemplate();
     }
 
     @Override
-    protected RSDeleteCityRowsResponse doInBackground(Void... params) {
+    protected RSDeleteStudentWithInstrumentResponse doInBackground(Void... params) {
         try {
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             header.set("Connection", "Close");
-            String listOfCitiesToString = request.toString();
+            String listOfStudentsWithInstrumentToString = request.toString();
             //take data from the list
-            String listOfCitiesWithNoBrackets=listOfCitiesToString.substring(1,listOfCitiesToString.length()-1);
+            String listOfStudentsWithInstrumentWithNoBrackets=listOfStudentsWithInstrumentToString.substring(1,listOfStudentsWithInstrumentToString.length()-1);
 
-            String listOfCities="listOfCities="+listOfCitiesWithNoBrackets;
-            Log.i(TAG, "List of cities: "+ listOfCities);
+            String listOfStudentsWithInstrument="listOfStudentsWithInstrument="+listOfStudentsWithInstrumentWithNoBrackets;
+            Log.i(TAG, "List of studentsWithInstrument: " + listOfStudentsWithInstrument);
 
-            HttpEntity<String> entity = new HttpEntity<>(listOfCities, header);
-            String address = RSDataSingleton.getInstance().getServerUrl().getDeleteCityRowUrl();
+            HttpEntity<String> entity = new HttpEntity<>(listOfStudentsWithInstrument, header);
+            String address = RSDataSingleton.getInstance().getServerUrl().getDeleteStudentWithInstrumentRowUrl();
 
             Log.i(TAG, "Address: " + address);
             Log.i(TAG, "Before response ");
             ResponseEntity response = restTemplate.exchange(address, HttpMethod.POST, entity, String.class);
             Log.i(TAG, "After response ");
             if (response.getStatusCode() == HttpStatus.NOT_FOUND) {
-                return new RSDeleteCityRowsResponse(HttpStatus.NOT_FOUND,
+                return new RSDeleteStudentWithInstrumentResponse(HttpStatus.NOT_FOUND,
                         HttpStatus.NOT_FOUND.name());
             } else if (response.getStatusCode() == HttpStatus.BAD_REQUEST) {
-                return new RSDeleteCityRowsResponse(HttpStatus.BAD_REQUEST,
+                return new RSDeleteStudentWithInstrumentResponse(HttpStatus.BAD_REQUEST,
                         HttpStatus.BAD_REQUEST.name());
             }else if (response.getStatusCode() == HttpStatus.INTERNAL_SERVER_ERROR) {
-                return new RSDeleteCityRowsResponse(HttpStatus.INTERNAL_SERVER_ERROR,
+                return new RSDeleteStudentWithInstrumentResponse(HttpStatus.INTERNAL_SERVER_ERROR,
                         HttpStatus.INTERNAL_SERVER_ERROR.name());
             } else {
                 Log.i(TAG, "Response ok ");
-                return new RSDeleteCityRowsResponse(HttpStatus.OK,
+                return new RSDeleteStudentWithInstrumentResponse(HttpStatus.OK,
                         HttpStatus.OK.name());
             }
 
@@ -73,22 +74,22 @@ public class RSDeleteCityRowsTask extends AsyncTask<Void, Void, RSDeleteCityRows
         } catch (HttpClientErrorException e) {
             Log.e(TAG, "Http Status: " + e.getStatusCode());
             Log.e(TAG, "Http Error: " + e.getResponseBodyAsString());
-            return new RSDeleteCityRowsResponse(e.getStatusCode(),
+            return new RSDeleteStudentWithInstrumentResponse(e.getStatusCode(),
                     e.getStatusText());
         } catch (HttpServerErrorException e) {
             Log.e(TAG, "Http Status: " + e.getStatusCode());
             Log.e(TAG, "Http Error: " + e.getResponseBodyAsString());
-            return new RSDeleteCityRowsResponse(e.getStatusCode(),
+            return new RSDeleteStudentWithInstrumentResponse(e.getStatusCode(),
                     e.getStatusText());
         } catch (Exception e) {
             Log.e(TAG, e.getMessage());
-            return new RSDeleteCityRowsResponse(null, null);
+            return new RSDeleteStudentWithInstrumentResponse(null, null);
         }
     }
 
     @Override
-    protected void onPostExecute(RSDeleteCityRowsResponse rsDeleteCityRowsResponse) {
-        super.onPostExecute(rsDeleteCityRowsResponse);
-        returnData.deleteRowsReturnData(rsDeleteCityRowsResponse);
+    protected void onPostExecute(RSDeleteStudentWithInstrumentResponse rsDeleteStudentWithInstrumentResponse) {
+        super.onPostExecute(rsDeleteStudentWithInstrumentResponse);
+        returnData.deleteRowsReturnData(rsDeleteStudentWithInstrumentResponse);
     }
 }

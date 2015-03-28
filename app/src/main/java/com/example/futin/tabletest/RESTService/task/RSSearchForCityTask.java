@@ -4,14 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.listeners.SearchCityData;
-import com.example.futin.tabletest.RESTService.listeners.SearchInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.City;
-import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.request.RSSearchForCityRequest;
-import com.example.futin.tabletest.RESTService.request.RSSearchForInstrumentRequest;
 import com.example.futin.tabletest.RESTService.response.RSSearchForCityResponse;
-import com.example.futin.tabletest.RESTService.response.RSSearchForInstrumentResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,10 +30,10 @@ public class RSSearchForCityTask extends AsyncTask<Void, Void, RSSearchForCityRe
 
     final String TAG="searchForCityTask";
     RestTemplate restTemplate;
-    SearchCityData returnData;
+    SearchData returnData;
     RSSearchForCityRequest request;
 
-    public RSSearchForCityTask(RSSearchForCityRequest request, SearchCityData returnData) {
+    public RSSearchForCityTask(RSSearchForCityRequest request, SearchData returnData) {
         this.returnData = returnData;
         this.request = request;
         restTemplate=new RestTemplate();
@@ -109,6 +105,6 @@ public class RSSearchForCityTask extends AsyncTask<Void, Void, RSSearchForCityRe
     @Override
     protected void onPostExecute(RSSearchForCityResponse rsSearchForCityResponse) {
         super.onPostExecute(rsSearchForCityResponse);
-        returnData.searchCityReturnData(rsSearchForCityResponse);
+        returnData.searchData(rsSearchForCityResponse);
     }
 }

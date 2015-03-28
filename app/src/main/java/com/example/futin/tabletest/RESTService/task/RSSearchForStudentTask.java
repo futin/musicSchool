@@ -4,11 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.listeners.SearchStudentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.request.RSSearchForStudentRequest;
-import com.example.futin.tabletest.RESTService.response.RSInsertStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 
 import org.json.JSONArray;
@@ -33,9 +32,9 @@ public class RSSearchForStudentTask extends AsyncTask<Void, Void, RSSearchForStu
     final String TAG="searchForStudentTask";
     RestTemplate restTemplate;
     RSSearchForStudentRequest request;
-    SearchStudentData returnData;
+    SearchData returnData;
 
-    public RSSearchForStudentTask(RSSearchForStudentRequest request, SearchStudentData returnData) {
+    public RSSearchForStudentTask(RSSearchForStudentRequest request, SearchData returnData) {
         this.request = request;
         this.returnData = returnData;
         restTemplate=new RestTemplate();
@@ -116,6 +115,6 @@ public class RSSearchForStudentTask extends AsyncTask<Void, Void, RSSearchForStu
     @Override
     protected void onPostExecute(RSSearchForStudentResponse rsSearchForStudentResponse) {
         super.onPostExecute(rsSearchForStudentResponse);
-        returnData.searchStudentReturnData(rsSearchForStudentResponse);
+        returnData.searchData(rsSearchForStudentResponse);
     }
 }

@@ -4,15 +4,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.listeners.SearchInstrumentData;
-import com.example.futin.tabletest.RESTService.listeners.SearchStudentWithInstrumentData;
-import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.models.Instrument;
 import com.example.futin.tabletest.RESTService.models.Student;
-import com.example.futin.tabletest.RESTService.request.RSSearchForInstrumentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSearchForStudentWithInstrumentRequest;
-import com.example.futin.tabletest.RESTService.response.RSSearchForCityResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentWIthInstrumentsResponse;
 
 import org.json.JSONArray;
@@ -36,10 +32,10 @@ public class RSSearchForStudentWithInstrumentTask extends AsyncTask<Void, Void, 
 
     final String TAG="searchForSWI";
     RestTemplate restTemplate;
-    SearchStudentWithInstrumentData returnData;
+    SearchData returnData;
     RSSearchForStudentWithInstrumentRequest request;
 
-    public RSSearchForStudentWithInstrumentTask(RSSearchForStudentWithInstrumentRequest request, SearchStudentWithInstrumentData returnData) {
+    public RSSearchForStudentWithInstrumentTask(RSSearchForStudentWithInstrumentRequest request, SearchData returnData) {
         this.returnData = returnData;
         this.request = request;
         restTemplate=new RestTemplate();
@@ -123,6 +119,6 @@ public class RSSearchForStudentWithInstrumentTask extends AsyncTask<Void, Void, 
     @Override
     protected void onPostExecute(RSSearchForStudentWIthInstrumentsResponse rsSearchSWI) {
         super.onPostExecute(rsSearchSWI);
-        returnData.searchStudentWithInstrumentReturnData(rsSearchSWI);
+        returnData.searchData(rsSearchSWI);
     }
 }

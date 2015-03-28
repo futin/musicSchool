@@ -16,51 +16,62 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
-import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
+import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
-import com.example.futin.tabletest.RESTService.listeners.SearchInstrumentData;
-import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
+import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.models.Instrument;
+import com.example.futin.tabletest.RESTService.models.Student;
+import com.example.futin.tabletest.RESTService.response.RSDeleteInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForInstrumentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
-public class ShowInstrumentsTableView extends ActionBarActivity implements ReturnInstrumentData, SearchInstrumentData {
+public class ShowInstrumentsTableView extends ActionBarActivity implements ReturnInstrumentData,
+        SearchData,ReturnStudentWithInstrumentData, DeleteRows {
 
     SharedPreferences sharedPreferences;
+    RestService rs;
     RSGetInstrumentsResponse returnData;
     RSSearchForInstrumentResponse returnSearchedData;
+    RSDeleteInstrumentResponse returnDeletedData;
+    RSGetStudentWithInstrumentResponse returnStudWithInstData;
+
+    ArrayList<Instrument>listOfInstruments;
+    //used for getting studentWithInstrument
+    ArrayList<Employee>listOfEmployees;
 
     RelativeLayout instrumentTableLayout;
-    ArrayList<Instrument>listOfInstruments;
-    RestService rs;
-
     TableLayout tblLayoutInstrument;
-    TableLayout tblLayoutInstrumentHeader;
-    //normal
-    TextView instrumentIdColumnHeader;
-    TextView instrumentNameColumnHeader;
-    TextView instrumentTypeColumnHeader;
-    TextView instrumentInStockColumnHeader;
-
-    //header
     TextView instrumentIdColumn;
     TextView instrumentNameColumn;
     TextView instrumentTypeColumn;
     TextView instrumentInStockColumn;
-
     TextView txtNoResultInstrument;
     EditText txtSearchInstrument;
+    Button btnDeleteRowInstrument;
+
+    //innerClass onClickRow
+    int idCounter;
+    boolean deleteMode=false;
+    boolean isLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,31 +84,21 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         instrumentTableLayout= (RelativeLayout) findViewById(R.id.instrumentTableLayout);
 
         tblLayoutInstrument= (TableLayout) findViewById(R.id.tblLayoutInstrument);
-        //normal
         instrumentIdColumn= (TextView) findViewById(R.id.instrumentIdColumn);
         instrumentNameColumn= (TextView) findViewById(R.id.instrumentNameColumn);
         instrumentTypeColumn= (TextView) findViewById(R.id.instrumentTypeColumn);
         instrumentInStockColumn= (TextView) findViewById(R.id.instrumentInStockColumn);
-        //header
-        tblLayoutInstrumentHeader= (TableLayout) findViewById(R.id.tblLayoutInstrumentHeader);
-        instrumentIdColumnHeader= (TextView) findViewById(R.id.instrumentIdColumnHeader);
-        instrumentNameColumnHeader= (TextView) findViewById(R.id.instrumentNameColumnHeader);
-        instrumentTypeColumnHeader= (TextView) findViewById(R.id.instrumentTypeColumnHeader);
-        instrumentInStockColumnHeader= (TextView) findViewById(R.id.instrumentInStockColumnHeader);
-
-        //instantiate header
-        instrumentIdColumnHeader.setGravity(Gravity.CENTER);
-        instrumentNameColumnHeader.setGravity(Gravity.CENTER);
-        instrumentTypeColumnHeader.setGravity(Gravity.CENTER);
-        instrumentInStockColumnHeader.setGravity(Gravity.CENTER);
-
         txtNoResultInstrument= (TextView) findViewById(R.id.txtNoResultInstrument);
         txtSearchInstrument= (EditText) findViewById(R.id.txtSearchInstrument);
+        btnDeleteRowInstrument= (Button) findViewById(R.id.btnDeleteRowInstrument);
 
         rs=new RestService();
         rs.setReturnInstrumentData(this);
-        rs.setSearchInstrumentData(this);
+        rs.setDeleteRowsData(this);
+        rs.setSearchData(this);
         rs.getInstruments();
+
+        btnDeleteRowInstrument.setEnabled(false);
     }
 
     @Override
@@ -125,7 +126,11 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn)
+            inflater.inflate(R.menu.menu_item_table_view, menu);
+        else
+            inflater.inflate(R.menu.menu_item_table_view_not_logged_in, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -157,6 +162,18 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                             }
                         })
                         .show();
+                break;
+            case R.id.delete_mode:
+                deleteMode=!deleteMode;
+                if(deleteMode){
+                    btnDeleteRowInstrument.setEnabled(true);
+                    getCheckboxFromTable(View.VISIBLE);
+
+                }else{
+                    btnDeleteRowInstrument.setEnabled(false);
+                    getCheckboxFromTable(View.INVISIBLE);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
@@ -165,21 +182,22 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         int counter=0;
         tblLayoutInstrument.removeAllViews();
         if(listOfInstruments != null) {
-            for (Instrument inst : listOfInstruments) {
+            for (final Instrument inst : listOfInstruments) {
                 txtNoResultInstrument.setVisibility(View.INVISIBLE);
                 counter++;
 
-                String id = String.valueOf(inst.getInstrumentId());
+                final String id = String.valueOf(inst.getInstrumentId());
                 String name = inst.getInstrumentName();
                 String type = inst.getInstrumentType();
                 String inStock = String.valueOf(inst.getInstrumentsInStock());
 
-                TableRow row = new TableRow(this);
+                final TableRow row = new TableRow(this);
 
-                TextView instId = new TextView(this);
-                TextView instName = new TextView(this);
-                TextView instType = new TextView(this);
-                TextView instInStock = new TextView(this);
+                final TextView instId = new TextView(this);
+                final TextView instName = new TextView(this);
+                final TextView instType = new TextView(this);
+                final TextView instInStock = new TextView(this);
+                final CheckBox checkboxInstrument=new CheckBox(this);
 
                 instId.setText(id);
                 instName.setText(name);
@@ -190,6 +208,8 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instrumentNameColumn.setGravity(Gravity.CENTER);
                 instrumentTypeColumn.setGravity(Gravity.CENTER);
                 instrumentInStockColumn.setGravity(Gravity.CENTER);
+
+                checkboxInstrument.setButtonDrawable(R.drawable.custom_checkbox);
 
                 //LayoutParams for instId
                 TableRow.LayoutParams paramsInstId = (TableRow.LayoutParams) instrumentIdColumn.getLayoutParams();
@@ -219,6 +239,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instName.setTextSize(16);
                 instType.setTextSize(16);
                 instInStock.setTextSize(16);
+                checkboxInstrument.setTextSize(16);
 
                 instId.setGravity(Gravity.CENTER);
                 instName.setGravity(Gravity.CENTER);
@@ -241,15 +262,128 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 row.addView(instName);
                 row.addView(instType);
                 row.addView(instInStock);
+                row.addView(checkboxInstrument);
+                checkboxInstrument.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView oldInstId = instId;
+                        TextView oldInstName = instName;
+                        TextView oldInstType = instType;
+                        TextView oldInstInStock=instInStock;
 
+
+                        //changing checked rows background
+                        if (checkboxInstrument.isChecked()) {
+                            instId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            instName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            oldInstType.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            instInStock.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
+                        } else {
+                            //if it is not checked, return to previous state
+                            if (Integer.parseInt(id) % 2 == 0) {
+                                oldInstId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldInstName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldInstType.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldInstInStock.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                            } else {
+                                oldInstId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldInstName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldInstType.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldInstInStock.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                            }
+                        }
+                    }
+                });
                 tblLayoutInstrument.addView(row);
             }
         }else{
             txtNoResultInstrument.setVisibility(View.VISIBLE);
             txtNoResultInstrument.setGravity(Gravity.CENTER);
             txtNoResultInstrument.setText("No result for these parameters");
+        }
+        //only way to set checkbox invisible on start
+        if (btnDeleteRowInstrument.isEnabled()){
+            getCheckboxFromTable(View.VISIBLE);
+        }else{
+            getCheckboxFromTable(View.INVISIBLE);
+        }
+    }
+
+    void getCheckboxFromTable(int type){
+        for (int i = 0; i < tblLayoutInstrument.getChildCount(); i++) {
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayoutInstrument.getChildAt(i);
+            //take 4-th row (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(8);
+            c.setVisibility(type);
 
         }
+    }
+    public void deleteRow(View v) {
+        final ArrayList<Integer> listOfCheckedInstruments = new ArrayList<>();
+
+        for (int i = 0; i < tblLayoutInstrument.getChildCount(); i++) {
+
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayoutInstrument.getChildAt(i);
+            //take 9-th row (our checkbox) from tableLayout
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(8);
+            //take primary key from table
+            TextView instrumentId = (TextView) checked.getVirtualChildAt(0);
+            if (c.isChecked()) {
+                int id = Integer.parseInt(instrumentId.getText().toString());
+                //put all integers into list
+                listOfCheckedInstruments.add(id);
+            }
+        }
+        boolean isFound = false;
+
+        if (listOfCheckedInstruments != null && listOfCheckedInstruments.size() > 0 &&
+                listOfEmployees != null && listOfEmployees.size() > 0) {
+            //take list of students and parse it to get each cityPtt from the list
+            String listOfChecked = listOfCheckedInstruments.toString();
+            String listWithNoBrackets = listOfChecked.substring(1, listOfChecked.length() - 1);
+            String[] parsedList = listWithNoBrackets.split(", ");
+            //check for match instrument's id with real id from database
+            for (int i = 0; i < parsedList.length; i++) {
+                for (Employee employee : listOfEmployees) {
+                    Toast.makeText(getApplicationContext(), employee.getStudent().getInstrument().getInstrumentId(), Toast.LENGTH_SHORT).show();
+
+                    if (employee.getStudent().getInstrument().getInstrumentId() == Integer.parseInt(parsedList[i])) {
+                        isFound = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!isFound){
+            if(listOfCheckedInstruments.size() > 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Deleting rows")
+                        .setMessage("Are u sure you want to delete selected row/rows?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                rs.deleteInstrumentRows(listOfCheckedInstruments);
+                                rs.getInstruments();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+            }
+        }else{
+            //check to make difference between single and multiple rows
+            if(listOfCheckedInstruments.size()==1)
+                Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(), "You cannot delete these rows!", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 
     @Override
@@ -260,9 +394,22 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     }
 
     @Override
-    public void searchInstrumentReturnData(Object o) {
+    public void searchData(Object o) {
         returnSearchedData= (RSSearchForInstrumentResponse) o;
         listOfInstruments=returnSearchedData.getListOfSearchedInstruments();
         setTableView();
+    }
+
+    @Override
+    public void deleteRowsReturnData(Object o) {
+        returnDeletedData= (RSDeleteInstrumentResponse) o;
+
+    }
+
+    @Override
+    public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
+        returnStudWithInstData= (RSGetStudentWithInstrumentResponse) o;
+        listOfEmployees=returnStudWithInstData.getListOfStudentsWithInstrument();
+
     }
 }

@@ -4,14 +4,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
-import com.example.futin.tabletest.RESTService.listeners.SearchInstrumentData;
-import com.example.futin.tabletest.RESTService.models.City;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.Instrument;
-import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.request.RSSearchForInstrumentRequest;
-import com.example.futin.tabletest.RESTService.response.RSGetInstrumentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForInstrumentResponse;
-import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,10 +30,10 @@ public class RSSearchForInstrumentTask extends AsyncTask<Void, Void, RSSearchFor
 
     final String TAG="searchForInstrumentTask";
     RestTemplate restTemplate;
-    SearchInstrumentData returnData;
+    SearchData returnData;
     RSSearchForInstrumentRequest request;
 
-    public RSSearchForInstrumentTask(RSSearchForInstrumentRequest request, SearchInstrumentData returnData) {
+    public RSSearchForInstrumentTask(RSSearchForInstrumentRequest request, SearchData returnData) {
         this.returnData = returnData;
         this.request = request;
         restTemplate=new RestTemplate();
@@ -112,6 +108,6 @@ public class RSSearchForInstrumentTask extends AsyncTask<Void, Void, RSSearchFor
     @Override
     protected void onPostExecute(RSSearchForInstrumentResponse rsSearchForInstrumentResponse) {
         super.onPostExecute(rsSearchForInstrumentResponse);
-        returnData.searchInstrumentReturnData(rsSearchForInstrumentResponse);
+        returnData.searchData(rsSearchForInstrumentResponse);
     }
 }

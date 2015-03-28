@@ -6,13 +6,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -30,9 +27,9 @@ import android.widget.Toast;
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
-import com.example.futin.tabletest.RESTService.listeners.DeleteCityRows;
+import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
-import com.example.futin.tabletest.RESTService.listeners.SearchCityData;
+import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.City;
 import com.example.futin.tabletest.RESTService.models.Student;
 import com.example.futin.tabletest.RESTService.response.RSDeleteCityRowsResponse;
@@ -40,26 +37,24 @@ import com.example.futin.tabletest.RESTService.response.RSGetCitiesResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForCityResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
-import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
 import java.util.ArrayList;
-import java.util.InvalidPropertiesFormatException;
 
-public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchCityData,
-        DeleteCityRows, ReturnStudentData
+public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskReturnData, SearchData,
+        DeleteRows, ReturnStudentData
 {
     SharedPreferences sharedPreferences;
+    RestService rs;
     RSGetCitiesResponse returnData;
     RSSearchForCityResponse returnSearchedData;
     RSDeleteCityRowsResponse returnDeletedData;
     RSGetStudentsResponse returnStudentsData;
-    RestService rs;
 
     ArrayList<City> listOfCities;
     ArrayList<Student>listOfStudents;
+
     RelativeLayout cityTableLayout;
     TableLayout tblLayout;
-    TableLayout tblLayoutHeader;
     Button btnDeleteRow;
     EditText txtSearchCity;
 
@@ -71,11 +66,8 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
     //innerClass onClickRow
     int idCounter;
-
-
     boolean deleteMode=false;
     boolean isLoggedIn;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,18 +79,18 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
         cityTableLayout= (RelativeLayout) findViewById(R.id.cityTableLayout);
         tblLayout= (TableLayout) findViewById(R.id.tblLayoutCity);
-        tblLayoutHeader= (TableLayout) findViewById(R.id.tblLayoutCityHeader);
         cityIdColumn= (TextView) findViewById(R.id.cityIdColumn);
         cityNameColumn= (TextView) findViewById(R.id.cityNameColumn);
         cityPttColumn= (TextView) findViewById(R.id.cityPttColumn);
+
         txtNoResultCity= (TextView) findViewById(R.id.txtNoResultCity);
         txtSearchCity= (EditText) findViewById(R.id.txtSearchCity);
         checkboxCity= (TextView) findViewById(R.id.checkBoxCity);
-        btnDeleteRow= (Button) findViewById(R.id.btnDeleteRow);
+        btnDeleteRow= (Button) findViewById(R.id.btnDeleteRowCity);
 
         rs=new RestService(this);
-        rs.setSearchCityData(this);
-        rs.setDeleteCityRowsData(this);
+        rs.setSearchData(this);
+        rs.setDeleteRowsData(this);
         rs.setReturnReturnStudentData(this);
         rs.getCities();
         rs.getStudents();
@@ -131,7 +123,6 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        sharedPreferences=getSharedPreferences("employee", MODE_PRIVATE);
         isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false);
         if (isLoggedIn)
         inflater.inflate(R.menu.menu_item_table_view, menu);
@@ -310,7 +301,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     }
 
     @Override
-    public void searchCityReturnData(Object o) {
+    public void searchData(Object o) {
         returnSearchedData= (RSSearchForCityResponse) o;
         listOfCities=returnSearchedData.getListOfSearchedCities();
         setTableView();
@@ -318,7 +309,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     }
 
      @Override
-     public void deleteCityRowsReturnData(Object o) {
+     public void deleteRowsReturnData(Object o) {
         returnDeletedData= (RSDeleteCityRowsResponse) o;
      }
 
