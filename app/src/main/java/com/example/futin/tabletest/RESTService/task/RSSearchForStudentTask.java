@@ -82,9 +82,6 @@ public class RSSearchForStudentTask extends AsyncTask<Void, Void, RSSearchForStu
                         City city = new City(cityPtt);
                         Student student = new Student(studentId, firstName, lastName, city);
 
-                        Log.i(TAG, "City " + city);
-                        Log.i(TAG, "Student " + student);
-
                         listOfStudents.add(student);
                     }
                 }else{

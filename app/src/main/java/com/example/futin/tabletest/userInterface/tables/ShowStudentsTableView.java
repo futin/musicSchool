@@ -10,11 +10,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TableLayout;
@@ -24,37 +27,45 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
+import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.SearchData;
+import com.example.futin.tabletest.RESTService.models.Employee;
 import com.example.futin.tabletest.RESTService.models.Student;
+import com.example.futin.tabletest.RESTService.response.RSDeleteStudentRowsResponse;
+import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
 import java.util.ArrayList;
 
-public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchData {
+public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchData,
+        DeleteRows, ReturnStudentWithInstrumentData{
 
     SharedPreferences sharedPreferences;
-
+    RestService rs;
     RSGetStudentsResponse returnData;
     RSSearchForStudentResponse returnDataSearch;
-    RelativeLayout studentTableLayout;
-    ArrayList<Student> listOfStudents=new ArrayList<>();
-    TableLayout tblLayoutStudent;
-    TableLayout tblLayoutStudentHeader;
+    RSDeleteStudentRowsResponse returnDeletedData;
+    RSGetStudentWithInstrumentResponse returnStudWithInstData;
 
+    RelativeLayout studentTableLayout;
+    TableLayout tblLayoutStudent;
     TextView studentIdColumn;
     TextView studentFirstAndLastNameColumn;
     TextView studentPttColumn;
     TextView txtNoResultStudents;
-
-    TextView test;
-    int counter=0;
-
-    TableRow row;
     EditText searchStudent;
-    RestService rs;
+    Button btnDeleteRowStudent;
+
+    ArrayList<Student> listOfStudents=new ArrayList<>();
+    ArrayList<Employee>listOfEmployees=new ArrayList<>();
+    //innerClass onClickRow
+    int counter;
+    boolean deleteMode=false;
+    boolean isLoggedIn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,22 +73,23 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
-        row = new TableRow(this);
 
         studentTableLayout= (RelativeLayout) findViewById(R.id.studentTableLayout);
         tblLayoutStudent = (TableLayout) findViewById(R.id.tblLayoutStudent);
-        tblLayoutStudentHeader= (TableLayout) findViewById(R.id.tblLayoutStudentHeader);
         studentIdColumn = (TextView) findViewById(R.id.studentIdColumn);
         studentFirstAndLastNameColumn= (TextView) findViewById(R.id.studentFirstAndLastNameColumn);
         studentPttColumn= (TextView) findViewById(R.id.studentPttColumn);
         searchStudent= (EditText) findViewById(R.id.txtSearchStudent);
         txtNoResultStudents= (TextView) findViewById(R.id.txtNoResultStudents);
-
+        btnDeleteRowStudent= (Button) findViewById(R.id.btnDeleteRowStudent);
 
         rs=new RestService();
         rs.setReturnStudentData(this);
         rs.setSearchData(this);
+        rs.setDeleteRowsData(this);
+        rs.setReturnStudentWithInstrumentData(this);
         rs.getStudents();
+        rs.getStudentWithInstrument();
 
     }
 
@@ -105,7 +117,11 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main, menu);
+        isLoggedIn=sharedPreferences.getBoolean("isLoggedIn", false);
+        if (isLoggedIn)
+            inflater.inflate(R.menu.menu_item_table_view, menu);
+        else
+            inflater.inflate(R.menu.menu_item_table_view_not_logged_in, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -137,26 +153,40 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                             }
                         })
                         .show();
+                break;
+            case R.id.delete_mode:
+                deleteMode=!deleteMode;
+                if(deleteMode){
+                    btnDeleteRowStudent.setEnabled(true);
+                    getCheckboxFromTable(View.VISIBLE);
+
+                }else{
+                    btnDeleteRowStudent.setEnabled(false);
+                    getCheckboxFromTable(View.INVISIBLE);
+                }
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void setTableSearchView(){
+        counter=0;
         tblLayoutStudent.removeAllViews();
         if(listOfStudents !=null){
             txtNoResultStudents.setVisibility(View.INVISIBLE);
             for (Student student : listOfStudents) {
             counter++;
 
-            String id = String.valueOf(student.getStudentId());
+            final String id = String.valueOf(student.getStudentId());
             String name = student.getFirstName() + " " + student.getLastName();
             String ptt = String.valueOf(student.getCity().getCityPtt());
 
-            TableRow row1 = new TableRow(this);
+            TableRow row = new TableRow(this);
 
-            TextView studId = new TextView(this);
-            TextView studName = new TextView(this);
-            TextView studCityPtt = new TextView(this);
+            final TextView studId = new TextView(this);
+            final TextView studName = new TextView(this);
+            final TextView studCityPtt = new TextView(this);
+            final CheckBox checkBoxStudent=new CheckBox(this);
 
             studId.setText(id);
             studName.setText(name);
@@ -166,9 +196,11 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studentFirstAndLastNameColumn.setGravity(Gravity.CENTER);
             studentPttColumn.setGravity(Gravity.CENTER);
 
-                studentIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                studentFirstAndLastNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                studentPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            studentIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            studentFirstAndLastNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+            studentPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+
+            checkBoxStudent.setButtonDrawable(R.drawable.custom_checkbox);
 
             //LayoutParams for studId
             TableRow.LayoutParams paramsStudId = (TableRow.LayoutParams) studentIdColumn.getLayoutParams();
@@ -188,9 +220,10 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             //  paramsCityId.column=1;
             studCityPtt.setLayoutParams(paramsStudType);
 
-            studId.setTextSize(16);
-            studName.setTextSize(16);
-            studCityPtt.setTextSize(16);
+            studId.setTextSize(20);
+            studName.setTextSize(20);
+            studCityPtt.setTextSize(20);
+            checkBoxStudent.setTextSize(20);
 
             studId.setGravity(Gravity.CENTER);
             studName.setGravity(Gravity.CENTER);
@@ -206,16 +239,50 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
             }
-            row1.addView(studId);
-            row1.addView(studName);
-            row1.addView(studCityPtt);
+            row.addView(studId);
+            row.addView(studName);
+            row.addView(studCityPtt);
+            row.addView(checkBoxStudent);
 
-            tblLayoutStudent.addView(row1);
+                checkBoxStudent.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        TextView oldStudId = studId;
+                        TextView oldStudName = studName;
+                        TextView oldStudCityPtt = studCityPtt;
+
+                        //changing checked rows background
+                        if (checkBoxStudent.isChecked()){
+                            studId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
+                        } else {
+                            //if it is not checked, return to previous state
+                            if (Integer.parseInt(id) % 2 == 0) {
+                                oldStudId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldStudName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldStudCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                            } else {
+                                oldStudId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldStudName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldStudCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                            }
+                        }
+                    }
+                });
+            tblLayoutStudent.addView(row);
             }
         }else{
             txtNoResultStudents.setVisibility(View.VISIBLE);
             txtNoResultStudents.setText("No result for these parameters");
             txtNoResultStudents.setGravity(Gravity.CENTER);
+        }
+
+        //only way to set checkbox invisible on start
+        if (btnDeleteRowStudent.isEnabled()){
+            getCheckboxFromTable(View.VISIBLE);
+        }else{
+            getCheckboxFromTable(View.INVISIBLE);
         }
     }
     @Override
@@ -233,7 +300,97 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
 
     }
 
+    @Override
+    public void deleteRowsReturnData(Object o) {
+        returnDeletedData= (RSDeleteStudentRowsResponse) o;
+    }
+
+    @Override
+    public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
+        returnStudWithInstData= (RSGetStudentWithInstrumentResponse) o;
+        listOfEmployees=returnStudWithInstData.getListOfStudentsWithInstrument();
+    }
+
     public void makeToast(String text){
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
+
+    void getCheckboxFromTable(int type){
+        for (int i = 0; i < tblLayoutStudent.getChildCount(); i++) {
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
+                Log.i("testt", checked.getVirtualChildAt(11)+"");
+
+
+            //take 9-th column (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(11);
+            c.setVisibility(type);
+        }
+    }
+
+    public void deleteRow(View v) {
+        final ArrayList<String> listOfCheckedStudents = new ArrayList<>();
+
+        for (int i = 0; i < tblLayoutStudent.getChildCount(); i++) {
+
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
+            //take 9-th column (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(9);
+            //take primary key from table
+            TextView studentIdPK = (TextView) checked.getVirtualChildAt(0);
+            if (c.isChecked()) {
+                String idPK=studentIdPK.toString();
+                //put all integers into list
+                listOfCheckedStudents.add(idPK);
+            }
+        }
+        boolean isFound = false;
+
+        if (listOfCheckedStudents != null && listOfCheckedStudents.size() > 0 &&
+                listOfEmployees != null && listOfEmployees.size() > 0) {
+            //take list of checked students and parse them into individual Strings
+            String listOfChecked = listOfCheckedStudents.toString();
+            String listWithNoBrackets = listOfChecked.substring(1, listOfChecked.length() - 1);
+            String[] parsedList = listWithNoBrackets.split(", ");
+            //match checked student's id with id from studentWithInstrument database
+            for (int i = 0; i < parsedList.length; i++) {
+                for (Employee employee : listOfEmployees) {
+                    if (employee.getStudent().getStudentId().equalsIgnoreCase(parsedList[i])){
+                        //there is a student in database, so it cannot be deleted
+                        isFound = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if (!isFound){
+            if(listOfCheckedStudents.size() > 0) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Deleting rows")
+                        .setMessage("Are u sure you want to delete selected row/rows?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                rs.deleteStudentRows(listOfCheckedStudents);
+                                rs.getStudents();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+            }
+        }else{
+            //check to make difference between single and multiple rows
+            if(listOfCheckedStudents.size()==1)
+                Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(getApplicationContext(), "You cannot delete these rows!", Toast.LENGTH_SHORT).show();
+
+        }
+
     }
 }

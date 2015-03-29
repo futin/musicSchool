@@ -265,6 +265,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 row.addView(instType);
                 row.addView(instInStock);
                 row.addView(checkboxInstrument);
+
                 checkboxInstrument.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -328,7 +329,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
 
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutInstrument.getChildAt(i);
-            //take 9-th row (our checkbox) from tableLayout
+            //take 9-th column (our checkbox) from tableLayout
             CheckBox c = (CheckBox) checked.getVirtualChildAt(8);
             //take primary key from table
             TextView instrumentId = (TextView) checked.getVirtualChildAt(0);
@@ -339,22 +340,17 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             }
         }
         boolean isFound = false;
-        Log.i("testtttt2: ",listOfEmployees.toString());
-
         if (listOfCheckedInstruments != null && listOfCheckedInstruments.size() > 0 &&
                 listOfEmployees != null && listOfEmployees.size() > 0) {
-            //take list of students and parse it to get each cityPtt from the list
+            //take list of checked instruments and parse them into individual Strings
             String listOfChecked = listOfCheckedInstruments.toString();
             String listWithNoBrackets = listOfChecked.substring(1, listOfChecked.length() - 1);
             String[] parsedList = listWithNoBrackets.split(", ");
-            //check for match instrument's id with real id from database
+            // match checked instrument's id with instrumentId from studentWithInstrument database
             for (int i = 0; i < parsedList.length; i++) {
-                Log.i("check is found: ",parsedList[i]);
-
                 for (Employee employee : listOfEmployees) {
-                    Log.i("check Employee: ",""+employee.getStudent().getInstrument().getInstrumentId());
-
                     if (employee.getStudent().getInstrument().getInstrumentId() == Integer.parseInt(parsedList[i])) {
+                        //there is a student using this particular instrument
                         isFound = true;
                         break;
                     }
@@ -415,6 +411,5 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
         returnStudWithInstData= (RSGetStudentWithInstrumentResponse) o;
         listOfEmployees=returnStudWithInstData.getListOfStudentsWithInstrument();
-        Log.i("testtttt: ",listOfEmployees.toString());
     }
 }

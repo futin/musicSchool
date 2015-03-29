@@ -72,8 +72,6 @@ public class RSGetEmployeesTask extends AsyncTask<Void, Void, RSGetEmployeesResp
                     String password=objEmployee.getString("password");
                     String username=objEmployee.getString("username");
 
-
-
                     Employee emp=new Employee(username, password, firstName, lastName);
                     listOfEmployees.add(emp);
                 }

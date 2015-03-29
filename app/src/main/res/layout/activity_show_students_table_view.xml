@@ -17,14 +17,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp" />
 
-    <include layout="@layout/student_table_view"
-        android:layout_height="wrap_content"
-        android:layout_width="fill_parent"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/txtSearchStudent"
-        android:id="@+id/include"></include>
-
     <ScrollView
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -32,7 +24,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/include">
+        android:layout_below="@+id/textView17">
 
         <TableLayout
             android:id="@+id/tblLayoutStudent"
@@ -54,7 +46,7 @@
                     android:layout_column="0"
                     android:layout_span="4"
                     android:textSize="22dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:textColor="#ff3b5020"
                     android:layout_width="match_parent"></TextView>
 
@@ -67,7 +59,7 @@
                     android:layout_span="6"
                     android:layout_width="match_parent"
                     android:textSize="22dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:textColor="#ff3b5020"></TextView>
 
                 <TextView
@@ -77,7 +69,7 @@
                     android:typeface="serif"
                     android:layout_column="8"
                     android:textSize="22dp"
-                    android:layout_weight="2"
+                    android:layout_weight="1"
                     android:textColor="#ff3b5020"
                     android:layout_width="match_parent"></TextView>
             </TableRow>
@@ -102,9 +94,9 @@
         android:id="@+id/txtSearchStudent"
         android:hint="search for student"
         android:layout_alignBottom="@+id/textView11"
-        android:layout_alignEnd="@+id/scrollViewStudents"
-        android:layout_toEndOf="@+id/textView11"
-        android:layout_marginBottom="-5dp" />
+        android:layout_marginBottom="-5dp"
+        android:layout_alignEnd="@+id/textView19"
+        android:layout_toEndOf="@+id/textView11" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -120,5 +112,52 @@
         android:textSize="30dp"
         android:textStyle="bold|italic"
         android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Id"
+        android:id="@+id/textView17"
+        android:layout_below="@+id/textView11"
+        android:layout_alignParentStart="true"
+        android:textColor="#ff3b5020"
+        android:textStyle="bold|italic"
+        android:textSize="22dp"
+        android:layout_toStartOf="@+id/txtSearchStudent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Name"
+        android:id="@+id/textView18"
+        android:textColor="#ff3b5020"
+        android:textStyle="bold|italic"
+        android:textSize="22dp"
+        android:layout_below="@+id/txtSearchStudent"
+        android:layout_toEndOf="@+id/textView11"
+        android:layout_marginStart="108dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="City ptt"
+        android:id="@+id/textView19"
+        android:textColor="#ff3b5020"
+        android:textStyle="bold|italic"
+        android:textSize="22dp"
+        android:layout_above="@+id/scrollViewStudents"
+        android:layout_toEndOf="@+id/textView7" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete row"
+        android:id="@+id/btnDeleteRowStudent"
+        android:onClick="deleteRow"
+        android:layout_alignBottom="@+id/txtSearchStudent"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

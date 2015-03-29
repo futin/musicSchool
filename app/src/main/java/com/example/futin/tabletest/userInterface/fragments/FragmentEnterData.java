@@ -356,29 +356,37 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
   public boolean isStudentInDatabase(){
       boolean found=false;
-      for (int i=0;i<listOfStudents.size();i++){
-          if(txtStudentId.getText().toString().equalsIgnoreCase(listOfStudents.get(i).getStudentId())){
-              found=true;
-              break;
+      if(listOfStudents !=null) {
+          for (int i = 0; i < listOfStudents.size(); i++) {
+              if (txtStudentId.getText().toString().equalsIgnoreCase(listOfStudents.get(i).getStudentId())) {
+                  found = true;
+                  break;
+              }
           }
-      }
-      if(found){
-          return true;
+          if (found) {
+              return true;
+          } else {
+              return false;
+          }
       }else{
           return false;
       }
   }
     public boolean isStudentWithInstrumentInDatabase(){
         boolean found=false;
-        for (Employee emp: listOfStudentsWithInst){
-            if(emp.getStudent().getStudentId().equalsIgnoreCase(getStudentFromSpinner())
-                    && emp.getStudent().getInstrument().getInstrumentId()==(getInstrumentFromSpinner())){
-                found=true;
-                break;
+        if(listOfStudentsWithInst != null) {
+            for (Employee emp : listOfStudentsWithInst) {
+                if (emp.getStudent().getStudentId().equalsIgnoreCase(getStudentFromSpinner())
+                        && emp.getStudent().getInstrument().getInstrumentId() == (getInstrumentFromSpinner())) {
+                    found = true;
+                    break;
+                }
             }
-        }
-        if(found){
-            return true;
+            if (found) {
+                return true;
+            } else {
+                return false;
+            }
         }else{
             return false;
         }

@@ -340,14 +340,15 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
         if (listOfCheckedCities != null && listOfCheckedCities.size() > 0 &&
                 listOfStudents != null && listOfStudents.size() > 0) {
-            //take list of students and parse it to get each cityPtt from the list
+            //take list of checked cities and parse them into individual Strings
             String listOfChecked = listOfCheckedCities.toString();
             String listWithNoBrackets = listOfChecked.substring(1, listOfChecked.length() - 1);
             String[] parsedList = listWithNoBrackets.split(", ");
-            //check for match student's cityPtt with real city's ptt
+            //match checked city's ptt with student's ptt from database.
             for (int i = 0; i < parsedList.length; i++) {
                 for (Student student : listOfStudents) {
                     if (student.getCity().getCityPtt() == Integer.parseInt(parsedList[i])) {
+                        //there is a student using this particular city
                         isFound = true;
                         break;
                     }
@@ -388,7 +389,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         for (int i = 0; i < tblLayout.getChildCount(); i++) {
             //iterate through whole table
             TableRow checked = (TableRow) tblLayout.getChildAt(i);
-            //take 4-th row (our checkbox)
+            //take 4-th column (our checkbox)
             CheckBox c = (CheckBox) checked.getVirtualChildAt(3);
             c.setVisibility(type);
 
