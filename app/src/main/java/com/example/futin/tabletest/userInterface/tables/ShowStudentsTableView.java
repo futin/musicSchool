@@ -50,6 +50,13 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     RSDeleteStudentRowsResponse returnDeletedData;
     RSGetStudentWithInstrumentResponse returnStudWithInstData;
 
+    //header
+    TextView txtStudentONHeader;
+    TextView txtStudentIdHeader;
+    TextView txtStudentNameHeader;
+    TextView txtStudentCityPttHeader;
+
+
     RelativeLayout studentTableLayout;
     TableLayout tblLayoutStudent;
     TextView studentIdColumn;
@@ -85,6 +92,12 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         txtNoResultStudents= (TextView) findViewById(R.id.txtNoResultStudents);
         btnDeleteRowStudent= (Button) findViewById(R.id.btnDeleteRowStudent);
         studentOrdinalNumbColumn= (TextView) findViewById(R.id.studentOrdnalNumbColumn);
+
+        //header
+        txtStudentONHeader= (TextView) findViewById(R.id.txtStudentONHeader);
+        txtStudentIdHeader= (TextView) findViewById(R.id.txtStudentIdHeader);
+        txtStudentNameHeader= (TextView) findViewById(R.id.txtStudentNameHeader);
+        txtStudentCityPttHeader= (TextView) findViewById(R.id.txtStudentCityPttHeader);
 
         rs=new RestService();
         rs.setReturnStudentData(this);
@@ -176,6 +189,12 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     public void setTableSearchView(){
         counter=0;
         tblLayoutStudent.removeAllViews();
+        //set columns visible
+        txtStudentONHeader.setVisibility(View.VISIBLE);
+        txtStudentIdHeader.setVisibility(View.VISIBLE);
+        txtStudentNameHeader.setVisibility(View.VISIBLE);
+        txtStudentCityPttHeader.setVisibility(View.VISIBLE);
+
         if(listOfStudents !=null){
             txtNoResultStudents.setVisibility(View.INVISIBLE);
             for (Student student : listOfStudents) {
@@ -298,6 +317,13 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             txtNoResultStudents.setVisibility(View.VISIBLE);
             txtNoResultStudents.setText("No results for these parameters");
             txtNoResultStudents.setGravity(Gravity.CENTER);
+
+            //set columns invisible
+            txtStudentONHeader.setVisibility(View.INVISIBLE);
+            txtStudentIdHeader.setVisibility(View.INVISIBLE);
+            txtStudentNameHeader.setVisibility(View.INVISIBLE);
+            txtStudentCityPttHeader.setVisibility(View.INVISIBLE);
+
         }
 
         //only way to set checkbox invisible on start

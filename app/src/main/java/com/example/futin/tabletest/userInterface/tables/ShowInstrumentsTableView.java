@@ -69,6 +69,15 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     EditText txtSearchInstrument;
     Button btnDeleteRowInstrument;
 
+    //header
+    TextView txtInstrumentONHeader;
+    TextView txtInstrumentIdHeader;
+    TextView txtInstrumentNameHeader;
+    TextView txtInstrumentTypeHeader;
+    TextView txtInstrumentInStockHeader;
+
+
+
     //innerClass onClickRow
     int idCounter;
     boolean deleteMode=false;
@@ -93,6 +102,13 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         txtSearchInstrument= (EditText) findViewById(R.id.txtSearchInstrument);
         btnDeleteRowInstrument= (Button) findViewById(R.id.btnDeleteRowInstrument);
         instrumentONColumn= (TextView) findViewById(R.id.instrumentONColumn);
+
+        //header
+        txtInstrumentONHeader= (TextView) findViewById(R.id.txtInstrumentONHeader);
+        txtInstrumentIdHeader= (TextView) findViewById(R.id.txtInstrumentIdHeader);
+        txtInstrumentNameHeader= (TextView) findViewById(R.id.txtInstrumentNameHeader);
+        txtInstrumentTypeHeader= (TextView) findViewById(R.id.txtInstrumentTypeHeader);
+        txtInstrumentInStockHeader= (TextView) findViewById(R.id.txtInstrumentInStockHeader);
 
         rs=new RestService();
         rs.setReturnInstrumentData(this);
@@ -185,6 +201,13 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     public void setTableView(){
         int counter=0;
         tblLayoutInstrument.removeAllViews();
+        //set columns invisible
+        txtInstrumentONHeader.setVisibility(View.VISIBLE);
+        txtInstrumentIdHeader.setVisibility(View.VISIBLE);
+        txtInstrumentNameHeader.setVisibility(View.VISIBLE);
+        txtInstrumentTypeHeader.setVisibility(View.VISIBLE);
+        txtInstrumentInStockHeader.setVisibility(View.VISIBLE);
+
         if(listOfInstruments != null) {
             for (final Instrument inst : listOfInstruments) {
                 txtNoResultInstrument.setVisibility(View.INVISIBLE);
@@ -324,6 +347,12 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             txtNoResultInstrument.setVisibility(View.VISIBLE);
             txtNoResultInstrument.setGravity(Gravity.CENTER);
             txtNoResultInstrument.setText("No results for these parameters");
+            //set columns invisible
+            txtInstrumentONHeader.setVisibility(View.INVISIBLE);
+            txtInstrumentIdHeader.setVisibility(View.INVISIBLE);
+            txtInstrumentNameHeader.setVisibility(View.INVISIBLE);
+            txtInstrumentTypeHeader.setVisibility(View.INVISIBLE);
+            txtInstrumentInStockHeader.setVisibility(View.INVISIBLE);
         }
         //only way to set checkbox invisible on start
         if (btnDeleteRowInstrument.isEnabled()){
@@ -338,7 +367,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutInstrument.getChildAt(i);
             //take 4-th row (our checkbox)
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(9);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(5);
             c.setVisibility(type);
 
         }
@@ -351,7 +380,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutInstrument.getChildAt(i);
             //take 9-th column (our checkbox) from tableLayout
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(9);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(5);
             //take primary key from table
             TextView instrumentId = (TextView) checked.getVirtualChildAt(1);
             if (c.isChecked()) {

@@ -27,7 +27,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/textView13"
+        android:layout_below="@+id/txtInstrumentIdHeader"
         android:layout_alignParentLeft="false"
         android:layout_alignParentRight="false"
         android:layout_alignParentTop="false">
@@ -44,7 +44,7 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="ON"
@@ -62,7 +62,8 @@
                     android:layout_column="1"
                     android:layout_span="1"
                     android:textSize="22dp"
-                    android:textColor="#ff3b5020"></TextView>
+                    android:textColor="#ff3b5020"
+                    android:layout_width="20dp"></TextView>
 
                 <TextView
                     android:id="@+id/instrumentNameColumn"
@@ -70,29 +71,29 @@
                     android:textStyle="bold|italic"
                     android:typeface="serif"
                     android:layout_column="1"
-                    android:layout_width="match_parent"
+                    android:layout_width="75dp"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_span="3"></TextView>
+                    android:layout_span="1"></TextView>
 
                 <TextView
                     android:id="@+id/instrumentTypeColumn"
                     android:text="Type"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
-                    android:layout_column="4"
+                    android:layout_column="3"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_span="2"></TextView>
+                    android:layout_width="50dp"></TextView>
                 <TextView
                     android:id="@+id/instrumentInStockColumn"
                     android:text="In stock"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
-                    android:layout_column="5"
+                    android:layout_column="4"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_span="2"></TextView>
+                    android:layout_width="50dp"></TextView>
             </TableRow>
 
 
@@ -133,7 +134,7 @@
         android:textSize="30dp"
         android:textStyle="bold|italic"
         android:visibility="invisible"
-        android:layout_below="@+id/textView13"
+        android:layout_below="@+id/txtInstrumentIdHeader"
         android:layout_toStartOf="@+id/textView7"
         android:layout_alignEnd="@+id/btnDeleteRowInstrument" />
 
@@ -142,13 +143,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Id"
-        android:id="@+id/textView13"
+        android:id="@+id/txtInstrumentIdHeader"
         android:gravity="center"
         android:textColor="#ff3b5020"
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:layout_marginRight="0dp"
-        android:layout_alignTop="@+id/textView14"
+        android:layout_alignTop="@+id/txtInstrumentNameHeader"
         android:layout_alignStart="@+id/txtSearchInstrument" />
 
     <TextView
@@ -156,13 +157,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Name"
-        android:id="@+id/textView14"
+        android:id="@+id/txtInstrumentNameHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ff3b5020"
         android:gravity="center"
-        android:layout_alignTop="@+id/textView16"
-        android:layout_toEndOf="@+id/textView13"
+        android:layout_alignTop="@+id/txtInstrumentInStockHeader"
+        android:layout_toEndOf="@+id/txtInstrumentIdHeader"
         android:layout_marginLeft="-8dp" />
 
     <TextView
@@ -170,13 +171,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Type"
-        android:id="@+id/textView15"
+        android:id="@+id/txtInstrumentTypeHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ff3b5020"
         android:gravity="center"
         android:layout_above="@+id/txtNoResultInstrument"
-        android:layout_toEndOf="@+id/textView14"
+        android:layout_toEndOf="@+id/txtInstrumentNameHeader"
         android:layout_marginLeft="-25dp" />
 
     <TextView
@@ -184,13 +185,13 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="In stock"
-        android:id="@+id/textView16"
+        android:id="@+id/txtInstrumentInStockHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ff3b5020"
         android:gravity="center"
         android:layout_below="@+id/txtSearchInstrument"
-        android:layout_toEndOf="@+id/textView15"
+        android:layout_toEndOf="@+id/txtInstrumentTypeHeader"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="5dp"
         android:layout_marginLeft="-17dp" />
@@ -200,7 +201,7 @@
         android:layout_height="wrap_content"
         android:text="Delete "
         android:id="@+id/btnDeleteRowInstrument"
-        android:layout_above="@+id/textView15"
+        android:layout_above="@+id/txtInstrumentTypeHeader"
         android:layout_alignParentEnd="true"
         android:onClick="deleteRow" />
 
@@ -220,10 +221,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="O.N."
-        android:id="@+id/textView22"
-        android:layout_alignTop="@+id/textView13"
+        android:id="@+id/txtInstrumentONHeader"
+        android:layout_alignTop="@+id/txtInstrumentIdHeader"
         android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/textView13"
+        android:layout_toStartOf="@+id/txtInstrumentIdHeader"
         android:textColor="#ff3b5020"
         android:textSize="22dp"
         android:textStyle="bold|italic"

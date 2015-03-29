@@ -27,24 +27,29 @@ import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.RESTService.RestService;
+import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
+import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.models.Employee;
+import com.example.futin.tabletest.RESTService.models.Student;
+import com.example.futin.tabletest.RESTService.response.RSDeleteStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSGetStudentWithInstrumentResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentWIthInstrumentsResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
-        implements ReturnStudentWithInstrumentData, SearchData {
+        implements ReturnStudentWithInstrumentData, SearchData, DeleteRows {
 
     SharedPreferences sharedPreferences;
     RestService rs;
 
     RSGetStudentWithInstrumentResponse returnData;
     RSSearchForStudentWIthInstrumentsResponse returnSearchedData;
-
+    RSDeleteStudentWithInstrumentResponse returnDeletedData;
     ArrayList<Employee>listOfEmployees;
 
     RelativeLayout instrumentTableLayout;
@@ -56,8 +61,17 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
     TextView numberOfInstrumentsColumn;
     TextView dateColumn;
     TextView txtNoResultStudWithInst;
+    TextView studentWithInstONColumn;
     EditText txtSearchStudentWithInstrument;
     Button btnDeleteRowStudWithInst;
+
+    //header
+    TextView txtStudWithInstONHeader;
+    TextView txtStudWithInstStudentHeader;
+    TextView txtStudWithInstEmployeeHeader;
+    TextView txtStudWithInstInstrumentHeader;
+    TextView txtStudWithInstQuantityHeader;
+    TextView txtStudWithInstDateHeader;
 
     //innerClass onClickRow
     boolean deleteMode=false;
@@ -78,13 +92,23 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
         instrumentNameColumn= (TextView) findViewById(R.id.instrumentNameColumn);
         numberOfInstrumentsColumn= (TextView) findViewById(R.id.numberOfInstrumentsColumn);
         dateColumn= (TextView) findViewById(R.id.dateColumn);
+        studentWithInstONColumn= (TextView) findViewById(R.id.studentWithInstONColumn);
         txtNoResultStudWithInst= (TextView) findViewById(R.id.txtNoResultStudWithInst);
         txtSearchStudentWithInstrument= (EditText) findViewById(R.id.txtSearchStudentWithInstrument);
         btnDeleteRowStudWithInst= (Button) findViewById(R.id.btnDeleteRowStudWithInst);
 
+        //header
+        txtStudWithInstONHeader= (TextView) findViewById(R.id.txtStudWithInstONHeader);
+        txtStudWithInstStudentHeader= (TextView) findViewById(R.id.txtStudWithInstStudentHeader);
+        txtStudWithInstEmployeeHeader= (TextView) findViewById(R.id.txtStudWithInstEmployeeHeader);
+        txtStudWithInstInstrumentHeader= (TextView) findViewById(R.id.txtStudWithInstInstrumentHeader);
+        txtStudWithInstQuantityHeader= (TextView) findViewById(R.id.txtStudWithInstQuantityHeader);
+        txtStudWithInstDateHeader= (TextView) findViewById(R.id.txtStudWithInstDateHeader);
+
         rs=new RestService();
         rs.setReturnStudentWithInstrumentData(this);
         rs.setSearchData(this);
+        rs.setDeleteRowsData(this);
         rs.getStudentWithInstrument();
 
         btnDeleteRowStudWithInst.setEnabled(false);
@@ -170,31 +194,45 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
     public void setTableView(){
         tblLayoutStudentWithInstrument.removeAllViews();
         int counter=0;
+        //set columns visible
+        txtStudWithInstONHeader.setVisibility(View.VISIBLE);
+        txtStudWithInstStudentHeader.setVisibility(View.VISIBLE);
+        txtStudWithInstEmployeeHeader.setVisibility(View.VISIBLE);
+        txtStudWithInstInstrumentHeader.setVisibility(View.VISIBLE);
+        txtStudWithInstQuantityHeader.setVisibility(View.VISIBLE);
+        txtStudWithInstDateHeader.setVisibility(View.VISIBLE);
+
         if(listOfEmployees != null) {
             txtNoResultStudWithInst.setVisibility(View.INVISIBLE);
-            for (Employee employee : listOfEmployees) {
+            for (int i=0;i< listOfEmployees.size();i++) {
                 counter++;
 
                 String counterId=String.valueOf(counter);
                 //student
-                String firstName = employee.getStudent().getFirstName();
-                String lastName = employee.getStudent().getLastName();
+                String firstName = listOfEmployees.get(i).getStudent().getFirstName();
+                String lastName = listOfEmployees.get(i).getStudent().getLastName();
                 String newFirstName = firstName.substring(0, 1) + ".";
+                String studentId=listOfEmployees.get(i).getStudent().getStudentId();
 
                 String studName = newFirstName + " " + lastName;
                 //studentWithInstruments
-                String name = employee.getFirstName();
+                String name = listOfEmployees.get(i).getFirstName();
                 Log.i("emp name: ", name);
                 String[] splitName = name.split(" ");
                 String firstEmpName = splitName[0].substring(0, 1) + ".";
                 String lastEmpName = splitName[1];
 
-
                 String empName = firstEmpName + " " + lastEmpName;
-                String date = employee.getDate();
-                String numberOfInst = String.valueOf(employee.getStudent().getNumberOfInstruments());
+                String date = listOfEmployees.get(i).getDate();
+                String numberOfInst = String.valueOf(listOfEmployees.get(i).getStudent().getNumberOfInstruments());
                 //instrument
-                String instName = employee.getStudent().getInstrument().getInstrumentName();
+                String instName = listOfEmployees.get(i).getStudent().getInstrument().getInstrumentName();
+                int instId=listOfEmployees.get(i).getStudent().getInstrument().getInstrumentId();
+
+                //we are using singleton class for saving ids in map,
+                //and int i for saving whole list in map
+                RSDataSingleton.getInstance().insertDataInMap("studentId"+i, studentId);
+                RSDataSingleton.getInstance().insertDataInMap("instrumentId"+i, instId);
 
                 TableRow row = new TableRow(this);
 
@@ -233,6 +271,12 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 //  paramsCityId.column=1;
                 studentName.setLayoutParams(paramsStudName);
 
+                //LayoutParams for studName
+                TableRow.LayoutParams paramsStudWithInstON = (TableRow.LayoutParams) studentWithInstONColumn.getLayoutParams();
+                //  paramsStudName.span=3;
+                //  paramsCityId.column=1;
+                ordNumb.setLayoutParams(paramsStudWithInstON);
+
                 //LayoutParams for empName
                 TableRow.LayoutParams paramsEmpName = (TableRow.LayoutParams) employeeNameColumn.getLayoutParams();
                 //  paramsCityId.span=3;
@@ -264,6 +308,7 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 dateView.setTextSize(16);
                 checkboxStudWithInst.setTextSize(16);
 
+                ordNumb.setGravity(Gravity.CENTER);
                 studentName.setGravity(Gravity.CENTER);
                 employeeName.setGravity(Gravity.CENTER);
                 instrumentName.setGravity(Gravity.CENTER);
@@ -342,7 +387,13 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
             txtNoResultStudWithInst.setVisibility(View.VISIBLE);
             txtNoResultStudWithInst.setGravity(Gravity.CENTER);
             txtNoResultStudWithInst.setText("No results for these parameters");
-
+            //set columns invisible
+            txtStudWithInstONHeader.setVisibility(View.INVISIBLE);
+            txtStudWithInstStudentHeader.setVisibility(View.INVISIBLE);
+            txtStudWithInstEmployeeHeader.setVisibility(View.INVISIBLE);
+            txtStudWithInstInstrumentHeader.setVisibility(View.INVISIBLE);
+            txtStudWithInstQuantityHeader.setVisibility(View.INVISIBLE);
+            txtStudWithInstDateHeader.setVisibility(View.INVISIBLE);
         }
         //only way to set checkbox invisible on start
         if (btnDeleteRowStudWithInst.isEnabled()){
@@ -367,6 +418,10 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
         setTableView();
     }
 
+    @Override
+    public void deleteRowsReturnData(Object o) {
+        returnDeletedData= (RSDeleteStudentWithInstrumentResponse) o;
+    }
 
     void getCheckboxFromTable(int type){
         for (int i = 0; i < tblLayoutStudentWithInstrument.getChildCount(); i++) {
@@ -377,6 +432,49 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
             c.setVisibility(type);
 
         }
+    }
+
+    public void deleteRow(View v) {
+
+        final ArrayList<String> listOfCheckedStud = new ArrayList<>();
+        final ArrayList<Integer> listOfCheckedInst = new ArrayList<>();
+
+        for (int i = 0; i < tblLayoutStudentWithInstrument.getChildCount(); i++) {
+            //iterate through whole table
+            TableRow checked = (TableRow) tblLayoutStudentWithInstrument.getChildAt(i);
+            //take 4-th row (our checkbox)
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(15);
+            if (c.isChecked()) {
+                String studId= (String) RSDataSingleton.getInstance().getMapData("studentId"+i);
+                int instrumentId= (int) RSDataSingleton.getInstance().getMapData("instrumentId"+i);
+
+                //put all data into lists
+                listOfCheckedStud.add(studId);
+                listOfCheckedInst.add(instrumentId);
+            }
+        }
+            if(listOfCheckedStud.size() > 0 && listOfCheckedInst.size()>0) {
+                new AlertDialog.Builder(this)
+                        .setTitle("Deleting rows")
+                        .setMessage("Are u sure you want to delete selected row/rows?")
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                rs.deleteStudentWithInstrumentRows(listOfCheckedStud, listOfCheckedInst);
+                                txtSearchStudentWithInstrument.setText("");
+                                makeToast("Student with instrument successfully deleted");
+                                rs.getStudentWithInstrument();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        })
+                        .show();
+
+
+            }
     }
 
     public void makeToast(String text){
