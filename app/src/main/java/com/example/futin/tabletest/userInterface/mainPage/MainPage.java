@@ -8,7 +8,6 @@ import android.content.pm.ActivityInfo;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -22,7 +21,7 @@ import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 import com.example.futin.tabletest.userInterface.tables.ShowCitiesTableView;
 import com.example.futin.tabletest.userInterface.tables.ShowInstrumentsTableView;
 import com.example.futin.tabletest.userInterface.tables.ShowStudentsTableView;
-import com.example.futin.tabletest.userInterface.tables.ShowStudentsWithInsturmentsTableView;
+import com.example.futin.tabletest.userInterface.tables.ShowStudentsWithInstrumentsTableView;
 
 public class MainPage extends ActionBarActivity implements FragmentToActivity{
 
@@ -107,7 +106,7 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
                  startActivity(intentInst);
                 break;
             case R.id.btnShowStudWithInst:
-                Intent intentStudWithInst=new Intent(this, ShowStudentsWithInsturmentsTableView.class);
+                Intent intentStudWithInst=new Intent(this, ShowStudentsWithInstrumentsTableView.class);
                 startActivity(intentStudWithInst);
                 break;
             case R.id.btnShowCities:

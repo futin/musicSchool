@@ -133,10 +133,12 @@ public class RestService {
     public void deleteStudentRows(ArrayList<String> listOfStudentIds){
         new RSDeleteStudentRowsTask(new RSDeleteStudentRowsRequest(listOfStudentIds), deleteRowsData).execute((Void) null);
     }
-    public void deleteInstrumentRows(ArrayList<Integer> listOfIntrumentIds){
-        new RSDeleteInstrumentRowsTask(new RSDeleteInstrumentRowsRequest(listOfIntrumentIds), deleteRowsData).execute((Void) null);
+    public void deleteInstrumentRows(ArrayList<Integer> listOfInstrumentIds){
+        new RSDeleteInstrumentRowsTask(new RSDeleteInstrumentRowsRequest(listOfInstrumentIds), deleteRowsData).execute((Void) null);
     }
-    public void deleteStudentWithInstrumentRows(ArrayList<String> listOfStudentWithInstrumentIds){
-        new RSDeleteStudentWithInstrumentRowsTask(new RSDeleteStudentWithInstrumentRowsRequest(listOfStudentWithInstrumentIds), deleteRowsData).execute((Void) null);
+    public void deleteStudentWithInstrumentRows(ArrayList<String> listOfStudentIds,
+                                                ArrayList<Integer> listOfInstrumentIds ){
+        new RSDeleteStudentWithInstrumentRowsTask(new RSDeleteStudentWithInstrumentRowsRequest
+                (listOfStudentIds,listOfInstrumentIds), deleteRowsData).execute((Void) null);
     }
 }

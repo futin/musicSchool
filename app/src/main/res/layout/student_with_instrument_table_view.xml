@@ -12,11 +12,23 @@
         android:layout_height="fill_parent">
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="O.N."
+            android:id="@+id/textView23"
+            android:layout_column="0"
+            android:textColor="#ff3b5020"
+            android:textSize="16dp"
+            android:textStyle="bold|italic"
+            android:gravity="center" />
+
+        <TextView
             android:id="@+id/studentNameColumnHeader"
             android:text="Student"
             android:textStyle="bold|italic"
             android:typeface="serif"
-            android:layout_column="0"
+            android:layout_column="1"
             android:layout_span="3"
             android:textSize="16dp"
             android:layout_weight="2"

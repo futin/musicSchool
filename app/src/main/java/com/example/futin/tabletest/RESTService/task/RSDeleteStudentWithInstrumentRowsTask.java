@@ -41,11 +41,17 @@ public class RSDeleteStudentWithInstrumentRowsTask extends AsyncTask<Void, Void,
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             header.set("Connection", "Close");
-            String listOfStudentsWithInstrumentToString = request.toString();
-            //take data from the list
-            String listOfStudentsWithInstrumentWithNoBrackets=listOfStudentsWithInstrumentToString.substring(1,listOfStudentsWithInstrumentToString.length()-1);
+            //take list of students
+            String listOfStudents = request.getListOfStudentIds().toString();
+            //take list of instruments
+            String listOfInstruments = request.getListOfInstrumentIds().toString();
+            //take data from list of students
+            String listOfStudentsWithNoBrackets=listOfStudents.substring(1,listOfStudents.length()-1);
+            //take data from list of instruments
+            String listOfInstrumentsWithNoBrackets=listOfInstruments.substring(1,listOfInstruments.length()-1);
 
-            String listOfStudentsWithInstrument="listOfStudentsWithInstrument="+listOfStudentsWithInstrumentWithNoBrackets;
+            String listOfStudentsWithInstrument="listOfStudents="+listOfStudentsWithNoBrackets+
+                    "&listOfInstruments="+listOfInstrumentsWithNoBrackets;
             Log.i(TAG, "List of studentsWithInstrument: " + listOfStudentsWithInstrument);
 
             HttpEntity<String> entity = new HttpEntity<>(listOfStudentsWithInstrument, header);

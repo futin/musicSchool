@@ -6,22 +6,28 @@ import java.util.ArrayList;
  * Created by Futin on 3/28/2015.
  */
 public class RSDeleteStudentWithInstrumentRowsRequest {
-    ArrayList<String>listOfStudentsWithInstrumentsIds;
+    ArrayList<String>listOfStudentIds;
+    ArrayList<Integer>listOfInstrumentIds;
 
-    public RSDeleteStudentWithInstrumentRowsRequest(ArrayList<String> listOfStudentsWithInstrumentsIds) {
-        this.listOfStudentsWithInstrumentsIds = listOfStudentsWithInstrumentsIds;
+    public RSDeleteStudentWithInstrumentRowsRequest(ArrayList<String> listOfStudentIds, ArrayList<Integer> listOfInstrumentIds) {
+        this.listOfStudentIds = listOfStudentIds;
+        this.listOfInstrumentIds = listOfInstrumentIds;
     }
 
-    public ArrayList<String> getListOfStudentsWithInstrumentsIds() {
-        return listOfStudentsWithInstrumentsIds;
+    public ArrayList<String> getListOfStudentIds() {
+        return listOfStudentIds;
     }
 
-    public void setListOfStudentsWithInstrumentsIds(ArrayList<String> listOfStudentsWithInstrumentsIds) {
-        this.listOfStudentsWithInstrumentsIds = listOfStudentsWithInstrumentsIds;
+    public void setListOfStudentIds(ArrayList<String> listOfStudentIds) {
+        this.listOfStudentIds = listOfStudentIds;
     }
 
-    @Override
-    public String toString() {
-        return listOfStudentsWithInstrumentsIds.toString();
+    public ArrayList<Integer> getListOfInstrumentIds() {
+        return listOfInstrumentIds;
     }
+
+    public void setListOfInstrumentIds(ArrayList<Integer> listOfInstrumentIds) {
+        this.listOfInstrumentIds = listOfInstrumentIds;
+    }
+
 }

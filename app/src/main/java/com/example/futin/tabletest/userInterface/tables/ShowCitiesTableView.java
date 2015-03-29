@@ -58,6 +58,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     Button btnDeleteRow;
     EditText txtSearchCity;
 
+    //header columns
+    TextView txtCityOnHeader;
+    TextView txtCityNameHeader;
+    TextView txtCityPttHeader;
+
+    //tableLayout
     TextView cityIdColumn;
     TextView cityNameColumn;
     TextView cityPttColumn;
@@ -76,13 +82,17 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
 
         sharedPreferences=getSharedPreferences("employee", Context.MODE_PRIVATE);
-
         cityTableLayout= (RelativeLayout) findViewById(R.id.cityTableLayout);
+
+        //header
+        txtCityOnHeader= (TextView) findViewById(R.id.txtCityOnHeader);
+        txtCityNameHeader= (TextView) findViewById(R.id.txtCityNameHeader);
+        txtCityPttHeader= (TextView) findViewById(R.id.txtCityPttHeader);
+
         tblLayout= (TableLayout) findViewById(R.id.tblLayoutCity);
         cityIdColumn= (TextView) findViewById(R.id.cityIdColumn);
         cityNameColumn= (TextView) findViewById(R.id.cityNameColumn);
         cityPttColumn= (TextView) findViewById(R.id.cityPttColumn);
-
         txtNoResultCity= (TextView) findViewById(R.id.txtNoResultCity);
         txtSearchCity= (EditText) findViewById(R.id.txtSearchCity);
         checkboxCity= (TextView) findViewById(R.id.checkBoxCity);
@@ -179,7 +189,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
          idCounter=0;
         tblLayout.removeAllViews();
         if(listOfCities != null) {
+
             txtNoResultCity.setVisibility(View.INVISIBLE);
+            //set columns visible
+            txtCityOnHeader.setVisibility(View.VISIBLE);
+            txtCityNameHeader.setVisibility(View.VISIBLE);
+            txtCityPttHeader.setVisibility(View.VISIBLE);
             for (City city : listOfCities) {
                 idCounter++;
                 final String id = String.valueOf(idCounter);
@@ -283,6 +298,10 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             txtNoResultCity.setText("No results for these parameters");
             txtNoResultCity.setGravity(Gravity.CENTER);
             txtNoResultCity.setVisibility(View.VISIBLE);
+            //set columns invisible
+            txtCityOnHeader.setVisibility(View.INVISIBLE);
+            txtCityNameHeader.setVisibility(View.INVISIBLE);
+            txtCityPttHeader.setVisibility(View.INVISIBLE);
         }
         //only way to set checkbox invisible on start
         if (btnDeleteRow.isEnabled()){

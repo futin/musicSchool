@@ -45,7 +45,7 @@ public class RSDeleteCityRowsTask extends AsyncTask<Void, Void, RSDeleteCityRows
             String listOfCitiesWithNoBrackets=listOfCitiesToString.substring(1,listOfCitiesToString.length()-1);
 
             String listOfCities="listOfCities="+listOfCitiesWithNoBrackets;
-            Log.i(TAG, "List of cities: "+ listOfCities);
+            Log.i(TAG, "List of cities: "+ request.getListOfPtt().toString());
 
             HttpEntity<String> entity = new HttpEntity<>(listOfCities, header);
             String address = RSDataSingleton.getInstance().getServerUrl().getDeleteCityRowUrl();
