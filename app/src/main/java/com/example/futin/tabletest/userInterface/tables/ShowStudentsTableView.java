@@ -10,7 +10,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,8 +38,6 @@ import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchData,
@@ -60,7 +57,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     TextView studentPttColumn;
     TextView txtNoResultStudents;
     TextView studentOrdinalNumbColumn;
-    EditText searchStudent;
+    EditText txtSearchStudent;
     Button btnDeleteRowStudent;
 
     ArrayList<Student> listOfStudents=new ArrayList<>();
@@ -84,7 +81,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         studentIdColumn = (TextView) findViewById(R.id.studentIdColumn);
         studentFirstAndLastNameColumn= (TextView) findViewById(R.id.studentFirstAndLastNameColumn);
         studentPttColumn= (TextView) findViewById(R.id.studentPttColumn);
-        searchStudent= (EditText) findViewById(R.id.txtSearchStudent);
+        txtSearchStudent = (EditText) findViewById(R.id.txtSearchStudent);
         txtNoResultStudents= (TextView) findViewById(R.id.txtNoResultStudents);
         btnDeleteRowStudent= (Button) findViewById(R.id.btnDeleteRowStudent);
         studentOrdinalNumbColumn= (TextView) findViewById(R.id.studentOrdnalNumbColumn);
@@ -103,14 +100,14 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     @Override
     protected void onStart() {
         super.onStart();
-        searchStudent.addTextChangedListener(new TextWatcher() {
+        txtSearchStudent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-              rs.searchForStudent(s.toString());
+                rs.searchForStudent(s.toString());
             }
 
             @Override
@@ -394,6 +391,8 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 rs.deleteStudentRows(listOfCheckedStudents);
+                                makeToast("Student successfully deleted");
+                                txtSearchStudent.setText("");
                                 rs.getStudents();
                             }
                         })
@@ -408,11 +407,10 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         }else{
             //check to make difference between single and multiple rows
             if(listOfCheckedStudents.size()==1)
-                Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
+                makeToast("You cannot delete this row!");
             else
-                Toast.makeText(getApplicationContext(), "You cannot delete these rows!", Toast.LENGTH_SHORT).show();
-
+                makeToast("You cannot delete these rows!");
         }
-
     }
+
 }

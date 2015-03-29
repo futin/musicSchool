@@ -188,12 +188,12 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
                 final TableRow row = new TableRow(this);
 
-                final TextView cityId = new TextView(this);
+                final TextView ordNumb = new TextView(this);
                 final TextView cityName = new TextView(this);
                 final TextView cityPtt = new TextView(this);
                 final CheckBox checkBox = new CheckBox(this);
 
-                cityId.setText(id);
+                ordNumb.setText(id);
                 cityName.setText(name);
                 cityPtt.setText(ptt);
 
@@ -207,11 +207,11 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 cityNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
                 cityPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
-                //LayoutParams for cityId
+                //LayoutParams for ordNumb
                 TableRow.LayoutParams paramsCityId = (TableRow.LayoutParams) cityIdColumn.getLayoutParams();
                 //  paramsCityId.span=1;
                 //  paramsCityId.column=1;
-                cityId.setLayoutParams(paramsCityId);
+                ordNumb.setLayoutParams(paramsCityId);
 
                 //LayoutParams for cityName
                 TableRow.LayoutParams paramsCityName = (TableRow.LayoutParams) cityNameColumn.getLayoutParams();
@@ -225,28 +225,28 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 //  paramsCityId.column=1;
                 cityPtt.setLayoutParams(paramsCityPtt);
 
-                cityId.setTextSize(22);
+                ordNumb.setTextSize(22);
                 cityName.setTextSize(22);
                 cityPtt.setTextSize(22);
                 checkBox.setTextSize(22);
 
-                cityId.setGravity(Gravity.CENTER);
+                ordNumb.setGravity(Gravity.CENTER);
                 cityName.setGravity(Gravity.CENTER);
                 cityPtt.setGravity(Gravity.CENTER);
                 //for different background of every row
 
                 if (idCounter % 2 == 0) {
-                    cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                    ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                     cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
                 } else {
-                    cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                    ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                     cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                     cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
                 }
 
                 //setting rows
-                row.addView(cityId);
+                row.addView(ordNumb);
                 row.addView(cityName);
                 row.addView(cityPtt);
                 row.addView(checkBox);
@@ -254,22 +254,22 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 checkBox.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        TextView oldCityId = cityId;
+                        TextView oldOrdNumb = ordNumb;
                         TextView oldCityName = cityName;
                         TextView oldCityPtt = cityPtt;
                         //changing checked rows background
                         if (checkBox.isChecked()){
-                            cityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                            ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
                         } else {
                             //if it is not checked, return to previous state
                             if (Integer.parseInt(id) % 2 == 0) {
-                                oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
                             } else {
-                                oldCityId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                                 oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                                 oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
                             }
@@ -363,6 +363,8 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 rs.deleteCityRows(listOfCheckedCities);
+                                txtSearchCity.setText("");
+                                makeToast("City successfully deleted");
                                 rs.getCities();
                             }
                         })
@@ -377,9 +379,9 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         }else{
             //check to make difference between single and multiple rows
             if(listOfCheckedCities.size()==1)
-            Toast.makeText(getApplicationContext(), "You cannot delete this row!", Toast.LENGTH_SHORT).show();
+                makeToast("You cannot delete this row!");
             else
-            Toast.makeText(getApplicationContext(), "You cannot delete these rows!", Toast.LENGTH_SHORT).show();
+                makeToast("You cannot delete these rows!");
 
         }
 
@@ -394,6 +396,10 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
             c.setVisibility(type);
 
         }
+    }
+
+    public void makeToast(String text){
+        Toast.makeText(getApplicationContext(),text, Toast.LENGTH_SHORT).show();
     }
 
 }
