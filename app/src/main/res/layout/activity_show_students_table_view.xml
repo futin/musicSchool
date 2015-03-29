@@ -39,11 +39,23 @@
                 android:layout_height="fill_parent">
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="ON"
+                    android:id="@+id/studentOrdnalNumbColumn"
+                    android:layout_column="0"
+                    android:layout_span="1"
+                    android:textColor="#ff3b5020"
+                    android:textSize="22dp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
                     android:id="@+id/studentIdColumn"
                     android:text="Id"
                     android:textStyle="bold|italic"
                     android:typeface="serif"
-                    android:layout_column="0"
+                    android:layout_column="1"
                     android:layout_span="4"
                     android:textSize="22dp"
                     android:layout_weight="1"
@@ -89,14 +101,13 @@
         android:textColor="#ff3b5020" />
 
     <EditText
-        android:layout_width="250dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:id="@+id/txtSearchStudent"
         android:hint="search for student"
         android:layout_alignBottom="@+id/textView11"
         android:layout_marginBottom="-5dp"
-        android:layout_alignEnd="@+id/textView19"
-        android:layout_toEndOf="@+id/textView11" />
+        android:layout_toEndOf="@+id/textView21" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -106,7 +117,7 @@
         android:id="@+id/txtNoResultStudents"
         android:layout_alignTop="@+id/scrollViewStudents"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="30dp"
         android:layout_alignEnd="@+id/scrollViewStudents"
         android:textColor="#ff6c6c6c"
         android:textSize="30dp"
@@ -114,17 +125,18 @@
         android:visibility="invisible" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="75dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Id"
         android:id="@+id/textView17"
-        android:layout_below="@+id/textView11"
-        android:layout_alignParentStart="true"
         android:textColor="#ff3b5020"
         android:textStyle="bold|italic"
         android:textSize="22dp"
-        android:layout_toStartOf="@+id/txtSearchStudent" />
+        android:layout_below="@+id/txtSearchStudent"
+        android:layout_toEndOf="@+id/textView21"
+        android:layout_marginStart="27dp"
+        android:layout_marginLeft="40dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -135,9 +147,9 @@
         android:textColor="#ff3b5020"
         android:textStyle="bold|italic"
         android:textSize="22dp"
+        android:layout_marginRight="15dp"
         android:layout_below="@+id/txtSearchStudent"
-        android:layout_toEndOf="@+id/textView11"
-        android:layout_marginStart="108dp" />
+        android:layout_alignEnd="@+id/textView7" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -148,8 +160,9 @@
         android:textColor="#ff3b5020"
         android:textStyle="bold|italic"
         android:textSize="22dp"
-        android:layout_above="@+id/scrollViewStudents"
-        android:layout_toEndOf="@+id/textView7" />
+        android:layout_alignTop="@+id/textView18"
+        android:layout_alignEnd="@+id/btnDeleteRowStudent"
+        android:layout_marginEnd="68dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -159,5 +172,17 @@
         android:onClick="deleteRow"
         android:layout_alignBottom="@+id/txtSearchStudent"
         android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="O.N."
+        android:id="@+id/textView21"
+        android:textColor="#ff3b5020"
+        android:textStyle="bold|italic"
+        android:textSize="22dp"
+        android:layout_below="@+id/textView11"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

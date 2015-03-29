@@ -109,7 +109,7 @@
         android:id="@+id/txtNoResultCity"
         android:layout_alignTop="@+id/scrollViewStudents"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="30dp"
         android:layout_alignEnd="@+id/scrollViewStudents"
         android:textColor="#ff6c6c6c"
         android:textSize="30dp"

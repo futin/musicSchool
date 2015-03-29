@@ -39,6 +39,8 @@ import com.example.futin.tabletest.RESTService.response.RSGetStudentsResponse;
 import com.example.futin.tabletest.RESTService.response.RSSearchForStudentResponse;
 import com.example.futin.tabletest.userInterface.login.LoginAndRegistration;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ShowStudentsTableView extends ActionBarActivity implements ReturnStudentData, SearchData,
@@ -57,15 +59,18 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
     TextView studentFirstAndLastNameColumn;
     TextView studentPttColumn;
     TextView txtNoResultStudents;
+    TextView studentOrdinalNumbColumn;
     EditText searchStudent;
     Button btnDeleteRowStudent;
 
     ArrayList<Student> listOfStudents=new ArrayList<>();
     ArrayList<Employee>listOfEmployees=new ArrayList<>();
+
     //innerClass onClickRow
     int counter;
     boolean deleteMode=false;
     boolean isLoggedIn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +87,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         searchStudent= (EditText) findViewById(R.id.txtSearchStudent);
         txtNoResultStudents= (TextView) findViewById(R.id.txtNoResultStudents);
         btnDeleteRowStudent= (Button) findViewById(R.id.btnDeleteRowStudent);
+        studentOrdinalNumbColumn= (TextView) findViewById(R.id.studentOrdnalNumbColumn);
 
         rs=new RestService();
         rs.setReturnStudentData(this);
@@ -91,6 +97,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         rs.getStudents();
         rs.getStudentWithInstrument();
 
+        btnDeleteRowStudent.setEnabled(false);
     }
 
     @Override
@@ -177,12 +184,14 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             for (Student student : listOfStudents) {
             counter++;
 
-            final String id = String.valueOf(student.getStudentId());
+            String id = String.valueOf(student.getStudentId());
             String name = student.getFirstName() + " " + student.getLastName();
             String ptt = String.valueOf(student.getCity().getCityPtt());
 
+
             TableRow row = new TableRow(this);
 
+            final TextView ordinalNumber=new TextView(this);
             final TextView studId = new TextView(this);
             final TextView studName = new TextView(this);
             final TextView studCityPtt = new TextView(this);
@@ -191,6 +200,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studId.setText(id);
             studName.setText(name);
             studCityPtt.setText(ptt);
+            ordinalNumber.setText(String.valueOf(counter));
 
             studentIdColumn.setGravity(Gravity.CENTER);
             studentFirstAndLastNameColumn.setGravity(Gravity.CENTER);
@@ -201,6 +211,12 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studentPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
             checkBoxStudent.setButtonDrawable(R.drawable.custom_checkbox);
+
+            //LayoutParams for studCityPtt
+            TableRow.LayoutParams paramsStudON = (TableRow.LayoutParams) studentOrdinalNumbColumn.getLayoutParams();
+            //   paramsCityId.span=3;
+            //  paramsCityId.column=1;
+            ordinalNumber.setLayoutParams(paramsStudON);
 
             //LayoutParams for studId
             TableRow.LayoutParams paramsStudId = (TableRow.LayoutParams) studentIdColumn.getLayoutParams();
@@ -220,25 +236,30 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             //  paramsCityId.column=1;
             studCityPtt.setLayoutParams(paramsStudType);
 
-            studId.setTextSize(20);
-            studName.setTextSize(20);
-            studCityPtt.setTextSize(20);
-            checkBoxStudent.setTextSize(20);
+            ordinalNumber.setTextSize(19);
+            studId.setTextSize(19);
+            studName.setTextSize(19);
+            studCityPtt.setTextSize(19);
+            checkBoxStudent.setTextSize(19);
 
+            ordinalNumber.setGravity(Gravity.CENTER);
             studId.setGravity(Gravity.CENTER);
             studName.setGravity(Gravity.CENTER);
             studCityPtt.setGravity(Gravity.CENTER);
 
 
             if (counter % 2 == 0) {
+                ordinalNumber.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
             } else {
+                ordinalNumber.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                 studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
             }
+            row.addView(ordinalNumber);
             row.addView(studId);
             row.addView(studName);
             row.addView(studCityPtt);
@@ -247,22 +268,26 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                 checkBoxStudent.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        TextView oldOrdNumb=ordinalNumber;
                         TextView oldStudId = studId;
                         TextView oldStudName = studName;
                         TextView oldStudCityPtt = studCityPtt;
 
                         //changing checked rows background
                         if (checkBoxStudent.isChecked()){
+                            ordinalNumber.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             studId.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             studName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
                             studCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
                         } else {
                             //if it is not checked, return to previous state
-                            if (Integer.parseInt(id) % 2 == 0) {
+                            if (Integer.parseInt(ordinalNumber.getText().toString()) % 2 == 0) {
+                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldStudId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldStudName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                                 oldStudCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
                             } else {
+                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                                 oldStudId.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                                 oldStudName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
                                 oldStudCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
@@ -274,7 +299,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             }
         }else{
             txtNoResultStudents.setVisibility(View.VISIBLE);
-            txtNoResultStudents.setText("No result for these parameters");
+            txtNoResultStudents.setText("No results for these parameters");
             txtNoResultStudents.setGravity(Gravity.CENTER);
         }
 
@@ -319,11 +344,8 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         for (int i = 0; i < tblLayoutStudent.getChildCount(); i++) {
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
-                Log.i("testt", checked.getVirtualChildAt(11)+"");
-
-
             //take 9-th column (our checkbox)
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(11);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(12);
             c.setVisibility(type);
         }
     }
@@ -336,11 +358,11 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
             //take 9-th column (our checkbox)
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(9);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(12);
             //take primary key from table
-            TextView studentIdPK = (TextView) checked.getVirtualChildAt(0);
+            TextView studentIdPK = (TextView) checked.getVirtualChildAt(1);
             if (c.isChecked()) {
-                String idPK=studentIdPK.toString();
+                String idPK=studentIdPK.getText().toString();
                 //put all integers into list
                 listOfCheckedStudents.add(idPK);
             }
