@@ -63,7 +63,7 @@ public class RestService {
     public void setReturnDataSignIn(SignInReturnData returnDataSignIn) {
         this.returnDataSignIn = returnDataSignIn;
     }
-    public void setReturnReturnStudentData(ReturnStudentData returnReturnStudentData) {
+    public void setReturnStudentData(ReturnStudentData returnReturnStudentData) {
         this.returnReturnStudentData = returnReturnStudentData;
     }
     public void setReturnStudentWithInstrumentData(ReturnStudentWithInstrumentData returnStudentWithInstrumentData) {

@@ -104,7 +104,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
         //Get lists from RestService
         rs=new RestService(this);
-        rs.setReturnReturnStudentData(this);
+        rs.setReturnStudentData(this);
         rs.setReturnInstrumentData(this);
         rs.setReturnStudentWithInstrumentData(this);
         rs.getCities();

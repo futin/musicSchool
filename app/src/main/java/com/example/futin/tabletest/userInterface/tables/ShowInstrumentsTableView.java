@@ -96,7 +96,9 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         rs.setReturnInstrumentData(this);
         rs.setDeleteRowsData(this);
         rs.setSearchData(this);
+        rs.setReturnStudentWithInstrumentData(this);
         rs.getInstruments();
+        rs.getStudentWithInstrument();
 
         btnDeleteRowInstrument.setEnabled(false);
     }
@@ -337,6 +339,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             }
         }
         boolean isFound = false;
+        Log.i("testtttt2: ",listOfEmployees.toString());
 
         if (listOfCheckedInstruments != null && listOfCheckedInstruments.size() > 0 &&
                 listOfEmployees != null && listOfEmployees.size() > 0) {
@@ -346,8 +349,10 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
             String[] parsedList = listWithNoBrackets.split(", ");
             //check for match instrument's id with real id from database
             for (int i = 0; i < parsedList.length; i++) {
+                Log.i("check is found: ",parsedList[i]);
+
                 for (Employee employee : listOfEmployees) {
-                    Toast.makeText(getApplicationContext(), employee.getStudent().getInstrument().getInstrumentId(), Toast.LENGTH_SHORT).show();
+                    Log.i("check Employee: ",""+employee.getStudent().getInstrument().getInstrumentId());
 
                     if (employee.getStudent().getInstrument().getInstrumentId() == Integer.parseInt(parsedList[i])) {
                         isFound = true;
@@ -410,6 +415,6 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
     public void returnStudentWithInstrumentDataOnPostExecute(Object o) {
         returnStudWithInstData= (RSGetStudentWithInstrumentResponse) o;
         listOfEmployees=returnStudWithInstData.getListOfStudentsWithInstrument();
-
+        Log.i("testtttt: ",listOfEmployees.toString());
     }
 }

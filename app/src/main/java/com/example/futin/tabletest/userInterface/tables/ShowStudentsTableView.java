@@ -75,7 +75,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
 
 
         rs=new RestService();
-        rs.setReturnReturnStudentData(this);
+        rs.setReturnStudentData(this);
         rs.setSearchData(this);
         rs.getStudents();
 

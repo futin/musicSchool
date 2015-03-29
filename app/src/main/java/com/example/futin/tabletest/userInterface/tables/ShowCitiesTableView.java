@@ -91,7 +91,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         rs=new RestService(this);
         rs.setSearchData(this);
         rs.setDeleteRowsData(this);
-        rs.setReturnReturnStudentData(this);
+        rs.setReturnStudentData(this);
         rs.getCities();
         rs.getStudents();
 
