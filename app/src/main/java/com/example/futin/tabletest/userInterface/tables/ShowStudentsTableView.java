@@ -342,7 +342,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
             //take 9-th column (our checkbox)
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(12);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(4);
             c.setVisibility(type);
         }
     }
@@ -355,7 +355,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             //iterate through whole table
             TableRow checked = (TableRow) tblLayoutStudent.getChildAt(i);
             //take 9-th column (our checkbox)
-            CheckBox c = (CheckBox) checked.getVirtualChildAt(12);
+            CheckBox c = (CheckBox) checked.getVirtualChildAt(4);
             //take primary key from table
             TextView studentIdPK = (TextView) checked.getVirtualChildAt(1);
             if (c.isChecked()) {
