@@ -5,6 +5,7 @@ import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentData;
 import com.example.futin.tabletest.RESTService.listeners.ReturnStudentWithInstrumentData;
+import com.example.futin.tabletest.RESTService.listeners.ReturnUpdateData;
 import com.example.futin.tabletest.RESTService.listeners.SearchData;
 import com.example.futin.tabletest.RESTService.listeners.SignInReturnData;
 import com.example.futin.tabletest.RESTService.request.RSDeleteCityRowsRequest;
@@ -19,6 +20,7 @@ import com.example.futin.tabletest.RESTService.request.RSSearchForInstrumentRequ
 import com.example.futin.tabletest.RESTService.request.RSSearchForStudentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSearchForStudentWithInstrumentRequest;
 import com.example.futin.tabletest.RESTService.request.RSSignInRequest;
+import com.example.futin.tabletest.RESTService.request.RSUpdateInstrumentsInStockRequest;
 import com.example.futin.tabletest.RESTService.task.RSDeleteCityRowsTask;
 import com.example.futin.tabletest.RESTService.task.RSDeleteInstrumentRowsTask;
 import com.example.futin.tabletest.RESTService.task.RSDeleteStudentRowsTask;
@@ -36,6 +38,7 @@ import com.example.futin.tabletest.RESTService.task.RSSearchForInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSSearchForStudentTask;
 import com.example.futin.tabletest.RESTService.task.RSSearchForStudentWithInstrumentTask;
 import com.example.futin.tabletest.RESTService.task.RSSignInTask;
+import com.example.futin.tabletest.RESTService.task.RSUpdateInstrumentsInStockTask;
 
 import java.util.ArrayList;
 
@@ -52,6 +55,7 @@ public class RestService {
     ReturnStudentWithInstrumentData returnStudentWithInstrumentData=null;
     SearchData searchData=null;
     DeleteRows deleteRowsData=null;
+    ReturnUpdateData updateData=null;
 
     public RestService() {
     }
@@ -77,6 +81,10 @@ public class RestService {
     }
     public void setSearchData(SearchData searchData) {
         this.searchData = searchData;
+    }
+
+    public void setUpdateData(ReturnUpdateData updateData) {
+        this.updateData = updateData;
     }
 
     //GET methods
@@ -140,5 +148,9 @@ public class RestService {
                                                 ArrayList<Integer> listOfInstrumentIds ){
         new RSDeleteStudentWithInstrumentRowsTask(new RSDeleteStudentWithInstrumentRowsRequest
                 (listOfStudentIds,listOfInstrumentIds), deleteRowsData).execute((Void) null);
+    }
+
+    public void updateInstrumentsInStock(int instrumentId, int quantity){
+        new RSUpdateInstrumentsInStockTask(new RSUpdateInstrumentsInStockRequest(instrumentId, quantity),updateData).execute((Void) null);
     }
 }

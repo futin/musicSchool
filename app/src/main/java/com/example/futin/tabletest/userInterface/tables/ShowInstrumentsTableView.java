@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -233,6 +235,15 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instName.setText(name);
                 instType.setText(type);
                 instInStock.setText(inStock);
+
+                //if quantity of inst lower then 5, report
+                if(inst.getInstrumentsInStock() <=5){
+                    instInStock.setTextColor(Color.RED);
+                    instInStock.setTypeface(null, Typeface.BOLD);
+                }else{
+                    instInStock.setTextColor(Color.BLACK);
+                    instInStock.setTypeface(null, Typeface.NORMAL);
+                }
 
                 instrumentONColumn.setGravity(Gravity.CENTER);
                 instrumentIdColumn.setGravity(Gravity.CENTER);
