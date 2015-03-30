@@ -7,7 +7,7 @@
     android:layout_height="fill_parent"
     android:layout_alignParentBottom="true"
     android:layout_alignParentStart="true"
-    android:layout_marginBottom="25dp"
+    android:layout_marginBottom="5dp"
     android:layout_marginTop="55dp"
     >
 
@@ -21,7 +21,8 @@
         android:textSize="20sp"
         android:layout_marginTop="25dp"
         android:layout_below="@+id/spinnerStudent"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textColor="#ffe4e4e4" />
 
     <Spinner
         android:layout_width="200dp"
@@ -31,7 +32,9 @@
         android:layout_alignStart="@+id/spinnerStudent"
         android:layout_marginTop="-10dp"
         android:layout_centerVertical="true"
-        android:layout_alignEnd="@+id/spinnerStudent" />
+        android:layout_alignEnd="@+id/spinnerStudent"
+        android:theme="@style/MooTheme"
+        />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +46,8 @@
         android:layout_alignTop="@+id/spinnerStudent"
         android:layout_alignParentStart="true"
         android:layout_marginTop="8dp"
-        android:layout_toStartOf="@+id/spinnerStudent" />
+        android:layout_toStartOf="@+id/spinnerStudent"
+        android:textColor="#ffe4e4e4" />
 
 
     <Spinner
@@ -56,16 +60,16 @@
 
     <Button
         android:id="@+id/btnCancelInst"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:background="@drawable/button_shape_inside_layout"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
         android:text="@string/txtBtn_cancel_inst"
-        android:textColor="#D9D9D7"
-        android:textSize="12sp"
+        android:textColor="#ffe4e4e4"
+        android:textSize="15sp"
         android:nestedScrollingEnabled="false"
         android:layout_below="@+id/textViewDate"
         android:layout_alignParentStart="true"
@@ -73,16 +77,16 @@
 
     <Button
         android:id="@+id/btnSaveInst"
-        android:layout_width="130dp"
-        android:layout_height="40dp"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
         android:text="@string/txtBtnSave"
         android:background="@drawable/button_shape_inside_layout"
         android:shadowColor="#A8A8A8"
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
-        android:textColor="#D9D9D7"
-        android:textSize="12sp"
+        android:textColor="#ffe4e4e4"
+        android:textSize="15sp"
         android:nestedScrollingEnabled="false"
         android:layout_alignTop="@+id/btnCancelInst"
         android:layout_alignParentEnd="true" />
@@ -97,7 +101,8 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="30dp"
         android:textSize="18dp"
-        android:layout_toStartOf="@+id/spinnerInstrument" />
+        android:layout_toStartOf="@+id/spinnerInstrument"
+        android:textColor="#ffe4e4e4" />
 
     <EditText
         android:layout_width="75dp"
@@ -107,7 +112,8 @@
         android:layout_above="@+id/textViewDate"
         android:layout_toStartOf="@+id/btnSaveInst"
         android:layout_toRightOf="@+id/textView6"
-        android:layout_alignEnd="@+id/spinnerInstrument" />
+        android:layout_alignEnd="@+id/spinnerInstrument"
+        android:textColor="#ffe4e4e4" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -119,7 +125,8 @@
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/textView6"
-        android:layout_marginTop="30dp" />
+        android:layout_marginTop="30dp"
+        android:textColor="#ffe4e4e4" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -130,6 +137,7 @@
         android:layout_alignStart="@+id/txtNumberOfInstruments"
         android:layout_alignEnd="@+id/txtNumberOfInstruments"
         android:scrollbarStyle="insideOverlay"
-        android:focusableInTouchMode="false"/>
+        android:focusableInTouchMode="false"
+        android:textColor="#ffe4e4e4" />
 
 </RelativeLayout>

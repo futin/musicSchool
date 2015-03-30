@@ -1,9 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="60dp"
+    android:paddingBottom="35dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentLogin"
-    android:background="@drawable/rob_img_new"
+    android:background="@drawable/cool_background_hd_wallpaper"
     >
 
     <EditText
@@ -16,7 +18,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColorHint="#666666"
+        android:textColorHint="#ffbbbbbb"
         />
 
     <EditText
@@ -28,7 +30,7 @@
         android:layout_marginTop="63dp"
         android:ems="10"
         android:hint="@string/username"
-        android:textColorHint="#666666" />
+        android:textColorHint="#ffbbbbbb" />
 
     <Button
         android:id="@+id/btnLogin"
@@ -48,7 +50,8 @@
         android:layout_alignRight="@+id/txtPassword"
         android:layout_alignEnd="@+id/txtPassword"
         android:layout_alignLeft="@+id/txtPassword"
-        android:layout_alignStart="@+id/txtPassword" />
+        android:layout_alignStart="@+id/txtPassword"
+        android:focusableInTouchMode="false" />
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -60,6 +63,7 @@
         android:layout_alignStart="@+id/txtPassword"
         android:layout_alignEnd="@+id/txtPassword"
         android:layout_marginTop="15dp"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:textColor="#ffbbbbbb" />
 
 </RelativeLayout>

@@ -116,11 +116,19 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         rs.getStudents();
         rs.getInstruments();
         rs.getStudentWithInstrument();
+
         //get that value for the first time
         getCityFromSpinner();
         getStudentFromSpinner();
         getInstrumentFromSpinner();
         return view;
+    }
+    public void setButtonsEnabled(){
+        btnEnterStudent.setAlpha(1f);
+        btnEnterStudent.setEnabled(true);
+        btnEnterStudentsInstrument.setAlpha(1f);
+        btnEnterStudentsInstrument.setEnabled(true);
+
     }
 
     @Override
@@ -130,6 +138,12 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
             case R.id.btnEnterStudent:
                 rs.getStudents();
+                //change look of button
+                btnEnterStudent.setEnabled(false);
+                btnEnterStudent.setAlpha(0.6f);
+                btnEnterStudentsInstrument.setEnabled(true);
+                btnEnterStudentsInstrument.setAlpha(1f);
+
                 changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
                 instrumentLayout.setVisibility(View.INVISIBLE);
@@ -138,6 +152,11 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.btnEnterStudentsInstrument:
+                btnEnterStudentsInstrument.setEnabled(false);
+                btnEnterStudentsInstrument.setAlpha(0.6f);
+                btnEnterStudent.setEnabled(true);
+                btnEnterStudent.setAlpha(1f);
+
                 rs.getStudents();
                 rs.getStudentWithInstrument();
                 changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
@@ -151,6 +170,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
             case R.id.btnSave:
                 btnSaveClicked();
+                setButtonsEnabled();
                 break;
 
             case R.id.btnCancel:
@@ -158,10 +178,12 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
                 studentLayout.setVisibility(View.INVISIBLE);
                 makeDefaultStudentLayout();
+                setButtonsEnabled();
                 break;
 
             case R.id.btnSaveInst:
                 btnSaveInstClicked();
+                setButtonsEnabled();
                 break;
 
             case R.id.btnCancelInst:
@@ -169,6 +191,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.CENTER_IN_PARENT, RelativeLayout.ALIGN_PARENT_RIGHT);
                 instrumentLayout.setVisibility(View.INVISIBLE);
                 makeDefaultInstrumentLayout();
+                setButtonsEnabled();
                 break;
             case R.id.txtDate:
                 pickDate.show();

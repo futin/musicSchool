@@ -1,11 +1,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:paddingTop="60dp"
+    android:paddingBottom="35dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentRegistration"
-    android:background="@drawable/rob_revert_img_new">
+    android:background="@drawable/rob_img_new">
 
     <EditText
         android:id="@+id/txtPassword"
@@ -15,7 +15,7 @@
         android:ems="10"
         android:hint="@string/password"
         android:inputType="textPassword"
-        android:textColorHint="#666666"
+        android:textColorHint="#ffbbbbbb"
         android:layout_below="@+id/txtUsername"
         android:layout_alignLeft="@+id/txtUsername"
         android:layout_alignStart="@+id/txtUsername" />
@@ -27,7 +27,7 @@
         android:layout_marginTop="30dp"
         android:ems="10"
         android:hint="@string/username"
-        android:textColorHint="#666666"
+        android:textColorHint="#ffbbbbbb"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/txtFirstName"
         android:layout_alignStart="@+id/txtFirstName" />
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:textColorHint="#666666"
+        android:textColorHint="#ffbbbbbb"
         android:layout_marginTop="31dp"
         android:layout_below="@+id/txtPassword"
         android:layout_centerHorizontal="true"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:hint="@string/lastName"
-        android:textColorHint="#666666"
+        android:textColorHint="#ffbbbbbb"
         android:layout_below="@+id/txtFirstName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="31dp" />
