@@ -32,15 +32,4 @@ public class TabLoginAdapter extends FragmentPagerAdapter
     public int getCount() {
         return 3;
     }
-
-    @Override
-    public CharSequence getPageTitle(int position) {
-
-        switch (position) {
-            case 0:	return "Login";
-            case 1:	return "Registration";
-            case 2: return "Find me on the Map";
-        }
-        return null;
-    }
 }

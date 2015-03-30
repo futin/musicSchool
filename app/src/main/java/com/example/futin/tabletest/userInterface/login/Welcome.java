@@ -9,12 +9,13 @@ import com.example.futin.tabletest.R;
 import com.example.futin.tabletest.userInterface.mainPage.MainPage;
 
 import android.os.Handler;
+import android.view.Window;
 
 
 public class Welcome extends ActionBarActivity {
 
     //TODO make it on 2000
-    private final int DELAYED_TIME = 500;
+    private final int DELAYED_TIME = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
