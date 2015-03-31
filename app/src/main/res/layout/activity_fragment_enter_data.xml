@@ -42,4 +42,26 @@
     <include layout="@layout/student_layout" ></include>
     <include layout="@layout/instrument_layout"></include>
 
+    <TextView
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/txtShowEmployeeNameEnterData"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="15dp"
+        android:textColor="#ffa8a8a6"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/txtShowTimeEnterData"
+        android:layout_alignTop="@+id/txtShowEmployeeNameEnterData"
+        android:layout_alignParentEnd="true"
+        android:textColor="#D9D9D7" />
+
 </RelativeLayout>

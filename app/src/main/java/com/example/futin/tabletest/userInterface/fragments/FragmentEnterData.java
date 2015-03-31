@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,6 +23,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
@@ -98,7 +100,12 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     ArrayList<Instrument> listOfInstruments;
     ArrayList<Employee> listOfStudentsWithInst;
 
-
+    //employee name and time
+    SharedPreferences sharedPreferences;
+    TextView txtEmployeeName;
+    TextView txtCurrentTime;
+    String firstName;
+    String lastName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -106,6 +113,13 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
 
         findViewById(view);
+
+        firstName=sharedPreferences.getString("firstName","");
+        lastName=sharedPreferences.getString("lastName","");
+        txtEmployeeName.setText(firstName+" "+lastName);
+        txtEmployeeName.setGravity(Gravity.CENTER);
+        txtEmployeeName.setTextSize(20);
+
 
         setDateTimeField();
 
@@ -616,6 +630,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         btnEnterStudent= (Button) view.findViewById(R.id.btnEnterStudent);
         btnEnterStudentsInstrument= (Button) view.findViewById(R.id.btnEnterStudentsInstrument);
         enterDataLayout= (ViewGroup) view.findViewById(R.id.enterDataLayout);
+        txtEmployeeName= (TextView) view.findViewById(R.id.txtShowEmployeeNameEnterData);
+        txtCurrentTime= (TextView) view.findViewById(R.id.txtShowTimeEnterData);
+        sharedPreferences= getActivity().getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         btnEnterStudent.setOnClickListener(this);
         btnEnterStudentsInstrument.setOnClickListener(this);
@@ -646,6 +663,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
         txtDate.setOnClickListener(this);
         txtDate.setInputType(InputType.TYPE_NULL);
+
     }
 
 }

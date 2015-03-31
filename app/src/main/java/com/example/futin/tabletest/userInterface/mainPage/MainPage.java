@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.app.AlertDialog;
 import com.example.futin.tabletest.R;
@@ -32,6 +33,9 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
 
     String firstName;
     String lastName;
+
+
+
     boolean isLoggedIn;
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,6 @@ public class MainPage extends ActionBarActivity implements FragmentToActivity{
          firstName=sharedPreferences.getString("firstName","");
          lastName=sharedPreferences.getString("lastName","");
 
-        Toast.makeText(this, "Welcome "+firstName+" "+lastName, Toast.LENGTH_SHORT).show();
     }
 
     @Override
