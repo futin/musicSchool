@@ -4,7 +4,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="2dp"
-    android:background="@drawable/smoke_img"
+    android:background="@drawable/dirty_grey_img"
     tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentEnterData"
     android:id="@+id/enterDataLayout">
 

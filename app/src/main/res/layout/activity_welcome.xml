@@ -3,6 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.futin.tabletest.userInterface.login.Welcome"
-    android:background="@drawable/ic_main"
+    android:background="@drawable/dirty_grey_img"
     >
 </RelativeLayout>

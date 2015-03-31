@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentLogin"
-    android:background="@drawable/cool_background_hd_wallpaper"
+    android:background="@drawable/dirty_grey_img"
     >
 
     <EditText

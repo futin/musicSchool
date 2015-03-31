@@ -10,6 +10,7 @@ import android.os.Handler;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -134,8 +135,8 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
 
+        switch (v.getId()) {
             case R.id.btnEnterStudent:
                 rs.getStudents();
                 //change look of button
