@@ -42,7 +42,8 @@
         </activity>
         <activity
             android:name=".userInterface.tables.ShowStudentsTableView"
-            android:label="@string/title_activity_show_students_table_view" >
+            android:label="@string/title_activity_show_students_table_view"
+           >
         </activity>
         <activity
             android:name=".userInterface.tables.ShowInstrumentsTableView"
