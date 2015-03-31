@@ -108,6 +108,7 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         rs.getStudentWithInstrument();
 
         btnDeleteRowStudent.setEnabled(false);
+        btnDeleteRowStudent.setAlpha(0.6f);
     }
 
     @Override
@@ -176,10 +177,12 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                 if(deleteMode){
                     btnDeleteRowStudent.setEnabled(true);
                     getCheckboxFromTable(View.VISIBLE);
+                    btnDeleteRowStudent.setAlpha(1f);
 
                 }else{
                     btnDeleteRowStudent.setEnabled(false);
                     getCheckboxFromTable(View.INVISIBLE);
+                    btnDeleteRowStudent.setAlpha(0.6f);
                 }
                 break;
         }

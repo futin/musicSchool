@@ -18,7 +18,8 @@
         android:textColorHint="#ffbbbbbb"
         android:layout_below="@+id/txtUsername"
         android:layout_alignLeft="@+id/txtUsername"
-        android:layout_alignStart="@+id/txtUsername" />
+        android:layout_alignStart="@+id/txtUsername"
+        android:textColor="#ffe4e4e4" />
 
     <EditText
         android:id="@+id/txtUsername"
@@ -30,7 +31,8 @@
         android:textColorHint="#ffbbbbbb"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/txtFirstName"
-        android:layout_alignStart="@+id/txtFirstName" />
+        android:layout_alignStart="@+id/txtFirstName"
+        android:textColor="#ffe4e4e4" />
 
     <Button
         android:id="@+id/btnRegistration"
@@ -42,7 +44,7 @@
         android:shadowDy="0"
         android:shadowRadius="5"
         android:text="@string/btnRegistrationText"
-        android:textColor="#D9D9D7"
+        android:textColor="#ffe4e4e4"
         android:textSize="20sp"
         android:nestedScrollingEnabled="false"
         android:layout_alignParentBottom="true"
@@ -61,7 +63,8 @@
         android:layout_marginTop="31dp"
         android:layout_below="@+id/txtPassword"
         android:layout_centerHorizontal="true"
-        android:hint="@string/firstName" />
+        android:hint="@string/firstName"
+        android:textColor="#ffe4e4e4" />
 
     <EditText
         android:id="@+id/txtLastName"
@@ -72,6 +75,7 @@
         android:textColorHint="#ffbbbbbb"
         android:layout_below="@+id/txtFirstName"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="31dp" />
+        android:layout_marginTop="31dp"
+        android:textColor="#ffe4e4e4" />
 
 </RelativeLayout>

@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.os.Handler;
 
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.example.futin.tabletest.R;
@@ -97,10 +99,10 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     ArrayList<Employee> listOfStudentsWithInst;
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_fragment_enter_data, container, false);
-
         dateFormatter = new SimpleDateFormat("MM-dd-yyyy");
 
         findViewById(view);
@@ -134,8 +136,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
     @Override
     public void onClick(View v) {
-
-
         switch (v.getId()) {
             case R.id.btnEnterStudent:
                 rs.getStudents();

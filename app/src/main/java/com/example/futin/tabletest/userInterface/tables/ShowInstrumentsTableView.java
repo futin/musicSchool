@@ -121,6 +121,7 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
         rs.getStudentWithInstrument();
 
         btnDeleteRowInstrument.setEnabled(false);
+        btnDeleteRowInstrument.setAlpha(0.6f);
     }
 
     @Override
@@ -190,10 +191,11 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 if(deleteMode){
                     btnDeleteRowInstrument.setEnabled(true);
                     getCheckboxFromTable(View.VISIBLE);
-
+                    btnDeleteRowInstrument.setAlpha(1f);
                 }else{
                     btnDeleteRowInstrument.setEnabled(false);
                     getCheckboxFromTable(View.INVISIBLE);
+                    btnDeleteRowInstrument.setAlpha(0.6f);
                 }
                 break;
         }
@@ -236,12 +238,13 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instType.setText(type);
                 instInStock.setText(inStock);
 
+                int normalColor=ordNumb.getCurrentTextColor();
                 //if quantity of inst lower then 5, report
                 if(inst.getInstrumentsInStock() <=5){
                     instInStock.setTextColor(Color.RED);
                     instInStock.setTypeface(null, Typeface.BOLD);
                 }else{
-                    instInStock.setTextColor(Color.BLACK);
+                    instInStock.setTextColor(normalColor);
                     instInStock.setTypeface(null, Typeface.NORMAL);
                 }
 

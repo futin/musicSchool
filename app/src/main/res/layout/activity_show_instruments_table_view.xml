@@ -17,7 +17,7 @@
         android:layout_below="@+id/textView7"
         android:layout_alignParentStart="true"
         android:layout_marginTop="20dp"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:textSize="22dp"
         android:textStyle="bold|italic" />
 
@@ -112,7 +112,7 @@
         android:layout_centerHorizontal="true"
         android:textSize="25dp"
         android:textStyle="bold|italic"
-        android:textColor="#ff3b5020" />
+        android:textColor="#ffe4e4e4" />
 
     <EditText
         android:layout_width="250dp"
@@ -120,9 +120,11 @@
         android:id="@+id/txtSearchInstrument"
         android:hint="search for instrument"
         android:layout_alignBottom="@+id/textView10"
-        android:layout_marginBottom="-5dp"
+        android:layout_marginBottom="-10dp"
         android:layout_alignEnd="@+id/textView7"
-        android:layout_toEndOf="@+id/textView10" />
+        android:layout_toEndOf="@+id/textView10"
+        android:textColor="#ffe4e4e4"
+        android:textColorHint="#ffbbbbbb" />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -146,12 +148,13 @@
         android:text="Id"
         android:id="@+id/txtInstrumentIdHeader"
         android:gravity="center"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:layout_marginRight="0dp"
         android:layout_alignTop="@+id/txtInstrumentNameHeader"
-        android:layout_alignStart="@+id/txtSearchInstrument" />
+        android:layout_alignStart="@+id/txtSearchInstrument"
+        android:layout_marginLeft="5dp" />
 
     <TextView
         android:layout_width="170dp"
@@ -161,11 +164,11 @@
         android:id="@+id/txtInstrumentNameHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:gravity="center"
         android:layout_alignTop="@+id/txtInstrumentInStockHeader"
         android:layout_toEndOf="@+id/txtInstrumentIdHeader"
-        android:layout_marginLeft="-8dp" />
+        android:layout_marginLeft="-22dp" />
 
     <TextView
         android:layout_width="125dp"
@@ -175,11 +178,11 @@
         android:id="@+id/txtInstrumentTypeHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:gravity="center"
         android:layout_above="@+id/txtNoResultInstrument"
         android:layout_toEndOf="@+id/txtInstrumentNameHeader"
-        android:layout_marginLeft="-25dp" />
+        android:layout_marginLeft="-33dp" />
 
     <TextView
         android:layout_width="105dp"
@@ -189,22 +192,33 @@
         android:id="@+id/txtInstrumentInStockHeader"
         android:textSize="22dp"
         android:textStyle="bold|italic"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:gravity="center"
         android:layout_below="@+id/txtSearchInstrument"
         android:layout_toEndOf="@+id/txtInstrumentTypeHeader"
         android:layout_marginBottom="0dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="-17dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="-12dp" />
 
     <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="30dp"
+        android:background="@drawable/button_shape"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"
+        android:textSize="15sp"
+        android:textColor="#ffe4e4e4"
+        android:nestedScrollingEnabled="false"
+        android:layout_centerVertical="true"
         android:text="Delete "
         android:id="@+id/btnDeleteRowInstrument"
         android:layout_above="@+id/txtInstrumentTypeHeader"
         android:layout_alignParentEnd="true"
-        android:onClick="deleteRow" />
+        android:onClick="deleteRow"
+        android:layout_marginBottom="27dp"
+        android:textStyle="bold|italic" />
 
     <TextView
         android:layout_width="100dp"
@@ -214,7 +228,7 @@
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:gravity="center"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:layout_above="@+id/txtNoResultInstrument"
         android:layout_alignEnd="@+id/btnDeleteRowInstrument" />
 
@@ -226,10 +240,11 @@
         android:layout_alignTop="@+id/txtInstrumentIdHeader"
         android:layout_alignParentStart="true"
         android:layout_toStartOf="@+id/txtInstrumentIdHeader"
-        android:textColor="#ff3b5020"
+        android:textColor="#ffe4e4e4"
         android:textSize="22dp"
         android:textStyle="bold|italic"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginLeft="10dp" />
 
 
 </RelativeLayout>

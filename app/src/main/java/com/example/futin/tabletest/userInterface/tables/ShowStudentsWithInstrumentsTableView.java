@@ -112,6 +112,7 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
         rs.getStudentWithInstrument();
 
         btnDeleteRowStudWithInst.setEnabled(false);
+        btnDeleteRowStudWithInst.setAlpha(0.6f);
     }
 
     @Override
@@ -181,10 +182,11 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 if(deleteMode){
                     btnDeleteRowStudWithInst.setEnabled(true);
                     getCheckboxFromTable(View.VISIBLE);
-
+                    btnDeleteRowStudWithInst.setAlpha(1f);
                 }else{
                     btnDeleteRowStudWithInst.setEnabled(false);
                     getCheckboxFromTable(View.INVISIBLE);
+                    btnDeleteRowStudWithInst.setAlpha(0.6f);
                 }
                 break;
         }

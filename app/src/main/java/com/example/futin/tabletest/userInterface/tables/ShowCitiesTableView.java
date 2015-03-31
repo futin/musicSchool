@@ -106,6 +106,7 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         rs.getStudents();
 
         btnDeleteRow.setEnabled(false);
+        btnDeleteRow.setAlpha(0.6f);
     }
 
     @Override
@@ -175,10 +176,11 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
                 if(deleteMode){
                     btnDeleteRow.setEnabled(true);
                     getCheckboxFromTable(View.VISIBLE);
-
+                    btnDeleteRow.setAlpha(1f);
                 }else{
                     btnDeleteRow.setEnabled(false);
                    getCheckboxFromTable(View.INVISIBLE);
+                    btnDeleteRow.setAlpha(0.6f);
                 }
                 break;
         }
