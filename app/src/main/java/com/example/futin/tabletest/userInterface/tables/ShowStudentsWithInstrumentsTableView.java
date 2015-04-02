@@ -418,7 +418,6 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
         returnData= (RSGetStudentWithInstrumentResponse) o;
         listOfEmployees=returnData.getListOfStudentsWithInstrument();
         setTableView();
-
     }
 
     @Override
