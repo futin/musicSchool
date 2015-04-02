@@ -9,7 +9,7 @@ tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentDispl
     <Button
         android:id="@+id/btnShowStudents"
         android:text="@string/txtBtnShowStudents"
-        android:layout_marginTop="97dp"
+        android:layout_marginTop="65dp"
         android:layout_width="200dp"
         android:layout_height="50dp"
         android:background="@drawable/button_shape"
@@ -71,34 +71,24 @@ tools:context="com.example.futin.tabletest.userInterface.fragments.FragmentDispl
         android:shadowDx="0"
         android:shadowDy="0"
         android:shadowRadius="5"
-        android:textColor="#ffa8a8a6"
+        android:textColor="#D9D9D7"
         android:textSize="15sp"
         android:nestedScrollingEnabled="false"
         android:layout_centerVertical="true"
         />
 
     <TextView
-        android:layout_width="150dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Emp name"
         android:id="@+id/txtShowEmployeeNameDisplayData"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="16dp"
         android:textStyle="bold|italic"
-        android:textColor="#ffa8a8a6" />
+        android:textColor="#ffa8a8a6"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="30dp"
+        android:gravity="center" />
 
-    <TextView
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:id="@+id/txtShowTimeDisplayData"
-        android:layout_marginEnd="24dp"
-        android:layout_alignTop="@+id/txtShowEmployeeNameDisplayData"
-        android:layout_alignParentEnd="true"
-        android:layout_marginRight="16dp"
-        android:textColor="#D9D9D7" />
 </RelativeLayout>

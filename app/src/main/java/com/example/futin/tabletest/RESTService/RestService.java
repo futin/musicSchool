@@ -109,7 +109,7 @@ public class RestService {
         new RSInsertEmployeeTask(new RSInsertEmployeeRequest(username, password, firstName, lastName),returnData).execute((Void) null);
     }
     public void signIn(String username, String password){
-        new RSSignInTask(new RSSignInRequest(username, password), returnDataSignIn).execute((Void) null);
+        new RSSignInTask(new RSSignInRequest(username, password), returnDataSignIn).execute();
     }
     public void insertStudent(String studentId, String firstName, String lastName, int cityPtt){
         new RSInsertStudentTask(new RSInsertStudentRequest(studentId, firstName, lastName,cityPtt), returnData).execute((Void) null);

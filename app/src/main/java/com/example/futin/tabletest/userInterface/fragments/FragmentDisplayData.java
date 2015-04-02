@@ -31,7 +31,6 @@ public class FragmentDisplayData extends Fragment implements View.OnClickListene
     //employee name and time
     SharedPreferences sharedPreferences;
     TextView txtEmployeeName;
-    TextView txtCurrentTime;
     String firstName;
     String lastName;
     @Override
@@ -50,7 +49,6 @@ public class FragmentDisplayData extends Fragment implements View.OnClickListene
         btnShowCities.setOnClickListener(this);
 
         txtEmployeeName= (TextView) view.findViewById(R.id.txtShowEmployeeNameDisplayData);
-        txtCurrentTime= (TextView) view.findViewById(R.id.txtShowTimeDisplayData);
         sharedPreferences= getActivity().getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         firstName=sharedPreferences.getString("firstName","");

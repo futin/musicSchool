@@ -114,12 +114,13 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         SharedPreferences.Editor editor=sharedPreferences.edit();
         editor.putString("firstName", firstName);
         editor.putString("lastName", lastName);
-        Toast.makeText(getActivity().getApplicationContext(), checkBoxStayLoggedIn.isChecked()+"", Toast.LENGTH_SHORT).show();
         editor.putBoolean("isLoggedIn", checkBoxStayLoggedIn.isChecked());
         editor.apply();
         Intent i = new Intent(getActivity().getApplicationContext(), MainPage.class);
-        i.addFlags( Intent.FLAG_ACTIVITY_CLEAR_TASK |
-                Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(checkBoxStayLoggedIn.isChecked()) {
+            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK);
+        }
         startActivity(i);
     }
 

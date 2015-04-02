@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.futin.tabletest.userInterface.fragments.FragmentFindMeOnTheMap;
 import com.example.futin.tabletest.userInterface.fragments.FragmentLogin;
 import com.example.futin.tabletest.userInterface.fragments.FragmentRegistration;
 
@@ -23,13 +22,12 @@ public class TabLoginAdapter extends FragmentPagerAdapter
         switch (position){
             case 0: return new FragmentLogin();
             case 1: return new FragmentRegistration();
-            case 2: return new FragmentFindMeOnTheMap();
         }
         return null;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 }

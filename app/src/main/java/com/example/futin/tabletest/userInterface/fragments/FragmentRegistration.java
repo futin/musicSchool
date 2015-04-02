@@ -97,16 +97,22 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
             Toast.makeText(getActivity().getApplicationContext(), "Try with different username or password", Toast.LENGTH_SHORT).show();
             txtUsername.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
             txtPassword.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
+            txtUsername.setText("");
+            txtPassword.setText("");
             found=false;
         }else{
             txtUsername.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
             txtPassword.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
+            makeDefaultRegistrationLayout();
             Toast.makeText(getActivity().getApplicationContext(), "Employee created successfully", Toast.LENGTH_SHORT).show();
             rs.insertEmployee(username, password, firstName, lastName);
 
         }
-
-
-
+    }
+    public void makeDefaultRegistrationLayout(){
+        txtUsername.setText("");
+        txtPassword.setText("");
+        txtFirstName.setText("");
+        txtLastName.setText("");
     }
 }

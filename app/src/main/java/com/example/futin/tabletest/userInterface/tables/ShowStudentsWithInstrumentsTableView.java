@@ -225,7 +225,15 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 String lastEmpName = splitName[1];
 
                 String empName = firstEmpName + " " + lastEmpName;
-                String date = listOfEmployees.get(i).getDate();
+                String dateFromBase = listOfEmployees.get(i).getDate();
+                //parse date to be readable for our country
+                String[] splitDate=dateFromBase.split("-");
+                String year=splitDate[0];
+                String month=splitDate[1];
+                String day=splitDate[2];
+
+                String date=day+"."+month+"."+year;
+
                 String numberOfInst = String.valueOf(listOfEmployees.get(i).getStudent().getNumberOfInstruments());
                 //instrument
                 String instName = listOfEmployees.get(i).getStudent().getInstrument().getInstrumentName();
@@ -474,12 +482,12 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                             }
                         })
                         .show();
-
-
             }
     }
 
     public void makeToast(String text){
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
+
+
 }

@@ -1,5 +1,6 @@
 package com.example.futin.tabletest.RESTService.task;
 
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -24,12 +25,14 @@ import org.springframework.web.client.RestTemplate;
 /**
  * Created by Futin on 3/7/2015.
  */
-public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
+public class RSSignInTask extends AsyncTask<Integer, Integer, RSSignInResponse> {
 
     final String TAG="signInTask";
     RestTemplate restTemplate=null;
     RSSignInRequest request;
     SignInReturnData returnData;
+
+    ProgressDialog progressDialog;
 
     public RSSignInTask(RSSignInRequest request, SignInReturnData returnData) {
         this.request = request;
@@ -38,8 +41,11 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
     }
 
     @Override
-    protected RSSignInResponse doInBackground(Void... params) {
+    protected RSSignInResponse doInBackground(Integer... params) {
         try {
+            for (int i=0;i<params.length;i++){
+                publishProgress(params[i]);
+            }
             HttpHeaders header = new HttpHeaders();
             header.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             //It is necessary for keepItAlive protocol, without it connection would crash every second time
@@ -107,7 +113,7 @@ public class RSSignInTask extends AsyncTask<Void, Void, RSSignInResponse> {
     }
 
     @Override
-    protected void onProgressUpdate(Void... values) {
+    protected void onProgressUpdate(Integer... values) {
         super.onProgressUpdate(values);
     }
 }

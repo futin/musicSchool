@@ -100,10 +100,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     ArrayList<Instrument> listOfInstruments;
     ArrayList<Employee> listOfStudentsWithInst;
 
-    //employee name and time
+    //employee name
     SharedPreferences sharedPreferences;
     TextView txtEmployeeName;
-    TextView txtCurrentTime;
     String firstName;
     String lastName;
 
@@ -185,7 +184,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
             case R.id.btnSave:
                 btnSaveClicked();
-                setButtonsEnabled();
                 break;
 
             case R.id.btnCancel:
@@ -198,7 +196,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
             case R.id.btnSaveInst:
                 btnSaveInstClicked();
-                setButtonsEnabled();
                 break;
 
             case R.id.btnCancelInst:
@@ -560,6 +557,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 studentLayout.setVisibility(View.INVISIBLE);
                 makeToast("Student successfully saved");
                 makeDefaultStudentLayout();
+                setButtonsEnabled();
             }else{
                 makeToast("Error! Student already in database");
             }
@@ -595,7 +593,8 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     instrumentLayout.setVisibility(View.INVISIBLE);
 
                     makeDefaultInstrumentLayout();
-                    makeToast("There are "+quantityFromDatabase+" instruments left in db");
+                    setButtonsEnabled();
+                    makeToast("There are "+quantityFromDatabase+" instruments left in database");
                     makeToast("Successfully saved student with his instrument");
                 }else{
                     makeToast("There not enough instruments in db");
@@ -631,7 +630,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         btnEnterStudentsInstrument= (Button) view.findViewById(R.id.btnEnterStudentsInstrument);
         enterDataLayout= (ViewGroup) view.findViewById(R.id.enterDataLayout);
         txtEmployeeName= (TextView) view.findViewById(R.id.txtShowEmployeeNameEnterData);
-        txtCurrentTime= (TextView) view.findViewById(R.id.txtShowTimeEnterData);
         sharedPreferences= getActivity().getSharedPreferences("employee", Context.MODE_PRIVATE);
 
         btnEnterStudent.setOnClickListener(this);
