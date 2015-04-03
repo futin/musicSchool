@@ -89,6 +89,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
 
     void checkEmployee() {
+        if(listOfEmployees!= null){
         for (int i = 0; i < listOfEmployees.size(); i++) {
             if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
                     password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
@@ -96,7 +97,6 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
                 break;
             }
         }
-        if (status.equalsIgnoreCase("OK")) {
             if (found == true) {
                 rs.signIn(username, password);
                 found = false;
