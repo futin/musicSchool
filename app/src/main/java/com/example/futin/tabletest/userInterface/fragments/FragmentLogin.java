@@ -55,6 +55,9 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         listOfEmployees= responseGetEmployees.getListOfEmployees();
         status= responseGetEmployees.getStatusName();
         checkEmployee();
+        btnLogin.setAlpha(1f);
+        btnLogin.setEnabled(true);
+
 
     }
 
@@ -82,6 +85,8 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
             public void onClick(View v) {
                  username=txtUsername.getText().toString();
                  password=txtPassword.getText().toString();
+                 btnLogin.setAlpha(0.6f);
+                btnLogin.setEnabled(false);
                 rs.getEmployees();
             }
         });

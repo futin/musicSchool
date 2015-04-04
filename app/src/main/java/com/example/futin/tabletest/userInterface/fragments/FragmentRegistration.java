@@ -51,6 +51,9 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
         listOfEmployees=responseGet.getListOfEmployees();
         status=responseGet.getStatusName();
         messageToClient();
+        btnRegistration.setAlpha(1f);
+        btnRegistration.setEnabled(true);
+
     }
 
     @Override
@@ -77,6 +80,8 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                         firstName.equalsIgnoreCase("")||lastName.equalsIgnoreCase("")){
                     Toast.makeText(getActivity().getApplicationContext(), "You have to enter all parameters!", Toast.LENGTH_SHORT).show();
                 }else{
+                    btnRegistration.setAlpha(0.6f);
+                    btnRegistration.setEnabled(false);
                     rs.getEmployees();
                 }
 
