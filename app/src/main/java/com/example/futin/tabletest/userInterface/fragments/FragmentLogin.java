@@ -85,11 +85,15 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 username=txtUsername.getText().toString();
-                 password=txtPassword.getText().toString();
-                 btnLogin.setAlpha(0.6f);
-                btnLogin.setEnabled(false);
-                rs.getEmployees();
+                if(isOnline()) {
+                    username = txtUsername.getText().toString();
+                    password = txtPassword.getText().toString();
+                    btnLogin.setAlpha(0.6f);
+                    btnLogin.setEnabled(false);
+                    rs.getEmployees();
+                }else{
+                    Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
@@ -110,10 +114,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
             } else {
                 Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
             }
-        } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
-
-        }
+        } 
     }
     void goToMainPage(){
         //store his info in sharedPreferences

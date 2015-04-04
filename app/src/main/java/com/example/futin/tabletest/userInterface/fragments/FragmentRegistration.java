@@ -1,5 +1,8 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -80,9 +83,13 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                         firstName.equalsIgnoreCase("")||lastName.equalsIgnoreCase("")){
                     Toast.makeText(getActivity().getApplicationContext(), "You have to enter all parameters!", Toast.LENGTH_SHORT).show();
                 }else{
-                    btnRegistration.setAlpha(0.6f);
-                    btnRegistration.setEnabled(false);
-                    rs.getEmployees();
+                    if(isOnline()) {
+                        btnRegistration.setAlpha(0.6f);
+                        btnRegistration.setEnabled(false);
+                        rs.getEmployees();
+                    }else{
+                        Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
+                    }
                 }
 
             }
@@ -99,7 +106,7 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                     break;
                 }
             }
-            if (status.equalsIgnoreCase("OK") && found == true) {
+            if (found == true) {
                 Toast.makeText(getActivity().getApplicationContext(), "Try with different username or password", Toast.LENGTH_SHORT).show();
                 txtUsername.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
                 txtPassword.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
@@ -114,8 +121,6 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                 rs.insertEmployee(username, password, firstName, lastName);
 
             }
-        }else{
-            Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
         }
     }
     public void makeDefaultRegistrationLayout(){
@@ -123,5 +128,13 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
         txtPassword.setText("");
         txtFirstName.setText("");
         txtLastName.setText("");
+    }
+
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
     }
 }
