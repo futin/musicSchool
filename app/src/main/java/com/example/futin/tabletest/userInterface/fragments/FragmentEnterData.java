@@ -1,13 +1,22 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
+import android.annotation.TargetApi;
+import android.app.Application;
 import android.app.DatePickerDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
+import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.os.Handler;
 
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.Gravity;
@@ -49,7 +58,8 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 
 public class FragmentEnterData extends Fragment implements View.OnClickListener, AsyncTaskReturnData,
-        ReturnStudentData, ReturnInstrumentData, ReturnStudentWithInstrumentData, ReturnUpdateData {
+        ReturnStudentData, ReturnInstrumentData, ReturnStudentWithInstrumentData, ReturnUpdateData
+        {
 
     private final int DELAYED_TIME = 500;
 
@@ -119,7 +129,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         txtEmployeeName.setGravity(Gravity.CENTER);
         txtEmployeeName.setTextSize(20);
 
-
         setDateTimeField();
 
         //Get lists from RestService
@@ -135,8 +144,9 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
         //get that value for the first time
         getCityFromSpinner();
-        getStudentFromSpinner();
         getInstrumentFromSpinner();
+        getStudentFromSpinner();
+
         return view;
     }
     public void setButtonsEnabled(){
@@ -151,7 +161,8 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnEnterStudent:
-                rs.getStudents();
+                rs.getCities();
+
                 //change look of button
                 btnEnterStudent.setEnabled(false);
                 btnEnterStudent.setAlpha(0.6f);
@@ -166,20 +177,21 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.btnEnterStudentsInstrument:
+                makeToast(isOnline()+"");
                 btnEnterStudentsInstrument.setEnabled(false);
                 btnEnterStudentsInstrument.setAlpha(0.6f);
                 btnEnterStudent.setEnabled(true);
                 btnEnterStudent.setAlpha(1f);
 
-                rs.getStudents();
-                rs.getStudentWithInstrument();
+                    rs.getStudents();
+                    rs.getInstruments();
+
                 changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
                 studentLayout.setVisibility(View.INVISIBLE);
                 instrumentLayout.setVisibility(View.VISIBLE);
-                setInstrumentSpinner();
                 setStudentSpinner();
-                Log.i("students ", listOfStudents.toString());
+                setInstrumentSpinner();
                 break;
 
             case R.id.btnSave:
@@ -214,10 +226,14 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     }
 
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void changeButtonPosition(Button btn, int relativeLayoutX, int relativeLayoutY) {
         int width = btn.getWidth();
         int height = btn.getHeight();
-        //  TransitionManager.beginDelayedTransition(enterDataLayout);
+        //check if it is device or emulator currently using
+        if (Build.FINGERPRINT.startsWith("generic")){
+            TransitionManager.beginDelayedTransition(enterDataLayout);
+        }
         //change Position
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 width, height);
@@ -228,43 +244,119 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
 
 
     public void setCitySpinner() {
-
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+        final String[] noResultCombo=new String[]{"No results or WIFI is off"};
+        if (Build.FINGERPRINT.startsWith("generic")) {
+             if(isOnline() && listOfCities != null){
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                                R.layout.my_spinner_dropdown_item, listOfCities);
+                        spinnerCity.setAdapter(cityAdapter);
+                    }
+                }, DELAYED_TIME);
+            } else {
+                 new Handler().postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                         R.layout.my_spinner_dropdown_item, noResultCombo);
+                 spinnerCity.setAdapter(noResultSpinner);
+                     }
+                 }, DELAYED_TIME);
+            }
+        }else{
+            if(listOfCities != null && isOnline()){
                 ArrayAdapter<City> cityAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.my_spinner_dropdown_item, listOfCities);
                 spinnerCity.setAdapter(cityAdapter);
+            }else{
+                ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                        R.layout.my_spinner_dropdown_item, noResultCombo);
+                spinnerCity.setAdapter(noResultSpinner);
+
             }
-        }, DELAYED_TIME);
+        }
 
     }
 
     public void setInstrumentSpinner() {
+        final String[] noResultCombo=new String[]{"No results or WIFI is off"};
+        if (Build.FINGERPRINT.startsWith("generic")) {
+            Log.i("instr: ",listOfInstruments+"");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            if(listOfInstruments != null && isOnline()) {
+
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<Instrument> instrumentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                                R.layout.my_spinner_dropdown_item, listOfInstruments);
+                        spinnerInstrument.setAdapter(instrumentAdapter);
+                    }
+                }, DELAYED_TIME);
+            }else {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                                R.layout.my_spinner_dropdown_item, noResultCombo);
+                        spinnerInstrument.setAdapter(noResultSpinner);
+                    }
+                }, DELAYED_TIME);
+            }
+        }else{
+            if(isOnline() && listOfInstruments != null) {
+
                 ArrayAdapter<Instrument> instrumentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.my_spinner_dropdown_item, listOfInstruments);
                 spinnerInstrument.setAdapter(instrumentAdapter);
-            }
-        }, DELAYED_TIME);
+            }else{
+                ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                        R.layout.my_spinner_dropdown_item, noResultCombo);
+                spinnerInstrument.setAdapter(noResultSpinner);
 
+            }
+        }
     }
 
     public void setStudentSpinner() {
+        final String[] noResultCombo=new String[]{"No results or WIFI is off"};
+        if (Build.FINGERPRINT.startsWith("generic")) {
+            Log.i("stud: ",listOfStudents+"");
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+            if(listOfStudents != null && isOnline()) {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        ArrayAdapter<Student> studentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                                R.layout.my_spinner_dropdown_item, listOfStudents);
+                        spinnerStudent.setAdapter(studentAdapter);
+                    }
+                }, DELAYED_TIME);
+            }else{
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                        R.layout.my_spinner_dropdown_item, noResultCombo);
+                spinnerStudent.setAdapter(noResultSpinner);
+                    }
+                }, DELAYED_TIME);
+            }
+        }else{
+            if(listOfStudents != null && isOnline()) {
                 ArrayAdapter<Student> studentAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),
                         R.layout.my_spinner_dropdown_item, listOfStudents);
                 spinnerStudent.setAdapter(studentAdapter);
+            }else{
+                ArrayAdapter<String> noResultSpinner = new ArrayAdapter<>(getActivity().getApplicationContext(),
+                        R.layout.my_spinner_dropdown_item, noResultCombo);
+                spinnerStudent.setAdapter(noResultSpinner);
+
             }
-        }, DELAYED_TIME);
-
-
+        }
     }
 
     public boolean checkStudentId() {
@@ -371,7 +463,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         txtFirstName.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
         txtLastName.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
         txtStudentId.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
-
+        rs.getCities();
         setCitySpinner();
 
     }
@@ -379,6 +471,8 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     public void makeDefaultInstrumentLayout() {
         txtDate.setText("");
         txtNumberOfInstruments.setText("");
+        rs.getStudents();
+        rs.getInstruments();
         setInstrumentSpinner();
         setStudentSpinner();
     }
@@ -434,12 +528,15 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         responseStudent = (RSGetStudentsResponse) o;
         listOfStudents = responseStudent.getStudents();
         isStudentInDatabase();
+        Log.e("","list from db: "+listOfStudents);
+
     }
 
     @Override
     public void returnInstrumentDataOnPostExecute(Object o) {
         responseInstrument = (RSGetInstrumentsResponse) o;
         listOfInstruments = responseInstrument.getListOfInstruments();
+        Log.e("","listOfINst from db: "+listOfInstruments);
 
     }
 
@@ -456,6 +553,7 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         quantityFromDatabase = responseUpdateInstrumentsInStock.getQuantity();
     }
 
+
     public int getCityFromSpinner() {
         spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -464,7 +562,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     City city = (City) parent.getItemAtPosition(position);
                     cityPtt = city.getCityPtt();
                 } else {
-                    makeToast("Not instance of city");
                 }
             }
 
@@ -484,7 +581,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     Student student = (Student) parent.getItemAtPosition(position);
                     studentId = student.getStudentId();
                 } else {
-                    makeToast("Not instance of Student");
                 }
             }
 
@@ -506,7 +602,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                     Instrument instrument = (Instrument) parent.getItemAtPosition(position);
                     instrumentId = instrument.getInstrumentId();
                 } else {
-                    makeToast("Not instance of Instrument");
                 }
             }
 
@@ -662,6 +757,13 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         txtDate.setOnClickListener(this);
         txtDate.setInputType(InputType.TYPE_NULL);
 
+    }
+        //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
     }
 
 }

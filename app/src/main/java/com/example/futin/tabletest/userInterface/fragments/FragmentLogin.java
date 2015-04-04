@@ -3,6 +3,8 @@ package com.example.futin.tabletest.userInterface.fragments;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
@@ -94,7 +96,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
 
     void checkEmployee() {
-        if(listOfEmployees!= null){
+        if(listOfEmployees!= null && isOnline()){
         for (int i = 0; i < listOfEmployees.size(); i++) {
             if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
                     password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
@@ -129,5 +131,11 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
         startActivity(i);
     }
 
-
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
+    }
 }

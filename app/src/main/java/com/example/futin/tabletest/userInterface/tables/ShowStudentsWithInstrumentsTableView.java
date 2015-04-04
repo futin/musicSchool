@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -113,6 +116,12 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
 
         btnDeleteRowStudWithInst.setEnabled(false);
         btnDeleteRowStudWithInst.setAlpha(0.6f);
+
+        if (!isOnline()) {
+            txtNoResultStudWithInst.setText("Turn WIFI ON");
+            txtNoResultStudWithInst.setGravity(Gravity.CENTER);
+            txtNoResultStudWithInst.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -325,6 +334,29 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 numberOfInstruments.setGravity(Gravity.CENTER);
                 dateView.setGravity(Gravity.CENTER);
 
+                //different padding header cell for different device
+                if(Build.FINGERPRINT.startsWith("generic")){
+                    txtStudWithInstStudentHeader.setGravity(Gravity.CENTER);
+                    txtStudWithInstEmployeeHeader.setGravity(Gravity.CENTER);
+                    txtStudWithInstInstrumentHeader.setGravity(Gravity.CENTER);
+                    txtStudWithInstQuantityHeader.setGravity(Gravity.CENTER);
+                    txtStudWithInstDateHeader.setGravity(Gravity.CENTER);
+                }else{
+                    txtStudWithInstStudentHeader.setPadding(20,0,0,0);
+                    txtStudWithInstEmployeeHeader.setPadding(35,0,0,0);
+                    txtStudWithInstInstrumentHeader.setPadding(10,0,0,0);
+                    txtStudWithInstQuantityHeader.setPadding(30,0,0,0);
+                    txtStudWithInstDateHeader.setPadding(40,0,0,0);
+                }
+
+                txtStudWithInstONHeader.setVisibility(View.VISIBLE);
+                txtStudWithInstStudentHeader.setVisibility(View.VISIBLE);
+                txtStudWithInstEmployeeHeader.setVisibility(View.VISIBLE);
+                txtStudWithInstInstrumentHeader.setVisibility(View.VISIBLE);
+                txtStudWithInstQuantityHeader.setVisibility(View.VISIBLE);
+                txtStudWithInstDateHeader.setVisibility(View.VISIBLE);
+
+
                 if (counter % 2 == 0) {
                     ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                     studentName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -393,17 +425,23 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
 
                 tblLayoutStudentWithInstrument.addView(row);
             }
-        }else{
-            txtNoResultStudWithInst.setVisibility(View.VISIBLE);
-            txtNoResultStudWithInst.setGravity(Gravity.CENTER);
-            txtNoResultStudWithInst.setText("No results for these parameters");
-            //set columns invisible
-            txtStudWithInstONHeader.setVisibility(View.INVISIBLE);
-            txtStudWithInstStudentHeader.setVisibility(View.INVISIBLE);
-            txtStudWithInstEmployeeHeader.setVisibility(View.INVISIBLE);
-            txtStudWithInstInstrumentHeader.setVisibility(View.INVISIBLE);
-            txtStudWithInstQuantityHeader.setVisibility(View.INVISIBLE);
-            txtStudWithInstDateHeader.setVisibility(View.INVISIBLE);
+        }else {
+            if (!isOnline()) {
+                    txtNoResultStudWithInst.setText("Turn WIFI ON");
+                    txtNoResultStudWithInst.setGravity(Gravity.CENTER);
+                    txtNoResultStudWithInst.setVisibility(View.VISIBLE);
+            } else {
+                txtNoResultStudWithInst.setVisibility(View.VISIBLE);
+                txtNoResultStudWithInst.setGravity(Gravity.CENTER);
+                txtNoResultStudWithInst.setText("No results for these parameters");
+                //set columns invisible
+                txtStudWithInstONHeader.setVisibility(View.INVISIBLE);
+                txtStudWithInstStudentHeader.setVisibility(View.INVISIBLE);
+                txtStudWithInstEmployeeHeader.setVisibility(View.INVISIBLE);
+                txtStudWithInstInstrumentHeader.setVisibility(View.INVISIBLE);
+                txtStudWithInstQuantityHeader.setVisibility(View.INVISIBLE);
+                txtStudWithInstDateHeader.setVisibility(View.INVISIBLE);
+            }
         }
         //only way to set checkbox invisible on start
         if (btnDeleteRowStudWithInst.isEnabled()){
@@ -488,5 +526,11 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
         Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 
-
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
+    }
 }

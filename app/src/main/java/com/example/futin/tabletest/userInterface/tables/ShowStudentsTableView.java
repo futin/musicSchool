@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -106,9 +109,15 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         rs.setReturnStudentWithInstrumentData(this);
         rs.getStudents();
         rs.getStudentWithInstrument();
-
+        //set unable and with lower alpha on start
         btnDeleteRowStudent.setEnabled(false);
         btnDeleteRowStudent.setAlpha(0.6f);
+
+        if (!isOnline()) {
+            txtNoResultStudents.setText("Turn WIFI ON");
+            txtNoResultStudents.setGravity(Gravity.CENTER);
+            txtNoResultStudents.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -266,8 +275,19 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
             studName.setGravity(Gravity.CENTER);
             studCityPtt.setGravity(Gravity.CENTER);
 
+                //different padding header cell for different device
+                if(Build.FINGERPRINT.startsWith("generic")){
+                    txtStudentNameHeader.setPadding(140,0,0,0);
+                    txtStudentCityPttHeader.setWidth(250);
+                    txtStudentCityPttHeader.setPadding(90,0,0,0);
+                }else{
+                    txtStudentIdHeader.setPadding(20,0,30,0);
+                    txtStudentNameHeader.setPadding(110,0,0,0);
+                    txtStudentCityPttHeader.setWidth(250);
+                    txtStudentCityPttHeader.setPadding(35,0,0,0);
+                }
 
-            if (counter % 2 == 0) {
+                if (counter % 2 == 0) {
                 ordinalNumber.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studId.setBackground(getResources().getDrawable(R.drawable.cell_shape));
                 studName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -316,19 +336,24 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
                 });
             tblLayoutStudent.addView(row);
             }
-        }else{
-            txtNoResultStudents.setVisibility(View.VISIBLE);
-            txtNoResultStudents.setText("No results for these parameters");
-            txtNoResultStudents.setGravity(Gravity.CENTER);
+        }else {
+            if (!isOnline()) {
+                txtNoResultStudents.setText("Turn WIFI ON");
+                txtNoResultStudents.setGravity(Gravity.CENTER);
+                txtNoResultStudents.setVisibility(View.VISIBLE);
+            } else {
+                txtNoResultStudents.setVisibility(View.VISIBLE);
+                txtNoResultStudents.setText("No results for these parameters");
+                txtNoResultStudents.setGravity(Gravity.CENTER);
 
-            //set columns invisible
-            txtStudentONHeader.setVisibility(View.INVISIBLE);
-            txtStudentIdHeader.setVisibility(View.INVISIBLE);
-            txtStudentNameHeader.setVisibility(View.INVISIBLE);
-            txtStudentCityPttHeader.setVisibility(View.INVISIBLE);
+                //set columns invisible
+                txtStudentONHeader.setVisibility(View.INVISIBLE);
+                txtStudentIdHeader.setVisibility(View.INVISIBLE);
+                txtStudentNameHeader.setVisibility(View.INVISIBLE);
+                txtStudentCityPttHeader.setVisibility(View.INVISIBLE);
 
+            }
         }
-
         //only way to set checkbox invisible on start
         if (btnDeleteRowStudent.isEnabled()){
             getCheckboxFromTable(View.VISIBLE);
@@ -442,4 +467,11 @@ public class ShowStudentsTableView extends ActionBarActivity implements ReturnSt
         }
     }
 
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
+    }
 }

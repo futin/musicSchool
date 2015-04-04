@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -107,6 +110,13 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
 
         btnDeleteRow.setEnabled(false);
         btnDeleteRow.setAlpha(0.6f);
+
+        if (!isOnline()) {
+            txtNoResultCity.setText("Turn WIFI ON");
+            txtNoResultCity.setGravity(Gravity.CENTER);
+            txtNoResultCity.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
@@ -190,128 +200,142 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
     public void setTableView(){
          idCounter=0;
         tblLayout.removeAllViews();
-        if(listOfCities != null) {
+            if(listOfCities != null) {
+                txtNoResultCity.setVisibility(View.INVISIBLE);
+                //set columns visible
+                txtCityOnHeader.setVisibility(View.VISIBLE);
+                txtCityNameHeader.setVisibility(View.VISIBLE);
+                txtCityPttHeader.setVisibility(View.VISIBLE);
+                for (City city : listOfCities) {
+                    idCounter++;
+                    final String id = String.valueOf(idCounter);
+                    String name = city.getCityName();
+                    String ptt = String.valueOf(city.getCityPtt());
 
-            txtNoResultCity.setVisibility(View.INVISIBLE);
-            //set columns visible
-            txtCityOnHeader.setVisibility(View.VISIBLE);
-            txtCityNameHeader.setVisibility(View.VISIBLE);
-            txtCityPttHeader.setVisibility(View.VISIBLE);
-            for (City city : listOfCities) {
-                idCounter++;
-                final String id = String.valueOf(idCounter);
-                String name = city.getCityName();
-                String ptt = String.valueOf(city.getCityPtt());
+                    final TableRow row = new TableRow(this);
 
-                final TableRow row = new TableRow(this);
+                    final TextView ordNumb = new TextView(this);
+                    final TextView cityName = new TextView(this);
+                    final TextView cityPtt = new TextView(this);
+                    final CheckBox checkBox = new CheckBox(this);
 
-                final TextView ordNumb = new TextView(this);
-                final TextView cityName = new TextView(this);
-                final TextView cityPtt = new TextView(this);
-                final CheckBox checkBox = new CheckBox(this);
+                    ordNumb.setText(id);
+                    cityName.setText(name);
+                    cityPtt.setText(ptt);
 
-                ordNumb.setText(id);
-                cityName.setText(name);
-                cityPtt.setText(ptt);
+                    cityIdColumn.setGravity(Gravity.CENTER);
+                    cityNameColumn.setGravity(Gravity.CENTER);
+                    cityPttColumn.setGravity(Gravity.CENTER);
 
-                cityIdColumn.setGravity(Gravity.CENTER);
-                cityNameColumn.setGravity(Gravity.CENTER);
-                cityPttColumn.setGravity(Gravity.CENTER);
+                    checkBox.setButtonDrawable(R.drawable.custom_checkbox);
 
-                checkBox.setButtonDrawable(R.drawable.custom_checkbox);
+                    cityIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                    cityNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                    cityPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
 
-                cityIdColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                cityNameColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
-                cityPttColumn.setBackground(getResources().getDrawable(R.drawable.cell_shape_first_row));
+                    //LayoutParams for ordNumb
+                    TableRow.LayoutParams paramsCityId = (TableRow.LayoutParams) cityIdColumn.getLayoutParams();
+                    //  paramsCityId.span=1;
+                    //  paramsCityId.column=1;
+                    ordNumb.setLayoutParams(paramsCityId);
 
-                //LayoutParams for ordNumb
-                TableRow.LayoutParams paramsCityId = (TableRow.LayoutParams) cityIdColumn.getLayoutParams();
-                //  paramsCityId.span=1;
-                //  paramsCityId.column=1;
-                ordNumb.setLayoutParams(paramsCityId);
+                    //LayoutParams for cityName
+                    TableRow.LayoutParams paramsCityName = (TableRow.LayoutParams) cityNameColumn.getLayoutParams();
+                    //  paramsCityId.span=3;
+                    //  paramsCityId.column=1;
+                    cityName.setLayoutParams(paramsCityName);
 
-                //LayoutParams for cityName
-                TableRow.LayoutParams paramsCityName = (TableRow.LayoutParams) cityNameColumn.getLayoutParams();
-                //  paramsCityId.span=3;
-                //  paramsCityId.column=1;
-                cityName.setLayoutParams(paramsCityName);
+                    //LayoutParams for cityPtt
+                    TableRow.LayoutParams paramsCityPtt = (TableRow.LayoutParams) cityPttColumn.getLayoutParams();
+                    //   paramsCityId.span=3;
+                    //  paramsCityId.column=1;
+                    cityPtt.setLayoutParams(paramsCityPtt);
 
-                //LayoutParams for cityPtt
-                TableRow.LayoutParams paramsCityPtt = (TableRow.LayoutParams) cityPttColumn.getLayoutParams();
-                //   paramsCityId.span=3;
-                //  paramsCityId.column=1;
-                cityPtt.setLayoutParams(paramsCityPtt);
+                    ordNumb.setTextSize(22);
+                    cityName.setTextSize(22);
+                    cityPtt.setTextSize(22);
+                    checkBox.setTextSize(22);
 
-                ordNumb.setTextSize(22);
-                cityName.setTextSize(22);
-                cityPtt.setTextSize(22);
-                checkBox.setTextSize(22);
+                    ordNumb.setGravity(Gravity.CENTER);
+                    cityName.setGravity(Gravity.CENTER);
+                    cityPtt.setGravity(Gravity.CENTER);
 
-                ordNumb.setGravity(Gravity.CENTER);
-                cityName.setGravity(Gravity.CENTER);
-                cityPtt.setGravity(Gravity.CENTER);
-                //for different background of every row
+                    //different padding header cell for different device
+                    if(Build.FINGERPRINT.startsWith("generic")){
+                        txtCityOnHeader.setGravity(Gravity.CENTER);
+                        txtCityNameHeader.setGravity(Gravity.CENTER);
+                        txtCityPttHeader.setGravity(Gravity.CENTER);
+                    }else{
+                        txtCityOnHeader.setPadding(62,0,0,0);
+                        txtCityNameHeader.setPadding(42,0,0,0);
+                        txtCityPttHeader.setPadding(90,0,0,0);
+                    }
 
-                if (idCounter % 2 == 0) {
-                    ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-                    cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-                    cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
-                } else {
-                    ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
-                    cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
-                    cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
-                }
+                    if (idCounter % 2 == 0) {
+                        ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                        cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                        cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                    } else {
+                        ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                        cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                        cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                    }
 
-                //setting rows
-                row.addView(ordNumb);
-                row.addView(cityName);
-                row.addView(cityPtt);
-                row.addView(checkBox);
+                    //setting rows
+                    row.addView(ordNumb);
+                    row.addView(cityName);
+                    row.addView(cityPtt);
+                    row.addView(checkBox);
 
-                checkBox.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        TextView oldOrdNumb = ordNumb;
-                        TextView oldCityName = cityName;
-                        TextView oldCityPtt = cityPtt;
-                        //changing checked rows background
-                        if (checkBox.isChecked()){
-                            ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
-                            cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
-                            cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
-                        } else {
-                            //if it is not checked, return to previous state
-                            if (Integer.parseInt(id) % 2 == 0) {
-                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-                                oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
-                                oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                    checkBox.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            TextView oldOrdNumb = ordNumb;
+                            TextView oldCityName = cityName;
+                            TextView oldCityPtt = cityPtt;
+                            //changing checked rows background
+                            if (checkBox.isChecked()) {
+                                ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                                cityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_column));
+                                cityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_picked_last_column));
                             } else {
-                                oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
-                                oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
-                                oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                                //if it is not checked, return to previous state
+                                if (Integer.parseInt(id) % 2 == 0) {
+                                    oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                    oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape));
+                                    oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column));
+                                } else {
+                                    oldOrdNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                    oldCityName.setBackground(getResources().getDrawable(R.drawable.cell_shape_different_background));
+                                    oldCityPtt.setBackground(getResources().getDrawable(R.drawable.cell_shape_last_column_different_background));
+                                }
                             }
                         }
-                    }
-                });
-                tblLayout.addView(row);
+                    });
+                    tblLayout.addView(row);
+                }
+            }else {
+
+                if (!isOnline()) {
+                    txtNoResultCity.setText("Turn WIFI ON");
+                    txtNoResultCity.setGravity(Gravity.CENTER);
+                    txtNoResultCity.setVisibility(View.VISIBLE);
+                } else {
+                    txtNoResultCity.setText("No results for these parameters");
+                    txtNoResultCity.setGravity(Gravity.CENTER);
+                    txtNoResultCity.setVisibility(View.VISIBLE);
+                    //set columns invisible
+                    txtCityOnHeader.setVisibility(View.INVISIBLE);
+                    txtCityNameHeader.setVisibility(View.INVISIBLE);
+                    txtCityPttHeader.setVisibility(View.INVISIBLE);
+                }
             }
-        }
-        else{
-            txtNoResultCity.setText("No results for these parameters");
-            txtNoResultCity.setGravity(Gravity.CENTER);
-            txtNoResultCity.setVisibility(View.VISIBLE);
-            //set columns invisible
-            txtCityOnHeader.setVisibility(View.INVISIBLE);
-            txtCityNameHeader.setVisibility(View.INVISIBLE);
-            txtCityPttHeader.setVisibility(View.INVISIBLE);
-        }
         //only way to set checkbox invisible on start
         if (btnDeleteRow.isEnabled()){
             getCheckboxFromTable(View.VISIBLE);
         }else{
             getCheckboxFromTable(View.INVISIBLE);
         }
-
     }
 
     @Override
@@ -423,4 +447,11 @@ public class ShowCitiesTableView extends ActionBarActivity implements AsyncTaskR
         Toast.makeText(getApplicationContext(),text, Toast.LENGTH_SHORT).show();
     }
 
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
+    }
 }

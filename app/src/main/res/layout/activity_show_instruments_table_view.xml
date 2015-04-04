@@ -53,7 +53,8 @@
                     android:layout_column="0"
                     android:textColor="#ff3b5020"
                     android:textStyle="bold|italic"
-                    android:textSize="22dp" />
+                    android:textSize="22dp"
+                    android:visibility="invisible" />
 
                 <TextView
                     android:id="@+id/instrumentIdColumn"
@@ -64,7 +65,8 @@
                     android:layout_span="1"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_width="20dp"></TextView>
+                    android:layout_width="20dp"
+                    android:visibility="invisible"></TextView>
 
                 <TextView
                     android:id="@+id/instrumentNameColumn"
@@ -75,7 +77,8 @@
                     android:layout_width="75dp"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_span="1"></TextView>
+                    android:layout_span="1"
+                    android:visibility="invisible"></TextView>
 
                 <TextView
                     android:id="@+id/instrumentTypeColumn"
@@ -85,7 +88,8 @@
                     android:layout_column="3"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_width="50dp"></TextView>
+                    android:layout_width="50dp"
+                    android:visibility="invisible"></TextView>
                 <TextView
                     android:id="@+id/instrumentInStockColumn"
                     android:text="In stock"
@@ -94,7 +98,8 @@
                     android:layout_column="4"
                     android:textSize="22dp"
                     android:textColor="#ff3b5020"
-                    android:layout_width="50dp"></TextView>
+                    android:layout_width="50dp"
+                    android:visibility="invisible"></TextView>
             </TableRow>
 
 
@@ -147,7 +152,6 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Id"
         android:id="@+id/txtInstrumentIdHeader"
-        android:gravity="center"
         android:textColor="#ffe4e4e4"
         android:textSize="22dp"
         android:textStyle="bold|italic"
@@ -165,7 +169,6 @@
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ffe4e4e4"
-        android:gravity="center"
         android:layout_alignTop="@+id/txtInstrumentInStockHeader"
         android:layout_toEndOf="@+id/txtInstrumentIdHeader"
         android:layout_marginLeft="-22dp" />
@@ -179,10 +182,10 @@
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ffe4e4e4"
-        android:gravity="center"
         android:layout_above="@+id/txtNoResultInstrument"
         android:layout_toEndOf="@+id/txtInstrumentNameHeader"
-        android:layout_marginLeft="-33dp" />
+        android:layout_marginLeft="-33dp"
+        android:layout_marginBottom="1dp" />
 
     <TextView
         android:layout_width="105dp"
@@ -193,12 +196,11 @@
         android:textSize="22dp"
         android:textStyle="bold|italic"
         android:textColor="#ffe4e4e4"
-        android:gravity="center"
         android:layout_below="@+id/txtSearchInstrument"
         android:layout_toEndOf="@+id/txtInstrumentTypeHeader"
         android:layout_marginBottom="0dp"
         android:layout_marginTop="10dp"
-        android:layout_marginLeft="-12dp" />
+        android:layout_marginLeft="10dp" />
 
     <Button
         android:layout_width="130dp"
@@ -243,7 +245,6 @@
         android:textColor="#ffe4e4e4"
         android:textSize="22dp"
         android:textStyle="bold|italic"
-        android:gravity="center"
         android:layout_marginLeft="10dp" />
 
 

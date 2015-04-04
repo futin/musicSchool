@@ -8,6 +8,9 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.Build;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -122,6 +125,12 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
 
         btnDeleteRowInstrument.setEnabled(false);
         btnDeleteRowInstrument.setAlpha(0.6f);
+
+        if (!isOnline()) {
+            txtNoResultInstrument.setText("Turn WIFI ON");
+            txtNoResultInstrument.setGravity(Gravity.CENTER);
+            txtNoResultInstrument.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -299,6 +308,22 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 instType.setGravity(Gravity.CENTER);
                 instInStock.setGravity(Gravity.CENTER);
 
+                //different padding header cell for different device
+                if(Build.FINGERPRINT.startsWith("generic")){
+                    txtInstrumentONHeader.setGravity(Gravity.CENTER);
+                    txtInstrumentIdHeader.setGravity(Gravity.CENTER);
+                    txtInstrumentNameHeader.setGravity(Gravity.CENTER);
+                    txtInstrumentTypeHeader.setGravity(Gravity.CENTER);
+                    txtInstrumentInStockHeader.setWidth(200);
+                    txtInstrumentInStockHeader.setPadding(0, 0, 70, 0);
+                }else{
+                    txtInstrumentONHeader.setPadding(30,0,0,0);
+                    txtInstrumentIdHeader.setPadding(90,0,30,0);
+                    txtInstrumentNameHeader.setPadding(160,0,0,0);
+                    txtInstrumentTypeHeader.setPadding(135,0,0,0);
+                    txtInstrumentInStockHeader.setWidth(200);
+                    txtInstrumentInStockHeader.setPadding(60,0,0,0);
+                }
 
                 if (counter % 2 == 0) {
                     ordNumb.setBackground(getResources().getDrawable(R.drawable.cell_shape));
@@ -357,16 +382,22 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
                 });
                 tblLayoutInstrument.addView(row);
             }
-        }else{
-            txtNoResultInstrument.setVisibility(View.VISIBLE);
-            txtNoResultInstrument.setGravity(Gravity.CENTER);
-            txtNoResultInstrument.setText("No results for these parameters");
-            //set columns invisible
-            txtInstrumentONHeader.setVisibility(View.INVISIBLE);
-            txtInstrumentIdHeader.setVisibility(View.INVISIBLE);
-            txtInstrumentNameHeader.setVisibility(View.INVISIBLE);
-            txtInstrumentTypeHeader.setVisibility(View.INVISIBLE);
-            txtInstrumentInStockHeader.setVisibility(View.INVISIBLE);
+        }else {
+            if (!isOnline()) {
+                txtNoResultInstrument.setText("Turn WIFI ON");
+                txtNoResultInstrument.setGravity(Gravity.CENTER);
+                txtNoResultInstrument.setVisibility(View.VISIBLE);
+            } else {
+                txtNoResultInstrument.setVisibility(View.VISIBLE);
+                txtNoResultInstrument.setGravity(Gravity.CENTER);
+                txtNoResultInstrument.setText("No results for these parameters");
+                //set columns invisible
+                txtInstrumentONHeader.setVisibility(View.INVISIBLE);
+                txtInstrumentIdHeader.setVisibility(View.INVISIBLE);
+                txtInstrumentNameHeader.setVisibility(View.INVISIBLE);
+                txtInstrumentTypeHeader.setVisibility(View.INVISIBLE);
+                txtInstrumentInStockHeader.setVisibility(View.INVISIBLE);
+            }
         }
         //only way to set checkbox invisible on start
         if (btnDeleteRowInstrument.isEnabled()){
@@ -481,5 +512,13 @@ public class ShowInstrumentsTableView extends ActionBarActivity implements Retur
 
     public void makeToast(String text){
         Toast.makeText(getApplicationContext(),text, Toast.LENGTH_SHORT).show();
+    }
+
+    //check if wifi is on
+    public boolean isOnline() {
+        ConnectivityManager cm =
+                (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        return netInfo != null && netInfo.isConnected();
     }
 }
