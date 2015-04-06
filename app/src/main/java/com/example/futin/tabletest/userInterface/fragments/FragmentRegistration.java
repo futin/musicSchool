@@ -79,19 +79,18 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                  lastName=txtLastName.getText().toString();
 
                 //checking all EditText fields
-                if(username.equalsIgnoreCase("")||password.equalsIgnoreCase("")||
-                        firstName.equalsIgnoreCase("")||lastName.equalsIgnoreCase("")){
-                    Toast.makeText(getActivity().getApplicationContext(), "You have to enter all parameters!", Toast.LENGTH_SHORT).show();
-                }else{
-                    if(isOnline()) {
+                    if(!isOnline()) {
+                        Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
+                    } else{
+                        if(username.equalsIgnoreCase("") || password.equalsIgnoreCase("") ||
+                           firstName.equalsIgnoreCase("") || lastName.equalsIgnoreCase("")){
+                        Toast.makeText(getActivity().getApplicationContext(), "You have to enter all parameters!", Toast.LENGTH_SHORT).show();
+                            }else{
                         btnRegistration.setAlpha(0.6f);
                         btnRegistration.setEnabled(false);
                         rs.getEmployees();
-                    }else{
-                        Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
                     }
                 }
-
             }
         });
         return view;

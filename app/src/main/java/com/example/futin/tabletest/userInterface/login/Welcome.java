@@ -17,7 +17,7 @@ import android.view.Window;
 public class Welcome extends ActionBarActivity {
 
     //TODO make it on 2000
-    private final int DELAYED_TIME = 100;
+    private final int DELAYED_TIME = 2000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

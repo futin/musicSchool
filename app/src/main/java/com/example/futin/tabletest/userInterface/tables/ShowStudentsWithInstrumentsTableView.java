@@ -221,17 +221,32 @@ public class ShowStudentsWithInstrumentsTableView extends ActionBarActivity
                 String counterId=String.valueOf(counter);
                 //student
                 String firstName = listOfEmployees.get(i).getStudent().getFirstName();
-                String lastName = listOfEmployees.get(i).getStudent().getLastName();
+                String ln = listOfEmployees.get(i).getStudent().getLastName();
                 String newFirstName = firstName.substring(0, 1) + ".";
+
+                //substring too long last name to fit in cell
+                int cutLength=8;
+                String checkLastNameStud=ln;
+                if(ln.length()>9){
+                    checkLastNameStud=ln.substring(0,cutLength).concat("...");
+                }
+                String lastName = checkLastNameStud;
+
                 String studentId=listOfEmployees.get(i).getStudent().getStudentId();
 
                 String studName = newFirstName + " " + lastName;
-                //studentWithInstruments
+                //employee
                 String name = listOfEmployees.get(i).getFirstName();
                 Log.i("emp name: ", name);
                 String[] splitName = name.split(" ");
                 String firstEmpName = splitName[0].substring(0, 1) + ".";
-                String lastEmpName = splitName[1];
+
+                //substring too long last name to fit in cell
+                String checkLastName=splitName[1];
+                if(checkLastName.length()>9){
+                    checkLastName=checkLastName.substring(0,cutLength).concat("...");
+                }
+                String lastEmpName = checkLastName;
 
                 String empName = firstEmpName + " " + lastEmpName;
                 String dateFromBase = listOfEmployees.get(i).getDate();

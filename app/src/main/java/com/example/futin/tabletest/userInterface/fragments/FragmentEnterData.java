@@ -1,27 +1,20 @@
 package com.example.futin.tabletest.userInterface.fragments;
 
 import android.annotation.TargetApi;
-import android.app.Application;
 import android.app.DatePickerDialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.os.IBinder;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.text.InputType;
 import android.os.Handler;
-
 import android.transition.TransitionManager;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -31,7 +24,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -177,15 +169,13 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
                 break;
 
             case R.id.btnEnterStudentsInstrument:
-                makeToast(isOnline()+"");
                 btnEnterStudentsInstrument.setEnabled(false);
                 btnEnterStudentsInstrument.setAlpha(0.6f);
                 btnEnterStudent.setEnabled(true);
                 btnEnterStudent.setAlpha(1f);
-
                     rs.getStudents();
                     rs.getInstruments();
-
+                    rs.getStudentWithInstrument();
                 changeButtonPosition(btnEnterStudent, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_RIGHT);
                 changeButtonPosition(btnEnterStudentsInstrument, RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.ALIGN_PARENT_LEFT);
                 studentLayout.setVisibility(View.INVISIBLE);
@@ -528,7 +518,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
         responseStudent = (RSGetStudentsResponse) o;
         listOfStudents = responseStudent.getStudents();
         isStudentInDatabase();
-        Log.e("","list from db: "+listOfStudents);
 
     }
 
@@ -536,7 +525,6 @@ public class FragmentEnterData extends Fragment implements View.OnClickListener,
     public void returnInstrumentDataOnPostExecute(Object o) {
         responseInstrument = (RSGetInstrumentsResponse) o;
         listOfInstruments = responseInstrument.getListOfInstruments();
-        Log.e("","listOfINst from db: "+listOfInstruments);
 
     }
 
