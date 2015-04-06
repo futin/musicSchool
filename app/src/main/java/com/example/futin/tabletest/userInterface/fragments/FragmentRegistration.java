@@ -97,29 +97,33 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
     }
     //message that will inform client if his registration was good
     public void messageToClient(){
-        if(listOfEmployees!= null) {
-            for (int i = 0; i < listOfEmployees.size(); i++) {
-                if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
-                        password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
-                    found = true;
-                    break;
+        if(status != null) {
+            if (listOfEmployees != null) {
+                for (int i = 0; i < listOfEmployees.size(); i++) {
+                    if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
+                            password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found == true) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Try with different username or password", Toast.LENGTH_SHORT).show();
+                    txtUsername.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
+                    txtPassword.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
+                    txtUsername.setText("");
+                    txtPassword.setText("");
+                    found = false;
+                } else {
+                    txtUsername.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
+                    txtPassword.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
+                    makeDefaultRegistrationLayout();
+                    Toast.makeText(getActivity().getApplicationContext(), "Employee created successfully", Toast.LENGTH_SHORT).show();
+                    rs.insertEmployee(username, password, firstName, lastName);
+
                 }
             }
-            if (found == true) {
-                Toast.makeText(getActivity().getApplicationContext(), "Try with different username or password", Toast.LENGTH_SHORT).show();
-                txtUsername.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
-                txtPassword.setBackground(getResources().getDrawable(R.drawable.error_rectangle));
-                txtUsername.setText("");
-                txtPassword.setText("");
-                found = false;
-            } else {
-                txtUsername.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
-                txtPassword.setBackground(getResources().getDrawable(R.drawable.normal_rectangle));
-                makeDefaultRegistrationLayout();
-                Toast.makeText(getActivity().getApplicationContext(), "Employee created successfully", Toast.LENGTH_SHORT).show();
-                rs.insertEmployee(username, password, firstName, lastName);
-
-            }
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), "Wrong IP address", Toast.LENGTH_SHORT).show();
         }
     }
     public void makeDefaultRegistrationLayout(){

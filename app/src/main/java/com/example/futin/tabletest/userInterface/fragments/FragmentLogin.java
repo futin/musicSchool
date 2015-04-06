@@ -90,7 +90,9 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
                     password = txtPassword.getText().toString();
                     btnLogin.setAlpha(0.6f);
                     btnLogin.setEnabled(false);
-                    rs.getEmployees();
+
+                        rs.getEmployees();
+
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();
                 }
@@ -100,21 +102,25 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
     }
 
     void checkEmployee() {
-        if(listOfEmployees!= null && isOnline()){
-        for (int i = 0; i < listOfEmployees.size(); i++) {
-            if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
-                    password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
-                found = true;
-                break;
+        if(status != null) {
+            if (listOfEmployees != null && isOnline()) {
+                for (int i = 0; i < listOfEmployees.size(); i++) {
+                    if (username.equalsIgnoreCase(listOfEmployees.get(i).getUsername()) &&
+                            password.equalsIgnoreCase(listOfEmployees.get(i).getPassword())) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found == true) {
+                    rs.signIn(username, password);
+                    found = false;
+                } else {
+                    Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
+                }
             }
+        }else{
+            Toast.makeText(getActivity().getApplicationContext(), "Wrong IP address", Toast.LENGTH_SHORT).show();
         }
-            if (found == true) {
-                rs.signIn(username, password);
-                found = false;
-            } else {
-                Toast.makeText(getActivity().getApplicationContext(), "Employee does not exist", Toast.LENGTH_SHORT).show();
-            }
-        } 
     }
     void goToMainPage(){
         //store his info in sharedPreferences
