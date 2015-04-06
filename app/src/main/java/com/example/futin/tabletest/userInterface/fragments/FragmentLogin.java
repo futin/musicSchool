@@ -119,7 +119,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
                 }
             }
         }else{
-            Toast.makeText(getActivity().getApplicationContext(), "Wrong IP address", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity().getApplicationContext(), "Wrong IP address/server error", Toast.LENGTH_SHORT).show();
         }
     }
     void goToMainPage(){
