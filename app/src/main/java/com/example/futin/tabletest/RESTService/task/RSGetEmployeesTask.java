@@ -1,7 +1,10 @@
 package com.example.futin.tabletest.RESTService.task;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.ProgressBar;
 
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.data.RSDataSingleton;
@@ -30,10 +33,24 @@ public class RSGetEmployeesTask extends AsyncTask<Void, Void, RSGetEmployeesResp
     final String TAG="getEmployees";
     RestTemplate restTemplate;
     AsyncTaskReturnData returnData;
+    ProgressDialog progressDialog;
+    Context context;
 
-    public RSGetEmployeesTask(AsyncTaskReturnData returnData) {
+    public RSGetEmployeesTask(AsyncTaskReturnData returnData, Context context) {
         this.returnData = returnData;
         restTemplate=new RestTemplate();
+        this.context=context;
+    }
+
+    @Override
+    protected void onPreExecute() {
+        progressDialog =new ProgressDialog(context);
+        progressDialog.setMessage("Loading....");
+        progressDialog.setTitle("Registration");
+        progressDialog.show();
+        super.onPreExecute();
+
+
     }
 
     @Override
@@ -101,6 +118,7 @@ public class RSGetEmployeesTask extends AsyncTask<Void, Void, RSGetEmployeesResp
     @Override
     protected void onPostExecute(RSGetEmployeesResponse rsGetEmployeesResponse) {
         super.onPostExecute(rsGetEmployeesResponse);
+        progressDialog.dismiss();
         returnData.returnDataOnPostExecute(rsGetEmployeesResponse);
     }
 }

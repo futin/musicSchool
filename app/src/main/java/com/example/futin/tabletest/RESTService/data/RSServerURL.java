@@ -1,12 +1,11 @@
 package com.example.futin.tabletest.RESTService.data;
-
 /**
  * Created by Futin on 3/3/2015.
  */
 public class RSServerURL {
 
 
-    private final static String API_BASE_URL="http://192.168.4.100";
+    private final static String API_BASE_URL="http://192.168.56.1";
     private final static String API_ROOT_URL="/musicSchool";
 
     //GET url

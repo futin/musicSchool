@@ -91,7 +91,7 @@ public class FragmentLogin extends Fragment implements AsyncTaskReturnData, Sign
                     btnLogin.setAlpha(0.6f);
                     btnLogin.setEnabled(false);
 
-                        rs.getEmployees();
+                        rs.getEmployees(getActivity());
 
                 }else{
                     Toast.makeText(getActivity().getApplicationContext(), "Check your connection", Toast.LENGTH_SHORT).show();

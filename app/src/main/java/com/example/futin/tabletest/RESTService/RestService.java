@@ -1,5 +1,7 @@
 package com.example.futin.tabletest.RESTService;
 
+import android.content.Context;
+
 import com.example.futin.tabletest.RESTService.listeners.AsyncTaskReturnData;
 import com.example.futin.tabletest.RESTService.listeners.DeleteRows;
 import com.example.futin.tabletest.RESTService.listeners.ReturnInstrumentData;
@@ -88,8 +90,8 @@ public class RestService {
     }
 
     //GET methods
-    public void getEmployees(){
-        new RSGetEmployeesTask(returnData).execute((Void) null);
+    public void getEmployees(Context con){
+        new RSGetEmployeesTask(returnData, con).execute((Void) null);
     }
     public void getCities(){
         new RSGetCitiesTask(returnData).execute((Void) null);

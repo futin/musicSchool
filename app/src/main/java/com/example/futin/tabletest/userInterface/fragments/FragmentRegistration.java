@@ -88,7 +88,7 @@ public class FragmentRegistration extends Fragment implements AsyncTaskReturnDat
                             }else{
                         btnRegistration.setAlpha(0.6f);
                         btnRegistration.setEnabled(false);
-                        rs.getEmployees();
+                        rs.getEmployees(getActivity());
                     }
                 }
             }
